@@ -56,7 +56,7 @@ const YourGames = () => {
                 spacing={1}
                 sx={{
                     mt: 4,
-                    display: games.length > 0 || loading ? 'grid' : 'flex',
+                    display: games?.length > 0 || loading ? 'grid' : 'flex',
                     gridTemplateColumns: {
                         xs: 'repeat(3, 1fr)',
                         sm: 'repeat(5, 1fr)',
@@ -75,7 +75,7 @@ const YourGames = () => {
                             }}
                         />
                     ))
-                ) : games.length > 0 ? (
+                ) : games?.length > 0 ? (
                     games.map((item: any, index: number) => (
                         <GameCard
                             key={index}

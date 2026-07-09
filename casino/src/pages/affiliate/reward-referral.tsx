@@ -79,8 +79,8 @@ const RewardReferral = () => {
                         if (isLoading) {
                             return <LoadTable colSpan={6} />;
                         }
-                        if (!data.length) {
-                            return <EmptyTable noData={!data.length && !isLoading} colSpan={6} />;
+                        if (!(data?.length)) {
+                            return <EmptyTable noData={!(data?.length) && !isLoading} colSpan={6} />;
                         }
                         return data.map((item, i) => (
                             <TableRow key={i}>

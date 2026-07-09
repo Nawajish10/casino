@@ -36,7 +36,7 @@ const RecommendGameList = () => {
                 spacing={1}
                 sx={{
                     mt: 4,
-                    display: recommendGames.length > 0 || loading ? 'grid' : 'flex',
+                    display: recommendGames?.length > 0 || loading ? 'grid' : 'flex',
                     gridTemplateColumns: {
                         xs: 'repeat(3, 1fr)',
                         sm: 'repeat(5, 1fr)',
@@ -55,7 +55,7 @@ const RecommendGameList = () => {
                             }}
                         />
                     ))
-                ) : recommendGames.length > 0 ? (
+                ) : recommendGames?.length > 0 ? (
                     recommendGames.map((item: any, index: number) => (
                         <GameCard
                             key={index}

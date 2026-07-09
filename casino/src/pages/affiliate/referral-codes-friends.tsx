@@ -138,8 +138,8 @@ const ReferralCodeFriendView = () => {
                                 if (isLoading) {
                                     return <LoadTable colSpan={6} />;
                                 }
-                                if (!codes.length) {
-                                    return <EmptyTable noData={!codes.length && !isLoading} colSpan={6} />;
+                                if (!(codes?.length)) {
+                                    return <EmptyTable noData={!(codes?.length) && !isLoading} colSpan={6} />;
                                 }
                                 return codes.map((item, i) => (
                                     <TableRow key={i}>

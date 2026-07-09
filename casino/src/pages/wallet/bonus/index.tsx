@@ -150,7 +150,7 @@ const BonusPage = () => {
                                         </TableCell>
                                     </TableRow>
                                 ))}
-                            <EmptyTable noData={!data.length && !loading} colSpan={8} />
+                            <EmptyTable noData={!(data?.length) && !loading} colSpan={8} />
                         </TableBody>
                     </Table>
                 </Stack>

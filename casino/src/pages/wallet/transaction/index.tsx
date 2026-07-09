@@ -196,7 +196,7 @@ const TransactionPage = () => {
                 </TableHead>
 
                 {!loading &&
-                    (data.length === 0 ? (
+                    (data?.length === 0 || !data ? (
                         <TableBody>
                             <TableRow>
                                 <TableCell colSpan={4}>

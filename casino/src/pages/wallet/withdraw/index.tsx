@@ -133,7 +133,7 @@ const WithdrawPage = () => {
                                         <TableCell align="right">{fDateTime(item.createdAt)}</TableCell>
                                     </TableRow>
                                 ))}
-                            <EmptyTable noData={!data.length && !loading} colSpan={5} />
+                            <EmptyTable noData={!(data?.length) && !loading} colSpan={5} />
                         </TableBody>
                     </Table>
                 </Stack>

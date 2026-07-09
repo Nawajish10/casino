@@ -258,7 +258,7 @@ export default function SearchDialog() {
                         container
                         spacing={1}
                         sx={{
-                            display: gameList.length > 0 || loading ? 'grid' : 'flex',
+                            display: gameList?.length > 0 || loading ? 'grid' : 'flex',
                             gridTemplateColumns: { xs: 'repeat(3, 1fr)', sm: 'repeat(5, 1fr)', md: 'repeat(8, 1fr)' }
                         }}
                     >
@@ -273,7 +273,7 @@ export default function SearchDialog() {
                                     }}
                                 />
                             ))
-                        ) : gameList.length > 0 ? (
+                        ) : gameList?.length > 0 ? (
                             gameList.map((item, index: number) => (
                                 <Stack onClick={handleClose} key={`games-${index}`}>
                                     <GameCard

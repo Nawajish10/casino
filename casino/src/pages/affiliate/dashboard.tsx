@@ -490,8 +490,8 @@ const DashboardView = () => {
                                 if (isLoading) {
                                     return <LoadTable colSpan={6} />;
                                 }
-                                if (!referralCodes.length) {
-                                    return <EmptyTable noData={!referralCodes.length && !isLoading} colSpan={6} />;
+                                if (!(referralCodes?.length)) {
+                                    return <EmptyTable noData={!(referralCodes?.length) && !isLoading} colSpan={6} />;
                                 }
                                 return referralCodes.map((item, i) => (
                                     <TableRow key={i}>

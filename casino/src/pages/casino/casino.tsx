@@ -95,7 +95,7 @@ const Casino = ({ gameType }: { gameType: string }) => {
                 container
                 spacing={1}
                 sx={{
-                    display: games.length > 0 || loading ? 'grid' : 'flex',
+                    display: games?.length > 0 || loading ? 'grid' : 'flex',
                     gridTemplateColumns: { xs: 'repeat(3, 1fr)', sm: 'repeat(5, 1fr)', md: 'repeat(8, 1fr)' }
                 }}
             >
@@ -110,7 +110,7 @@ const Casino = ({ gameType }: { gameType: string }) => {
                             }}
                         />
                     ))
-                ) : games.length > 0 ? (
+                ) : games?.length > 0 ? (
                     games.map((item: any, index: number) => (
                         <GameCard key={index} image={item.image} name={item.name} href={`/ag-game/${item.id}`} />
                     ))
