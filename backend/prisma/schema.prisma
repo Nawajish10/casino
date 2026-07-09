@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Provider {
+  id            String   @id @default(uuid())
+  providerCode  String   @unique
+  providerName  String
+  providerLogo  String?
+  apiProviderId String?
+  status        Boolean  @default(true)
+  isVisible     Boolean  @default(true)
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  games         Game[]
+}
+
+model Game {
+  id                 String   @id @default(uuid())
+  providerId         String
+  providerGameId     String
+  gameCode           String   @unique
+  gameName           String
+  category           String?
+  thumbnail          String?
+  banner             String?
+  launchCode         String?
+  status             String   @default("live")
+  maintenanceMode    Boolean  @default(false)
+  currentlyAvailable Boolean  @default(true)
+  isActive           Boolean  @default(true)
+  isFeatured         Boolean  @default(false)
+  isPopular          Boolean  @default(false)
+  homepageVisible    Boolean  @default(true)
+  sortOrder          Int      @default(0)
+  playCount          Int      @default(0)
+  tags               String[]
+  launchReady        Boolean  @default(false)
+  validationErrors   String[]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  provider Provider @relation(fields: [providerId], references: [id])
+}
+
+model SyncLog {
+  id           String   @id @default(uuid())
+  providerCode String?
+  type         String
+  status       String
+  message      String
+  createdAt    DateTime @default(now())
+}
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  adminUser     String
+  action        String
+  entityId      String
+  previousValue Json?
+  newValue      Json?
+  createdAt     DateTime @default(now())
+}
+
+model User {
+  id             String         @id @default(uuid())
+  mobile         String         @unique
+  email          String?
+  name           String?
+  emailVerified  Boolean        @default(false)
+  mobileVerified Boolean        @default(false)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  refreshTokens  RefreshToken[]
+}
+
+model OtpVerification {
+  id        String   @id @default(uuid())
+  mobile    String
+  otpCode   String
+  expiresAt DateTime
+  verified  Boolean  @default(false)
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  balance   Decimal  @default(0)
+  currency  String   @default("INR")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GameTransaction {
+  id               String   @id @default(uuid())
+  historyId        BigInt
+  transactionId    String   @unique
+  userId           String?
+  userCode         String
+  providerCode     String
+  gameCode         String
+  gameType         String
+  transactionType  String
+  betAmount        Decimal  @default(0)
+  winAmount        Decimal  @default(0)
+  userStartBalance Decimal
+  userEndBalance   Decimal
+  createdAt        DateTime
+  syncedAt         DateTime @default(now())
+}
+
+model GameSession {
+  id              String    @id @default(uuid())
+  userId          String
+  gameId          String?
+  providerCode    String
+  gameCode        String?
+  sessionToken    String    @unique
+  launchUrl       String?
+  providerSession String?
+  status          String    @default("active")
+  startedAt       DateTime  @default(now())
+  endedAt         DateTime?
+  device          String?
+  ipAddress       String?
+  country         String?
+  currency        String?
+  createdAt       DateTime  @default(now())
+  expiresAt       DateTime
+}
