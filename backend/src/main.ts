@@ -36,5 +36,16 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
+
+  // Log public IP to console logs on startup to make whitelisting easy
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    console.log('\n=========================================');
+    console.log(`SERVER OUTBOUND PUBLIC IP: ${data.ip}`);
+    console.log('=========================================\n');
+  } catch (err: any) {
+    console.warn('Could not fetch outbound IP on startup:', err.message);
+  }
 }
 bootstrap();
