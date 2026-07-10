@@ -13,6 +13,7 @@ import ExploreModal from 'pages/explore';
 import LanguageModal from 'pages/settings/modal/language-modal';
 // components
 import ScrollToTop from 'components/ScrollToTop';
+import ErrorBoundary from 'components/ErrorBoundary';
 import { DepositDialog } from 'components/deposit';
 import { SettingsProvider } from 'components/settings';
 import { SnackbarProvider } from 'components/snackbar';
@@ -31,6 +32,7 @@ import { FreeSpinDialog } from 'pages/settings/modal/spin-modal';
 
 const App = () => {
     return (
+        <ErrorBoundary>
         <ReduxProvider store={store}>
             <AuthProvider>
                 <SocketProvider>
@@ -69,6 +71,7 @@ const App = () => {
                 </SocketProvider>
             </AuthProvider>
         </ReduxProvider>
+        </ErrorBoundary>
     );
 };
 

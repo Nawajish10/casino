@@ -49,19 +49,40 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     };
 
     const connect = (token: string) => {
-        const socketInit: Socket = io(String(HOST_API_KEY), {
-            transports: ['websocket'],
-            upgrade: false,
-            query: { auth: token }
-        });
-        registerCallbacks(socketInit);
-        setSocket(socketInit);
-        return socketInit;
+        try {
+            const socketInit: Socket = io(String(HOST_API_KEY), {
+                transports: ['websocket'],
+                upgrade: false,
+                query: { auth: token },
+                reconnectionAttempts: 5,
+                reconnectionDelay: 2000,
+                timeout: 10000,
+            });
+
+            socketInit.on('connect_error', (err) => {
+                console.warn('[Socket] Connection error:', err.message);
+            });
+
+            socketInit.on('error', (err) => {
+                console.warn('[Socket] Socket error:', err);
+            });
+
+            registerCallbacks(socketInit);
+            setSocket(socketInit);
+            return socketInit;
+        } catch (err) {
+            console.error('[Socket] Failed to initialize:', err);
+            return null;
+        }
     };
 
     useEffect(() => {
-        const token = localStorage.getItem('betthrob-accessToken');
-        connect(token ?? '');
+        try {
+            const token = localStorage.getItem('betthrob-accessToken');
+            connect(token ?? '');
+        } catch (err) {
+            console.error('[Socket] Initialization error:', err);
+        }
         return () => cleanUp();
         // eslint-disable-next-line
     }, [isLogined]);

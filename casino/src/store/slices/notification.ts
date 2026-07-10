@@ -57,13 +57,13 @@ const notificationSlice = createSlice({
         deleteNotification(state, action) {
             const { id, category } = action.payload;
             if (category === 'promotions') {
-                state.promotions = state.(promotions || []).filter((item) => item._id !== id);
+                state.promotions = (state.promotions || []).filter((item) => item._id !== id);
                 state.promotionsCount = state.promotionsCount === 0 ? 0 : state.promotionsCount - 1;
             } else if (category === 'transactions') {
-                state.transactions = state.(transactions || []).filter((item) => item._id !== id);
+                state.transactions = (state.transactions || []).filter((item) => item._id !== id);
                 state.transactionsCount = state.transactionsCount === 0 ? 0 : state.transactionsCount - 1;
             } else if (category === 'system') {
-                state.system = state.(system || []).filter((item) => item._id !== id);
+                state.system = (state.system || []).filter((item) => item._id !== id);
                 state.systemCount = state.systemCount === 0 ? 0 : state.systemCount - 1;
             }
             state.count = state.count === 0 ? 0 : state.count - 1;
