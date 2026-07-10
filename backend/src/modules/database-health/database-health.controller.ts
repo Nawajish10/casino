@@ -12,4 +12,10 @@ export class DatabaseHealthController {
   async checkHealth() {
     return this.healthService.checkHealth();
   }
+
+  @Get('public-ip')
+  @ApiOperation({ summary: 'Get current public outbound IP address of the server' })
+  async getPublicIp() {
+    return this.healthService.getPublicIp();
+  }
 }

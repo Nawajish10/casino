@@ -60,4 +60,14 @@ export class DatabaseHealthService {
       };
     }
   }
+
+  async getPublicIp() {
+    try {
+      const res = await fetch('https://api.ipify.org?format=json');
+      const data = await res.json();
+      return { outboundIp: data.ip };
+    } catch (error) {
+      return { error: 'Failed to retrieve outbound IP: ' + error.message };
+    }
+  }
 }
