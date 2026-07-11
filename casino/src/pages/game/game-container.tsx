@@ -130,12 +130,12 @@ const GameContainer = ({ gameData, gameCode }: { gameData: any; gameCode: string
                             >
                                 <Box
                                     component="img"
-                                    src={balance.icon || ''}
+                                    src={balance?.icon || ''}
                                     alt="currency"
                                     sx={{ width: { md: 22, xs: '18px' }, height: { md: 20, xs: 16 } }}
                                 />
                                 <Typography sx={{ fontWeight: 600, fontSize: { md: '18px', xs: '12px' } }}>
-                                    {balance.amount.toFixed(2)}
+                                    {balance?.amount ? balance.amount.toFixed(2) : '0.00'}
                                 </Typography>
                             </Stack>
                             {supportsHistory && (
