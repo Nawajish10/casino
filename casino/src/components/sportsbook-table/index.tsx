@@ -1,37 +1,20 @@
 import React, { useState } from 'react';
-import { Box, Typography, Stack, Button, TextField, IconButton, CircularProgress } from '@mui/material';
+import { Box, Typography, Stack, Button, TextField, IconButton, CircularProgress, Skeleton } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import SportsCricketIcon from '@mui/icons-material/SportsCricket';
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
+import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 import { useSnackbar } from 'notistack';
+import { SportsbookCategory, SportsbookMatch } from 'api/sportsbook.api';
+import { useNavigate } from 'react-router-dom';
+import { useLaunchGame } from 'hooks/useLaunchGame';
+import { useAuth } from 'hooks/use-auth-context';
+import { useSettingsContext } from 'components/settings';
 
 // --- Types ---
-interface Odds {
-    oneBlue?: string;
-    onePink?: string;
-    xBlue?: string;
-    xPink?: string;
-    twoBlue?: string;
-    twoPink?: string;
-}
-
-interface Match {
-    id: number;
-    time: string;
-    teams: string;
-    isLive: boolean;
-    odds: Odds;
-}
-
-interface SportCategory {
-    sport: string;
-    icon: React.ReactNode;
-    matches: Match[];
-}
-
 interface SelectedBet {
     matchId: number;
     sport: string;
@@ -41,45 +24,50 @@ interface SelectedBet {
     oddsType: 'oneBlue' | 'onePink' | 'xBlue' | 'xPink' | 'twoBlue' | 'twoPink';
 }
 
-// --- Mock Data ---
-const SPORTS_DATA: SportCategory[] = [
-    {
-        sport: 'Cricket',
-        icon: <SportsCricketIcon sx={{ fontSize: 18, color: '#9FE871' }} />,
-        matches: [
-            { id: 1, time: 'Live Now', teams: 'Amo Sharks v Speen Ghar Tigers', isLive: true, odds: { oneBlue: '6.2', onePink: '6.6', twoBlue: '1.18', twoPink: '1.19' } },
-            { id: 2, time: 'Live Now', teams: 'Durham W v The Blaze W', isLive: true, odds: { oneBlue: '0', onePink: '0', twoBlue: '72', twoPink: '77' } },
-            { id: 3, time: 'Live Now', teams: 'Essex W v Surrey W', isLive: true, odds: { oneBlue: '3.65', onePink: '3.85', twoBlue: '1.35', twoPink: '1.38' } },
-        ],
-    },
-    {
-        sport: 'Soccer',
-        icon: <SportsSoccerIcon sx={{ fontSize: 18, color: '#24EE89' }} />,
-        matches: [
-            { id: 4, time: '06 Jul 01:30', teams: 'Brazil v Norway', isLive: false, odds: { oneBlue: '1.87', onePink: '1.88', xBlue: '3.8', xPink: '3.85', twoBlue: '4.8', twoPink: '4.9' } },
-            { id: 5, time: '06 Jul 05:30', teams: 'Mexico v England', isLive: false, odds: { oneBlue: '3.3', onePink: '3.35', xBlue: '3.3', xPink: '3.35', twoBlue: '2.5', twoPink: '2.52' } },
-            { id: 6, time: '07 Jul 00:30', teams: 'Portugal v Spain', isLive: false, odds: { oneBlue: '4.3', onePink: '4.4', xBlue: '3.75', xPink: '3.8', twoBlue: '1.97', twoPink: '1.98' } },
-        ],
-    },
-    {
-        sport: 'Tennis',
-        icon: <SportsTennisIcon sx={{ fontSize: 18, color: '#00BAE6' }} />,
-        matches: [
-            { id: 7, time: '05 Jul 17:00', teams: 'Muchova v B Krejcikova', isLive: false, odds: { oneBlue: '1.59', onePink: '1.6', twoBlue: '2.66', twoPink: '2.7' } },
-            { id: 8, time: '05 Jul 17:30', teams: 'J Pegula v I Jovic', isLive: false, odds: { oneBlue: '1.42', onePink: '1.43', twoBlue: '3.35', twoPink: '3.4' } },
-            { id: 9, time: '05 Jul 18:00', teams: 'Safiullin v Djokovic', isLive: false, odds: { oneBlue: '6.2', onePink: '6.4', twoBlue: '1.18', twoPink: '1.19' } },
-        ],
+const getSportIcon = (sportName: string) => {
+    switch (sportName.toLowerCase()) {
+        case 'cricket':
+            return <SportsCricketIcon sx={{ fontSize: 18, color: '#9FE871' }} />;
+        case 'football':
+        case 'soccer':
+            return <SportsSoccerIcon sx={{ fontSize: 18, color: '#24EE89' }} />;
+        case 'tennis':
+            return <SportsTennisIcon sx={{ fontSize: 18, color: '#00BAE6' }} />;
+        case 'basketball':
+            return <SportsBasketballIcon sx={{ fontSize: 18, color: '#FFAB00' }} />;
+        default:
+            return <SportsSoccerIcon sx={{ fontSize: 18, color: '#24EE89' }} />; // fallback
     }
-];
+};
 
-const SportsbookTable = () => {
+interface SportsbookTableProps {
+    categories?: SportsbookCategory[];
+    isLoading: boolean;
+    error: any;
+    hideViewMore?: boolean;
+}
+
+const SportsbookTable: React.FC<SportsbookTableProps> = ({ categories, isLoading, error, hideViewMore }) => {
     const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
     const [selectedBet, setSelectedBet] = useState<SelectedBet | null>(null);
     const [betAmount, setBetAmount] = useState<string>('100');
     const [isPlacingBet, setIsPlacingBet] = useState<boolean>(false);
     const [betPlacedSuccessfully, setBetPlacedSuccessfully] = useState<boolean>(false);
+    
+    const { launch } = useLaunchGame();
+    const { isLogined } = useAuth();
+    const { onToggleModal } = useSettingsContext();
 
-    const handleSelectOdds = (match: Match, sport: string, market: string, oddsVal: string, oddsType: SelectedBet['oddsType']) => {
+    const handleLaunchSportsbook = () => {
+        if (!isLogined && import.meta.env.VITE_GAME_TEST_MODE !== 'true') {
+            onToggleModal('SIGNIN');
+            return;
+        }
+        launch(undefined, { providerCode: 'SPORTSBOOK' });
+    };
+
+    const handleSelectOdds = (match: SportsbookMatch, sport: string, market: string, oddsVal: string, oddsType: SelectedBet['oddsType']) => {
         const val = parseFloat(oddsVal);
         if (!val || val === 0) return;
 
@@ -117,8 +105,8 @@ const SportsbookTable = () => {
     };
 
     // Subcomponent helper for Odds Button
-    const renderOddsButton = (match: Match, sport: string, market: string, oddsVal?: string, oddsType?: SelectedBet['oddsType'], isPink: boolean = false) => {
-        if (!oddsVal || oddsVal === '0') {
+    const renderOddsButton = (match: SportsbookMatch, sport: string, market: string, oddsVal?: string, oddsType?: SelectedBet['oddsType'], isPink: boolean = false) => {
+        if (!oddsVal || oddsVal === '0' || oddsVal === '0.00') {
             return (
                 <Box
                     sx={{
@@ -143,7 +131,7 @@ const SportsbookTable = () => {
 
         return (
             <Button
-                onClick={() => handleSelectOdds(match, sport, market, oddsVal, oddsType!)}
+                onClick={(e) => { e.stopPropagation(); handleSelectOdds(match, sport, market, oddsVal, oddsType!); }}
                 sx={{
                     width: 44,
                     minWidth: 44,
@@ -168,6 +156,10 @@ const SportsbookTable = () => {
         );
     };
 
+    if (error) {
+        return null;
+    }
+
     return (
         <Box 
             sx={{ 
@@ -186,7 +178,7 @@ const SportsbookTable = () => {
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 3 }}>
                 <Box sx={{ width: 4, height: 18, bgcolor: 'primary.main', borderRadius: 1 }} />
                 <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '0.02em' }}>
-                    Sportsbook Lobby
+                    Live Sportsbook
                 </Typography>
                 <Box 
                     sx={{ 
@@ -200,11 +192,16 @@ const SportsbookTable = () => {
                         textTransform: 'uppercase'
                     }}
                 >
-                    Live Betting
+                    Real-Time Odds
                 </Box>
             </Stack>
 
-            {SPORTS_DATA.map((category, catIdx) => (
+            {isLoading ? (
+                <Stack spacing={2}>
+                    <Skeleton variant="rounded" height={200} />
+                    <Skeleton variant="rounded" height={200} />
+                </Stack>
+            ) : categories?.map((category, catIdx) => (
                 <Box key={catIdx} sx={{ mb: 4, '&:last-of-type': { mb: 1 } }}>
                     {/* Category Title Header */}
                     <Stack 
@@ -220,7 +217,7 @@ const SportsbookTable = () => {
                             borderColor: 'background.border'
                         }}
                     >
-                        {category.icon}
+                        {getSportIcon(category.sport)}
                         <Typography sx={{ color: 'text.primary', fontWeight: 800, fontSize: '0.875rem' }}>
                             {category.sport}
                         </Typography>
@@ -249,8 +246,10 @@ const SportsbookTable = () => {
                     {category.matches.map((match) => (
                         <Box
                             key={match.id}
+                            onClick={handleLaunchSportsbook}
                             sx={{
                                 display: 'flex',
+                                cursor: 'pointer',
                                 flexDirection: { xs: 'column', sm: 'row' },
                                 alignItems: { xs: 'stretch', sm: 'center' },
                                 justifyContent: 'space-between',
@@ -314,6 +313,24 @@ const SportsbookTable = () => {
                             </Stack>
                         </Box>
                     ))}
+
+                    {!hideViewMore && (
+                        <Button 
+                            onClick={() => navigate('/sportsbook')}
+                            sx={{ 
+                                width: '100%', 
+                                py: 1.5, 
+                                color: 'text.secondary',
+                                fontWeight: 700,
+                                borderTop: '1px solid',
+                                borderColor: 'background.border',
+                                borderRadius: '0 0 6px 6px',
+                                '&:hover': { color: 'primary.main', bgcolor: 'rgba(0,186,230,0.05)' }
+                            }}
+                        >
+                            View More {category.sport} Matches →
+                        </Button>
+                    )}
                 </Box>
             ))}
 

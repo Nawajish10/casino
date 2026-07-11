@@ -8,6 +8,7 @@ import Dice from 'pages/offline-games/Dice';
 import HiLo from 'pages/offline-games/HiLo';
 import CoinFlip from 'pages/offline-games/CoinFlip';
 import Roulette from 'pages/offline-games/Roulette';
+const AdminPortal = Loadable(lazy(() => import('pages/admin')));
 
 const HomePage = Loadable(lazy(() => import('pages/home')));
 const CasinoPage = Loadable(lazy(() => import('pages/casino')));
@@ -56,6 +57,10 @@ const TransactionHistory = Loadable(lazy(() => import('pages/profile-page/transa
 // ----------------------------------------------------------------------
 
 export const mainRoutes = [
+    {
+        path: '/admin/*',
+        element: <AdminPortal />
+    },
     {
         path: '/',
         element: <MainLayout />,

@@ -32,6 +32,8 @@ async function bootstrap() {
     'https://test.axcrivo.in',
     'https://axcrivo.in',
     'http://localhost:5173',
+    'http://127.0.0.1:4173',
+    'http://localhost:4173',
     'http://localhost:3000',
     ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
   ];

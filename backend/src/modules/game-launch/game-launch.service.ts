@@ -352,7 +352,12 @@ GameSession ID: ${sessionToken}
     if (!providerCode && options.gameType === 'SPORT_BOOK') {
       providerCode = 'DIGITAIN';
     }
-    providerCode = providerCode ? providerCode.toUpperCase() : 'DIGITAIN';
+    providerCode = providerCode ? providerCode.toUpperCase() : 'SPORTSBOOK';
+
+    if (providerCode !== 'SPORTSBOOK' && providerCode !== 'DIGITAIN') {
+      await this.writeAuditLog(userId, 'INVALID_PROVIDER_LAUNCH', { providerCode, error: 'Empty game_code is only permitted for SPORTSBOOK' });
+      throw new BadRequestException('Empty game_code is only permitted for SPORTSBOOK');
+    }
 
     const provider = await this.prisma.provider.findFirst({
       where: { providerCode: { equals: providerCode, mode: 'insensitive' } },
