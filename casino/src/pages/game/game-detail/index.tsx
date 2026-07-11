@@ -27,7 +27,7 @@ const GameDetail = ({ gameData }: { gameData: any }) => {
                                 By
                             </Typography>
                             <Typography color="primary" sx={{ fontWeight: 600 }}>
-                                {gameData?.provider}
+                                {typeof gameData?.provider === 'string' ? gameData?.provider : gameData?.provider?.providerName || gameData?.providerCode || 'Unknown'}
                             </Typography>
                         </Box>
                     )}
