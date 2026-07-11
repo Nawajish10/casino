@@ -43,6 +43,7 @@ export class HomepageRepository {
     }
 
     async getPopularGames(limit: number = 20) {
+        console.log('[HomepageRepository] getPopularGames query starting');
         const { data, error } = await this.db
             .from('Game')
             .select(this.baseGameSelect)
@@ -55,6 +56,7 @@ export class HomepageRepository {
             .order('playCount', { ascending: false })
             .limit(limit);
 
+        console.log('[HomepageRepository] getPopularGames query finished, error:', error);
         if (error) throw error;
         return data || [];
     }

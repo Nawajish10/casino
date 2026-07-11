@@ -8,6 +8,16 @@ import compression from 'compression';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // --- TEMPORARY REQUEST LOGGING MIDDLEWARE ---
+  app.use((req, res, next) => {
+    console.log(`[REQ] ${req.method} ${req.originalUrl}`);
+    res.on('finish', () => {
+      console.log(`[RES] ${req.method} ${req.originalUrl} -> ${res.statusCode}`);
+    });
+    next();
+  });
+  // ---------------------------------------------
+
   // Security and Compression
   app.use(helmet());
   app.use(compression());
@@ -56,7 +66,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
+  await app.listen(process.env.PORT ?? 3000);
 
   // Log public IP to console logs on startup to make whitelisting easy
   try {

@@ -11,14 +11,20 @@ export class HomepageController {
     @ApiOperation({ summary: 'Get featured games for homepage' })
     @ApiResponse({ status: 200, description: 'Return strictly filtered featured games.' })
     async getFeaturedGames() {
-        return this.homepageService.getFeaturedGames();
+        console.log('[HomepageController] getFeaturedGames started');
+        const res = await this.homepageService.getFeaturedGames();
+        console.log('[HomepageController] getFeaturedGames completed');
+        return res;
     }
 
     @Get('popular')
     @ApiOperation({ summary: 'Get popular games for homepage' })
     @ApiResponse({ status: 200, description: 'Return strictly filtered popular games.' })
     async getPopularGames() {
-        return this.homepageService.getPopularGames();
+        console.log('[HomepageController] getPopularGames started');
+        const res = await this.homepageService.getPopularGames();
+        console.log('[HomepageController] getPopularGames completed');
+        return res;
     }
 
     @Get('live-casino')
