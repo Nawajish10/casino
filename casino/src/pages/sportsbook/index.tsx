@@ -70,7 +70,7 @@ export default function SportsbookPage() {
                 
                 <Grid container spacing={3}>
                     {sportsCategories.map((sport) => (
-                        <Grid item xs={6} sm={4} md={3} key={sport.id}>
+                        <Grid size={{ xs: 6, sm: 4, md: 3 }} key={sport.id}>
                             <Box
                                 onClick={handleLaunch}
                                 sx={{

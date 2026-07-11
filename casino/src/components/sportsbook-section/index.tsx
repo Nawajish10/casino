@@ -51,7 +51,7 @@ export default function SportsbookSection() {
 
             <Grid container spacing={3}>
                 {FEATURED_SPORTS.map((sport, index) => (
-                    <Grid item xs={12} sm={4} key={index}>
+                    <Grid size={{ xs: 12, sm: 4 }} key={index}>
                         <Box
                             onClick={handleLaunch}
                             sx={{
