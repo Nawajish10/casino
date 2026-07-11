@@ -80,6 +80,12 @@ export const categoryBarItems = [
         label: 'Live Casino',
         icon: '/img/header/racing.png',
         path: '/category/Live Casino'
+    },
+    {
+        label: 'Sportsbook',
+        icon: '/img/header/racing.png',
+        path: '/sportsbook',
+        badge: 'LIVE'
     }
 ];
 

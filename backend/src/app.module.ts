@@ -18,7 +18,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { WalletModule } from './modules/wallet/wallet.module';
 import { GameLogModule } from './modules/game-log/game-log.module';
 import { GameLaunchModule } from './modules/game-launch/game-launch.module';
-import { SportsbookModule } from './modules/sportsbook/sportsbook.module';
+
 
 @Module({
   imports: [
@@ -36,7 +36,6 @@ import { SportsbookModule } from './modules/sportsbook/sportsbook.module';
     WalletModule,
     GameLogModule,
     GameLaunchModule,
-    SportsbookModule,
     ScheduleModule.forRoot(),
     ThrottlerModule.forRoot([{
       ttl: 60000,

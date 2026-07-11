@@ -5,12 +5,10 @@ import { Box, Typography, Stack } from '@mui/material';
 import Banner from 'components/banner';
 import FeaturedGameCarousel from 'components/featured-game-carousel';
 import GameLauncherCards from 'components/game-launcher-cards';
-import SportsbookTable from 'components/sportsbook-table';
 
 import GameGridSkeleton from 'components/game-card/game-grid-skeleton';
 // hooks
 import { useFeaturedGames, usePopularGames, useLiveCasinoGames, useSlotsGames } from 'hooks/useHomepage';
-import { useHomepageSportsbook } from 'hooks/useSportsbook';
 // swiper css
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -73,7 +71,6 @@ const Home = () => {
         provider: g.Provider?.providerName || g.providerName
     })) || [];
 
-    const { data: sbCategories, isLoading: sbLoading, error: sbError } = useHomepageSportsbook();
 
     return (
         <Box sx={{ overflowX: 'hidden' }}>
@@ -152,7 +149,6 @@ const Home = () => {
             )}
 
 
-            <SportsbookTable categories={sbCategories} isLoading={sbLoading} error={sbError} />
         </Box>
     );
 };
