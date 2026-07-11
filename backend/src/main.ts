@@ -34,6 +34,10 @@ async function bootstrap() {
     'http://localhost:5173',
     'http://127.0.0.1:4173',
     'http://localhost:4173',
+    'http://127.0.0.1:4174',
+    'http://localhost:4174',
+    'http://127.0.0.1:4175',
+    'http://localhost:4175',
     'http://localhost:3000',
     ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
   ];

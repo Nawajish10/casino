@@ -1,0 +1,12 @@
+.admin-root .table-panel,
+.admin-root .responsive-table,
+.admin-root td,
+.admin-root td b,
+.admin-root .table-toolbar h6 {
+    color: var(--a-text) !important;
+}
+
+.admin-root td span,
+.admin-root .table-toolbar .MuiTypography-body2 {
+    color: var(--a-muted) !important;
+}
