@@ -13,9 +13,30 @@ async function bootstrap() {
   app.use(compression());
 
   // Enable CORS
+  // NOTE: Cannot use origin:'*' with credentials:true — browser rejects this combination.
+  // We use an explicit allowlist of origins instead.
+  const allowedOrigins = [
+    'https://test.axcrivo.in',
+    'https://axcrivo.in',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+  ];
+
   app.enableCors({
-    origin: '*',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, Postman, server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Origin ${origin} not allowed by CORS`), false);
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   });
 
   // Global Validation
