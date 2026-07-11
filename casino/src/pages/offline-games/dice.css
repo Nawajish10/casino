@@ -28,10 +28,10 @@
   appearance: none;
   width: 35px;
   height: 35px;
-  background-image: url(../assets/slider.jpg);
-  background-position: center;
-  background-size: contain;
-  border-radius: 5px;
+  background: radial-gradient(circle at 30% 30%, #fff7b0 0%, #f3c542 40%, #d8891e 100%);
+  border: 2px solid #7a4200;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  border-radius: 50%;
   cursor: grab;
   margin-top: -13.5px;
   z-index: 2000;
@@ -41,10 +41,10 @@
 .slider::-moz-range-thumb {
   width: 35px;
   height: 35px;
-  background-image: url(../assets/slider.jpg);
-  background-position: center;
-  background-size: contain;
-  border-radius: 5px;
+  background: radial-gradient(circle at 30% 30%, #fff7b0 0%, #f3c542 40%, #d8891e 100%);
+  border: 2px solid #7a4200;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  border-radius: 50%;
   cursor: grab;
   z-index: 2000;
   position: relative;
