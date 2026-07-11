@@ -23,6 +23,7 @@ const BallancePage = Loadable(lazy(() => import('pages/wallet/balance')));
 const WalletPage = Loadable(lazy(() => import('pages/wallet')));
 const VipPage = Loadable(lazy(() => import('pages/vip')));
 const Sports = Loadable(lazy(() => import('pages/sports/index')));
+const SportsbookPage = Loadable(lazy(() => import('pages/sportsbook')));
 const Store = Loadable(lazy(() => import('pages/store/index')));
 const SecurityPage = Loadable(lazy(() => import('pages/settings/security')));
 const PreferencesPage = Loadable(lazy(() => import('pages/settings/preferences')));
@@ -90,6 +91,10 @@ export const mainRoutes = [
             {
                 path: 'sports',
                 element: <Sports />
+            },
+            {
+                path: 'sportsbook',
+                element: <SportsbookPage />
             },
             {
                 path: 'casino',

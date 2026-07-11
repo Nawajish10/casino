@@ -60,7 +60,7 @@ const tabs = [
     },
     {
         label: 'sports',
-        path: paths.sports.root
+        path: paths.sportsbook.root
     }
 ];
 
@@ -148,7 +148,7 @@ const Tabbar = ({ navStatus, onHandleNav }: { navStatus: boolean; onHandleNav: V
                     alignItems="center"
                     justifyContent="center"
                     onClick={() => {
-                        router.push(paths.sports.root);
+                        router.push(paths.sportsbook.root);
                     }}
                 >
                     <SportsIcon

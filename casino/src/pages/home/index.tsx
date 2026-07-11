@@ -6,6 +6,7 @@ import Banner from 'components/banner';
 import FeaturedGameCarousel from 'components/featured-game-carousel';
 import GameLauncherCards from 'components/game-launcher-cards';
 import SportsbookTable from 'components/sportsbook-table';
+import SportsbookSection from 'components/sportsbook-section';
 import GameGridSkeleton from 'components/game-card/game-grid-skeleton';
 // hooks
 import { useFeaturedGames, usePopularGames, useLiveCasinoGames, useSlotsGames } from 'hooks/useHomepage';
@@ -146,6 +147,8 @@ const Home = () => {
                     title="Slots"
                 />
             )}
+
+            <SportsbookSection />
 
             <SportsbookTable />
         </Box>

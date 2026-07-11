@@ -36,6 +36,9 @@ export const paths = {
     sports: {
         root: '/sports'
     },
+    sportsbook: {
+        root: '/sportsbook'
+    },
     bonus: {
         root: '/bonus'
     }

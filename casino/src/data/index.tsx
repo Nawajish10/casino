@@ -335,7 +335,7 @@ export const casinoMenus = [
             x: -160,
             y: -160
         },
-        path: '/sports'
+        path: '/sportsbook'
     },
     {
         name: 'Store',
