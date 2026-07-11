@@ -1,5 +1,7 @@
-import * as dns from 'node:dns';
-dns.setDefaultResultOrder('ipv4first');
+import * as dns from 'dns';
+if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder('ipv4first');
+}
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -26,8 +28,6 @@ async function bootstrap() {
   app.use(compression());
 
   // Enable CORS
-  // NOTE: Cannot use origin:'*' with credentials:true — browser rejects this combination.
-  // We use an explicit allowlist of origins instead.
   const allowedOrigins = [
     'https://test.axcrivo.in',
     'https://axcrivo.in',
@@ -38,7 +38,6 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, curl, Postman, server-to-server)
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
@@ -69,7 +68,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
+  // Force listening on port 3000 because Railway Target Port is set to 3000.
+  // If we use process.env.PORT, Railway might assign a random internal port (e.g., 6543)
+  // while the proxy still routes traffic to 3000, causing a 502 Bad Gateway.
+  const targetPort = 3000;
+  await app.listen(targetPort, '0.0.0.0');
+  console.log(`Listening strictly on port ${targetPort} for Railway proxy compatibility`);
 
   // Log public IP to console logs on startup to make whitelisting easy
   try {
