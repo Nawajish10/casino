@@ -51,8 +51,10 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     const connect = (token: string) => {
         try {
             const socketInit: Socket = io(String(HOST_API_KEY), {
-                transports: ['websocket'],
-                upgrade: false,
+                // Start with polling then upgrade to websocket.
+                // This is required for Railway which can't always handle
+                // a cold WebSocket upgrade without an initial HTTP handshake.
+                transports: ['polling', 'websocket'],
                 query: { auth: token },
                 reconnectionAttempts: 5,
                 reconnectionDelay: 2000,
@@ -77,9 +79,15 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     };
 
     useEffect(() => {
+        // Only connect if user is actually logged in with a valid token
+        if (!isLogined) {
+            cleanUp();
+            return;
+        }
         try {
             const token = localStorage.getItem('betthrob-accessToken');
-            connect(token ?? '');
+            if (!token) return;
+            connect(token);
         } catch (err) {
             console.error('[Socket] Initialization error:', err);
         }
