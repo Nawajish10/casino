@@ -25,12 +25,12 @@ const Home = () => {
 
     const featuredItems = [
         {
-            id: 'aviator',
-            label: 'Aviator',
-            sublabel: 'Spribe',
+            id: 'vs20doghouse',
+            label: 'The Dog House',
+            sublabel: 'Pragmatic',
             accentColor: '#FF5630',
-            image: '/assets/featured/aviator.png',
-            path: '/game/aviator'
+            image: '/assets/featured/aviator.png', // Keeping same image for visual
+            path: '/game/vs20doghouse'
         },
         {
             id: 'casino',
