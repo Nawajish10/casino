@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#1a1c24"/>
+  <circle cx="200" cy="200" r="100" fill="#2d303e"/>
+  <path d="M175 140 v120 l90 -60 z" fill="#4a4e69"/>
+  <text x="200" y="320" font-family="Arial" font-size="20" fill="#4a4e69" text-anchor="middle">Game Loading</text>
+</svg>

@@ -13,7 +13,7 @@ interface GameCardProps {
 
 const GameCard = ({ title, name, image, provider, category, href }: GameCardProps) => {
     const displayTitle = title || name || "Unknown";
-    const defaultImage = "/default-game.png"; // Fallback image logic
+    const defaultImage = "/default-game.svg"; // Fallback image logic
     const imgUrl = image || defaultImage;
     return (
         <Link to={`${href}`}>

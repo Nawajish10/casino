@@ -8,7 +8,7 @@ import GameLauncherCards from 'components/game-launcher-cards';
 import SportsbookTable from 'components/sportsbook-table';
 import GameGridSkeleton from 'components/game-card/game-grid-skeleton';
 // hooks
-import { useFeaturedGames, usePopularGames } from 'hooks/useHomepage';
+import { useFeaturedGames, usePopularGames, useLiveCasinoGames, useSlotsGames } from 'hooks/useHomepage';
 // swiper css
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -23,39 +23,52 @@ const Home = () => {
         }
     }, [popularError]);
 
-    const featuredItems = [
-        {
-            id: 'vs20doghouse',
-            label: 'The Dog House',
-            sublabel: 'Pragmatic',
-            accentColor: '#FF5630',
-            image: '/assets/featured/aviator.png', // Keeping same image for visual
-            path: '/game/vs20doghouse'
-        },
-        {
-            id: 'casino',
-            label: 'Casino',
-            sublabel: 'Live Lobby',
-            accentColor: '#00BAE6',
-            image: '/assets/featured/live-casino.png',
-            path: '/casino'
-        },
-        {
-            id: 'roulette',
-            label: 'Roulette',
-            sublabel: 'Classic Table',
-            accentColor: '#22C55E',
-            image: '/assets/images/games/roulette.png',
-            path: '/offline-games/roulette'
-        }
-    ];
+    const { data: featuredGamesData, isLoading: isLoadingFeatured } = useFeaturedGames();
 
-    const popularItems = popularGames?.map(g => ({
+    // Helper to generate a deterministic vibrant color from a string (game id/name)
+    const getAccentColor = (str: string) => {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const colors = ['#FF5630', '#00BAE6', '#22C55E', '#8E33FF', '#FFAB00', '#E53935'];
+        return colors[Math.abs(hash) % colors.length];
+    };
+
+    const featuredItems = featuredGamesData?.map((g: any) => ({
+        id: g.id,
+        label: g.gameName,
+        sublabel: g.Provider?.providerName || g.providerName || g.category || 'Featured',
+        accentColor: getAccentColor(g.id || g.gameCode),
+        image: g.banner || g.thumbnail || '/default-game.svg',
+        path: `/game/${g.gameCode}`
+    })) || [];
+
+    const popularItems = popularGames?.map((g: any) => ({
         id: g.id,
         name: g.gameName,
-        image: g.thumbnail || '/default-game.png',
+        image: g.thumbnail || g.banner || '/default-game.svg',
         path: `/game/${g.gameCode}`,
-        provider: (g as any).Provider?.providerName || g.providerName
+        provider: g.Provider?.providerName || g.providerName
+    })) || [];
+
+    const { data: liveCasinoGames, isLoading: isLoadingLive } = useLiveCasinoGames();
+    const { data: slotsGames, isLoading: isLoadingSlots } = useSlotsGames();
+
+    const liveItems = liveCasinoGames?.map((g: any) => ({
+        id: g.id,
+        name: g.gameName,
+        image: g.thumbnail || g.banner || '/default-game.svg',
+        path: `/game/${g.gameCode}`,
+        provider: g.Provider?.providerName || g.providerName
+    })) || [];
+
+    const slotItems = slotsGames?.map((g: any) => ({
+        id: g.id,
+        name: g.gameName,
+        image: g.thumbnail || g.banner || '/default-game.svg',
+        path: `/game/${g.gameCode}`,
+        provider: g.Provider?.providerName || g.providerName
     })) || [];
 
     return (
@@ -65,12 +78,16 @@ const Home = () => {
             <Banner />
 
             {/* ── 2. Featured Game Carousel (large swipeable cards) ──── */}
-            <FeaturedGameCarousel
-                items={featuredItems}
-                title="Featured Games"
-            />
+            {isLoadingFeatured ? (
+                <Box sx={{ p: 3 }}><GameGridSkeleton count={3} /></Box>
+            ) : featuredItems.length > 0 && (
+                <FeaturedGameCarousel
+                    items={featuredItems}
+                    title="Featured Games"
+                />
+            )}
 
-            {/* ── 3 & 4. Custom Banner Image ─────────────────────────── */}
+            {/* ── 3. Custom Banner Image ─────────────────────────── */}
             <Box sx={{ width: '100%', px: { xs: 0.5, md: 1 }, py: 3.5 }}>
                 <Box
                     component="img"
@@ -108,6 +125,26 @@ const Home = () => {
                         Check back later for our most popular games!
                     </Typography>
                 </Stack>
+            )}
+
+            {/* ── 5. Live Casino ───────────────── */}
+            {isLoadingLive ? (
+                <Box sx={{ p: 3 }}><GameGridSkeleton count={6} /></Box>
+            ) : liveItems.length > 0 && (
+                <GameLauncherCards
+                    items={liveItems}
+                    title="Live Casino"
+                />
+            )}
+
+            {/* ── 6. Slots ───────────────── */}
+            {isLoadingSlots ? (
+                <Box sx={{ p: 3 }}><GameGridSkeleton count={6} /></Box>
+            ) : slotItems.length > 0 && (
+                <GameLauncherCards
+                    items={slotItems}
+                    title="Slots"
+                />
             )}
 
             <SportsbookTable />

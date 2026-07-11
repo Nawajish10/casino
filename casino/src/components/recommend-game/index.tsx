@@ -14,14 +14,15 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import { useTranslate } from 'locales';
-import { useSelector } from 'store/store';
+import { usePopularGames } from 'hooks/useHomepage';
 import GameCard from 'components/game-card';
 import { ASSETS } from 'utils/axios';
 
 const RecommendSlider = () => {
     const { t } = useTranslate();
     const navigate = useNavigate();
-    const { recommendGames } = useSelector((state) => state.setting);
+    const { data: popularGames, isLoading } = usePopularGames();
+    const recommendGames = popularGames || [];
     const swiperRef = useRef<SwiperType | null>(null);
     const [activeIndex, setActiveIndex] = useState<number>(0);
 
@@ -152,9 +153,9 @@ const RecommendSlider = () => {
                             <Box key={itemIndex} sx={{ borderRadius: 2, overflow: 'hidden' }}>
                                 <GameCard
                                     key={itemIndex}
-                                    name={item.gameName ? item.gameName : item.game_name}
-                                    image={item.ownImg ? ASSETS(item.ownImg) : item.image_url || ASSETS(item.gameCode)}
-                                    href={item.game_code ? `/game/${item.game_code}` : `/ag-game/${item.gameCode}`}
+                                    name={item.gameName || (item as any).game_name}
+                                    image={item.thumbnail || item.banner || '/default-game.svg'}
+                                    href={`/game/${item.gameCode || (item as any).game_code}`}
                                 />
                             </Box>
                         </SwiperSlide>
