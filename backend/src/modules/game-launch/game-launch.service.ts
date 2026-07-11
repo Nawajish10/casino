@@ -272,7 +272,6 @@ export class GameLaunchService {
         provider_code: game.provider?.providerCode || providerCode,
         game_code: resolvedGameCode,
         lang: options.lang || 'en',
-        rtp: 92,
         lobby_url: `${frontendUrl}/lobby`,
       };
 
@@ -408,7 +407,6 @@ GameSession ID: ${sessionToken}
         provider_code: providerCode,
         game_code: '',
         lang: options.lang || 'en',
-        rtp: 92,
         lobby_url: `${frontendUrl}/lobby`,
       };
 
