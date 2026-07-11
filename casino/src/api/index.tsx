@@ -95,15 +95,13 @@ export const gameLaunch = async (data: {
 };
 
 export const getProviderList = async (type: string) => {
-    const res = await axios.post('/api/casino/provider', { gameType: type });
-
+    const res = await axios.get('/providers');
     return res.data;
 };
 
 export const getGamesBySearch = async (name: string, gameType: string, currentPage: number, perPage: number) => {
-    const res = await axios.post('/api/casino/search', { name, gameType, currentPage, perPage });
-
-    return res.data;
+    const res = await axios.get(`/games/search?q=${name}&page=${currentPage}&limit=${perPage}`);
+    return { data: res.data.items || [], count: res.data.total || 0 };
 };
 
 // Slot
@@ -113,15 +111,21 @@ export const getSlotGames = async (data: {
     categories?: string;
     provider?: string[];
 }) => {
-    const res = await axios.post('/api/casino/ag-games', data);
-
-    return res.data;
+    let url = `/games/active?page=${data.currentPage}&limit=${data.perPage}`;
+    if (data.provider && data.provider.length > 0 && data.provider[0] !== 'All') {
+        url = `/games/provider/${data.provider[0]}?page=${data.currentPage}&limit=${data.perPage}`;
+    } else if (data.categories) {
+        url = `/games/category/${data.categories}?page=${data.currentPage}&limit=${data.perPage}`;
+    }
+    const res = await axios.get(url);
+    // Map NestJS PaginatedResponse to what frontend expects
+    return { data: res.data.items || [], count: res.data.total || 0 };
 };
 
 export const getSlotProviders = async (categorie: string) => {
-    const res = await axios.get(`/api/casino/providers?category=${categorie}`);
-
-    return res.data;
+    const res = await axios.get('/providers');
+    // Return array of provider codes
+    return res.data.map((p: any) => p.providerCode);
 };
 
 export const getAgCategory = async () => {
