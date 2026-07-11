@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 // @mui
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Stack } from '@mui/material';
 // components
 import Banner from 'components/banner';
 import FeaturedGameCarousel from 'components/featured-game-carousel';
@@ -14,7 +15,13 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const Home = () => {
-    const { data: popularGames, isLoading: isLoadingPopular } = usePopularGames();
+    const { data: popularGames, isLoading: isLoadingPopular, error: popularError } = usePopularGames();
+
+    useEffect(() => {
+        if (popularError) {
+            console.error('[Top Games API Error]', popularError);
+        }
+    }, [popularError]);
 
     const featuredItems = [
         {
@@ -47,7 +54,8 @@ const Home = () => {
         id: g.id,
         name: g.gameName,
         image: g.thumbnail || '/default-game.png',
-        path: `/game/${g.gameCode}`
+        path: `/game/${g.gameCode}`,
+        provider: (g as any).Provider?.providerName || g.providerName
     })) || [];
 
     return (
@@ -86,11 +94,20 @@ const Home = () => {
             {/* ── 4. Top Games (small clickable cards) ───────────────── */}
             {isLoadingPopular ? (
                 <Box sx={{ p: 3 }}><GameGridSkeleton count={6} /></Box>
-            ) : popularItems.length > 0 && (
+            ) : popularItems.length > 0 ? (
                 <GameLauncherCards
                     items={popularItems}
                     title="Top Games"
                 />
+            ) : (
+                <Stack sx={{ p: 5, textAlign: 'center', alignItems: 'center', bgcolor: 'background.paper', borderRadius: 2, mx: 3, mb: 3 }}>
+                    <Typography variant="h6" color="text.secondary" gutterBottom>
+                        No Top Games Available
+                    </Typography>
+                    <Typography variant="body2" color="text.disabled">
+                        Check back later for our most popular games!
+                    </Typography>
+                </Stack>
             )}
 
             <SportsbookTable />
