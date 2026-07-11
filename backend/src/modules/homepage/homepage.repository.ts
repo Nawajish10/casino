@@ -14,7 +14,7 @@ export class HomepageRepository {
         thumbnail, banner, launchCode, status, maintenanceMode,
         currentlyAvailable, isActive, isFeatured, isPopular,
         homepageVisible, sortOrder, playCount, tags, launchReady,
-        createdAt, updatedAt
+        createdAt, updatedAt, Provider(providerName, providerLogo)
     `;
 
     private baseGameFilter = {
