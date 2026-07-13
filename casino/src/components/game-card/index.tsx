@@ -94,7 +94,7 @@ const GameCard = ({ title, name, image, provider, category, href }: GameCardProp
                             color: 'white'
                         }}
                     >
-                        {title}
+                        {displayTitle}
                         {provider && (
                             <Typography sx={{ fontSize: '0.75rem', opacity: 0.8, mt: 0.5 }}>
                                 {provider}

@@ -16,14 +16,15 @@ import 'swiper/css/pagination';
 
 const Home = () => {
     const { data: popularGames, isLoading: isLoadingPopular, error: popularError } = usePopularGames();
+    const { data: featuredGamesData, isLoading: isLoadingFeatured } = useFeaturedGames();
+    const { data: liveCasinoGames, isLoading: isLoadingLive } = useLiveCasinoGames();
+    const { data: slotsGames, isLoading: isLoadingSlots } = useSlotsGames();
 
     useEffect(() => {
         if (popularError) {
             console.error('[Top Games API Error]', popularError);
         }
     }, [popularError]);
-
-    const { data: featuredGamesData, isLoading: isLoadingFeatured } = useFeaturedGames();
 
     // Helper to generate a deterministic vibrant color from a string (game id/name)
     const getAccentColor = (str: string) => {
@@ -35,7 +36,38 @@ const Home = () => {
         return colors[Math.abs(hash) % colors.length];
     };
 
-    const featuredItems = featuredGamesData?.map((g: any) => ({
+    // Combine all retrieved games to act as a fallback pool
+    const allGamesPool = [
+        ...(featuredGamesData || []),
+        ...(popularGames || []),
+        ...(liveCasinoGames || []),
+        ...(slotsGames || [])
+    ];
+
+    const uniqueGamesMap = new Map();
+    allGamesPool.forEach((g: any) => {
+        if (g && (g.id || g.gameCode)) {
+            const key = g.gameCode || g.id;
+            if (!uniqueGamesMap.has(key)) {
+                uniqueGamesMap.set(key, g);
+            }
+        }
+    });
+    const fallbackGames = Array.from(uniqueGamesMap.values());
+
+    const featuredGames = (featuredGamesData && featuredGamesData.length > 0)
+        ? featuredGamesData
+        : fallbackGames.slice(0, 12);
+
+    let popularGamesList = popularGames || [];
+    if (popularGamesList.length === 0) {
+        popularGamesList = fallbackGames.filter((g: any) => g.isPopular);
+        if (popularGamesList.length === 0) {
+            popularGamesList = fallbackGames.slice(0, 12);
+        }
+    }
+
+    const featuredItems = featuredGames?.map((g: any) => ({
         id: g.id,
         label: g.gameName,
         sublabel: g.Provider?.providerName || g.providerName || g.category || 'Featured',
@@ -44,16 +76,13 @@ const Home = () => {
         path: `/game/${g.gameCode}`
     })) || [];
 
-    const popularItems = popularGames?.map((g: any) => ({
+    const popularItems = popularGamesList?.map((g: any) => ({
         id: g.id,
         name: g.gameName,
         image: g.thumbnail || g.banner || '/default-game.svg',
         path: `/game/${g.gameCode}`,
         provider: g.Provider?.providerName || g.providerName
     })) || [];
-
-    const { data: liveCasinoGames, isLoading: isLoadingLive } = useLiveCasinoGames();
-    const { data: slotsGames, isLoading: isLoadingSlots } = useSlotsGames();
 
     const liveItems = liveCasinoGames?.map((g: any) => ({
         id: g.id,
