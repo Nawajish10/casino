@@ -17,6 +17,16 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('health')
+  getHealth() {
+    return {
+      status: 'ok',
+      uptime: process.uptime(),
+      version: '1.0.0',
+      timestamp: new Date().toISOString(),
+    };
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('api/player/balance')
   async getPlayerBalance(@Req() req: any) {

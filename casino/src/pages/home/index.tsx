@@ -9,6 +9,7 @@ import GameLauncherCards from 'components/game-launcher-cards';
 import GameGridSkeleton from 'components/game-card/game-grid-skeleton';
 // hooks
 import { useFeaturedGames, usePopularGames, useLiveCasinoGames, useSlotsGames } from 'hooks/useHomepage';
+import { FALLBACK_GAMES } from 'data/fallbackGames';
 // swiper css
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -41,7 +42,8 @@ const Home = () => {
         ...(featuredGamesData || []),
         ...(popularGames || []),
         ...(liveCasinoGames || []),
-        ...(slotsGames || [])
+        ...(slotsGames || []),
+        ...FALLBACK_GAMES
     ];
 
     const uniqueGamesMap = new Map();
@@ -57,13 +59,29 @@ const Home = () => {
 
     const featuredGames = (featuredGamesData && featuredGamesData.length > 0)
         ? featuredGamesData
-        : fallbackGames.slice(0, 12);
+        : fallbackGames.filter((g: any) => g.isFeatured).slice(0, 12);
 
-    let popularGamesList = popularGames || [];
+    let popularGamesList = (popularGames && popularGames.length > 0) ? popularGames : [];
     if (popularGamesList.length === 0) {
         popularGamesList = fallbackGames.filter((g: any) => g.isPopular);
         if (popularGamesList.length === 0) {
             popularGamesList = fallbackGames.slice(0, 12);
+        }
+    }
+
+    let liveCasinoList = (liveCasinoGames && liveCasinoGames.length > 0) ? liveCasinoGames : [];
+    if (liveCasinoList.length === 0) {
+        liveCasinoList = fallbackGames.filter((g: any) => (g.category || '').toLowerCase().includes('live'));
+        if (liveCasinoList.length === 0) {
+            liveCasinoList = fallbackGames.slice(12, 24);
+        }
+    }
+
+    let slotsList = (slotsGames && slotsGames.length > 0) ? slotsGames : [];
+    if (slotsList.length === 0) {
+        slotsList = fallbackGames.filter((g: any) => (g.category || '').toLowerCase().includes('slot'));
+        if (slotsList.length === 0) {
+            slotsList = fallbackGames.slice(0, 24);
         }
     }
 
@@ -84,7 +102,7 @@ const Home = () => {
         provider: g.Provider?.providerName || g.providerName
     })) || [];
 
-    const liveItems = liveCasinoGames?.map((g: any) => ({
+    const liveItems = liveCasinoList?.map((g: any) => ({
         id: g.id,
         name: g.gameName,
         image: g.thumbnail || g.banner || '/default-game.svg',
@@ -92,7 +110,7 @@ const Home = () => {
         provider: g.Provider?.providerName || g.providerName
     })) || [];
 
-    const slotItems = slotsGames?.map((g: any) => ({
+    const slotItems = slotsList?.map((g: any) => ({
         id: g.id,
         name: g.gameName,
         image: g.thumbnail || g.banner || '/default-game.svg',

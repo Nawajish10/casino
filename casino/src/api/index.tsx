@@ -99,9 +99,23 @@ export const getProviderList = async (type: string) => {
     return res.data;
 };
 
+import { FALLBACK_GAMES } from '../data/fallbackGames';
+
 export const getGamesBySearch = async (name: string, gameType: string, currentPage: number, perPage: number) => {
-    const res = await axios.get(`/games/search?q=${name}&page=${currentPage}&limit=${perPage}`);
-    return { data: res.data.items || [], count: res.data.total || 0 };
+    try {
+        const res = await axios.get(`/games/search?q=${name}&page=${currentPage}&limit=${perPage}`);
+        if (res.data && res.data.items) {
+            return { data: res.data.items || [], count: res.data.total || 0 };
+        }
+    } catch (err) {
+        console.warn('[getGamesBySearch] Error, using fallback games search');
+    }
+    const filtered = FALLBACK_GAMES.filter(g => 
+        g.gameName.toLowerCase().includes(name.toLowerCase()) || 
+        g.gameCode.toLowerCase().includes(name.toLowerCase())
+    );
+    const start = (currentPage - 1) * perPage;
+    return { data: filtered.slice(start, start + perPage), count: filtered.length };
 };
 
 // Slot
@@ -111,32 +125,62 @@ export const getSlotGames = async (data: {
     categories?: string;
     provider?: string[];
 }) => {
-    let url = `/games/active?page=${data.currentPage}&limit=${data.perPage}`;
-    if (data.provider && data.provider.length > 0 && data.provider[0] !== 'All') {
-        url = `/games/provider/${data.provider[0]}?page=${data.currentPage}&limit=${data.perPage}`;
-    } else if (data.categories) {
-        url = `/games/category/${data.categories}?page=${data.currentPage}&limit=${data.perPage}`;
+    try {
+        let url = `/games/active?page=${data.currentPage}&limit=${data.perPage}`;
+        if (data.provider && data.provider.length > 0 && data.provider[0] !== 'All') {
+            url = `/games/provider/${data.provider[0]}?page=${data.currentPage}&limit=${data.perPage}`;
+        } else if (data.categories) {
+            url = `/games/category/${data.categories}?page=${data.currentPage}&limit=${data.perPage}`;
+        }
+        const res = await axios.get(url);
+        if (res.data && res.data.items) {
+            return { data: res.data.items || [], count: res.data.total || 0 };
+        }
+    } catch (err) {
+        console.warn('[getSlotGames] Error, using fallback games');
     }
-    const res = await axios.get(url);
-    // Map NestJS PaginatedResponse to what frontend expects
-    return { data: res.data.items || [], count: res.data.total || 0 };
+
+    let filtered = FALLBACK_GAMES;
+    if (data.categories) {
+        const cat = data.categories.toLowerCase();
+        filtered = FALLBACK_GAMES.filter(g => (g.category || '').toLowerCase().includes(cat));
+    }
+    const page = data.currentPage || 1;
+    const limit = data.perPage || 20;
+    const start = (page - 1) * limit;
+    return { data: filtered.slice(start, start + limit), count: filtered.length };
 };
 
 export const getSlotProviders = async (categorie: string) => {
-    const res = await axios.get('/providers');
-    // Return array of provider codes
-    return res.data.map((p: any) => p.providerCode);
+    try {
+        const res = await axios.get('/providers');
+        if (res.data && Array.isArray(res.data)) {
+            return res.data.map((p: any) => p.providerCode);
+        }
+    } catch (err) {
+        console.warn('[getSlotProviders] Error, using fallback provider codes');
+    }
+    return ['HABANERO', 'PRAGMATIC', 'BOOONGO', 'PLAYSON'];
 };
 
 export const getAgCategory = async () => {
-    const res = await axios.get('/api/casino/ag-category');
-
-    return res.data;
+    try {
+        const res = await axios.get('/api/casino/ag-category');
+        return res.data;
+    } catch (err) {
+        return [];
+    }
 };
 
 export const getAgGameDetails = async (gameCode: string) => {
-    const res = await axios.get(`/games/detail/${gameCode}`);
-    return res.data;
+    try {
+        const res = await axios.get(`/games/detail/${gameCode}`);
+        if (res.data) return res.data;
+    } catch (err) {
+        console.warn('[getAgGameDetails] Error, using fallback game details');
+    }
+    const found = FALLBACK_GAMES.find(g => g.gameCode === gameCode || g.id === gameCode);
+    return found || FALLBACK_GAMES[0];
 };
 
 // Payment

@@ -21,13 +21,15 @@ const GameDetail = ({ gameData }: { gameData: any }) => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <GameTitle>{gameData?.gameName}</GameTitle>
-                    {gameData.provider && (
+                    {(gameData?.provider || gameData?.providerCode) && (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, whiteSpace: 'nowrap', mr: 1 }}>
                             <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
                                 By
                             </Typography>
                             <Typography color="primary" sx={{ fontWeight: 600 }}>
-                                {gameData.provider.replace('AG_', '')}
+                                {typeof gameData?.provider === 'string'
+                                    ? gameData.provider.replace('AG_', '')
+                                    : gameData?.provider?.providerName || gameData?.providerCode || ''}
                             </Typography>
                         </Box>
                     )}
