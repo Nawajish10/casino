@@ -23,8 +23,7 @@ export class GameRepository {
         return query
             .eq('isActive', true)
             .eq('currentlyAvailable', true)
-            .eq('maintenanceMode', false)
-            .eq('status', 'live');
+            .eq('maintenanceMode', false);
     }
 
     private getFallbackPaginated(page: number, limit: number, filterFn?: (g: any) => boolean) {

@@ -22,14 +22,13 @@ export class HomepageRepository {
 
     async getFeaturedGames(limit: number = 20) {
         try {
+            // First attempt: games explicitly marked as isFeatured
             const { data, error } = await this.db
                 .from('Game')
                 .select(this.baseGameSelect)
                 .eq('isActive', true)
                 .eq('currentlyAvailable', true)
                 .eq('maintenanceMode', false)
-                .eq('homepageVisible', true)
-                .eq('status', 'live')
                 .eq('isFeatured', true)
                 .order('sortOrder', { ascending: true })
                 .limit(limit);
@@ -37,23 +36,36 @@ export class HomepageRepository {
             if (!error && data && data.length > 0) {
                 return data;
             }
+
+            // Second attempt: general active games from database
+            const { data: anyData, error: anyErr } = await this.db
+                .from('Game')
+                .select(this.baseGameSelect)
+                .eq('isActive', true)
+                .eq('currentlyAvailable', true)
+                .eq('maintenanceMode', false)
+                .order('sortOrder', { ascending: true })
+                .limit(limit);
+
+            if (!anyErr && anyData && anyData.length > 0) {
+                return anyData;
+            }
         } catch (err: any) {
             this.logger.warn(`Supabase getFeaturedGames failed: ${err.message}. Using fallback games.`);
         }
 
-        return FALLBACK_GAMES.filter(g => g.isFeatured).slice(0, limit);
+        return FALLBACK_GAMES.slice(0, limit);
     }
 
     async getPopularGames(limit: number = 20) {
         try {
+            // First attempt: popular games
             const { data, error } = await this.db
                 .from('Game')
                 .select(this.baseGameSelect)
                 .eq('isActive', true)
                 .eq('currentlyAvailable', true)
                 .eq('maintenanceMode', false)
-                .eq('homepageVisible', true)
-                .eq('status', 'live')
                 .eq('isPopular', true)
                 .order('playCount', { ascending: false })
                 .limit(limit);
@@ -61,11 +73,25 @@ export class HomepageRepository {
             if (!error && data && data.length > 0) {
                 return data;
             }
+
+            // Second attempt: general active games ordered by playCount or sortOrder
+            const { data: anyData, error: anyErr } = await this.db
+                .from('Game')
+                .select(this.baseGameSelect)
+                .eq('isActive', true)
+                .eq('currentlyAvailable', true)
+                .eq('maintenanceMode', false)
+                .order('playCount', { ascending: false })
+                .limit(limit);
+
+            if (!anyErr && anyData && anyData.length > 0) {
+                return anyData;
+            }
         } catch (err: any) {
             this.logger.warn(`Supabase getPopularGames failed: ${err.message}. Using fallback games.`);
         }
 
-        return FALLBACK_GAMES.filter(g => g.isPopular).slice(0, limit);
+        return FALLBACK_GAMES.slice(0, limit);
     }
 
     async getLiveCasinoGames(limit: number = 20) {
@@ -76,14 +102,26 @@ export class HomepageRepository {
                 .eq('isActive', true)
                 .eq('currentlyAvailable', true)
                 .eq('maintenanceMode', false)
-                .eq('homepageVisible', true)
-                .eq('status', 'live')
                 .ilike('category', '%live%')
                 .order('sortOrder', { ascending: true })
                 .limit(limit);
 
             if (!error && data && data.length > 0) {
                 return data;
+            }
+
+            // Second attempt: active games
+            const { data: anyData, error: anyErr } = await this.db
+                .from('Game')
+                .select(this.baseGameSelect)
+                .eq('isActive', true)
+                .eq('currentlyAvailable', true)
+                .eq('maintenanceMode', false)
+                .order('sortOrder', { ascending: true })
+                .limit(limit);
+
+            if (!anyErr && anyData && anyData.length > 0) {
+                return anyData;
             }
         } catch (err: any) {
             this.logger.warn(`Supabase getLiveCasinoGames failed: ${err.message}. Using fallback games.`);
@@ -100,14 +138,26 @@ export class HomepageRepository {
                 .eq('isActive', true)
                 .eq('currentlyAvailable', true)
                 .eq('maintenanceMode', false)
-                .eq('homepageVisible', true)
-                .eq('status', 'live')
                 .ilike('category', '%slot%')
                 .order('sortOrder', { ascending: true })
                 .limit(limit);
 
             if (!error && data && data.length > 0) {
                 return data;
+            }
+
+            // Second attempt: general active games
+            const { data: anyData, error: anyErr } = await this.db
+                .from('Game')
+                .select(this.baseGameSelect)
+                .eq('isActive', true)
+                .eq('currentlyAvailable', true)
+                .eq('maintenanceMode', false)
+                .order('sortOrder', { ascending: true })
+                .limit(limit);
+
+            if (!anyErr && anyData && anyData.length > 0) {
+                return anyData;
             }
         } catch (err: any) {
             this.logger.warn(`Supabase getSlotsGames failed: ${err.message}. Using fallback games.`);

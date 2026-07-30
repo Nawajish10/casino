@@ -3,9 +3,9 @@ import { CountryType } from 'types/utils';
 const NODE_ENV = import.meta.env.MODE as 'development' | 'production';
 
 export const HOST_API_KEY =
-    NODE_ENV === 'production'
-        ? (import.meta.env.VITE_HOST_API as string)
-        : 'http://localhost:3000';
+    import.meta.env.VITE_API_BASE_URL ||
+    import.meta.env.VITE_HOST_API ||
+    (NODE_ENV === 'production' ? '' : 'http://localhost:3000');
 
 export const PATH_AFTER_LOGIN = '/auth/login';
 
