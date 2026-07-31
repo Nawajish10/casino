@@ -71,25 +71,32 @@ const FeaturedGameCarousel = ({ items, title = 'Featured Games' }: FeaturedGameC
                 <Swiper
                     modules={[FreeMode, Autoplay]}
                     spaceBetween={10}
-                    breakpoints={{
-                        320: { slidesPerView: 2.2, spaceBetween: 8 },
-                        480: { slidesPerView: 3.2, spaceBetween: 10 },
-                        768: { slidesPerView: 4.2, spaceBetween: 12 },
-                        1024: { slidesPerView: 5.2, spaceBetween: 14 },
-                        1440: { slidesPerView: 6.2, spaceBetween: 16 }
-                    }}
+                    breakpoints={
+                        items.length <= 3 ? {
+                            320: { slidesPerView: 3, spaceBetween: 6 },
+                            480: { slidesPerView: 3, spaceBetween: 10 },
+                            768: { slidesPerView: 3, spaceBetween: 14 },
+                            1024: { slidesPerView: 3, spaceBetween: 18 }
+                        } : {
+                            320: { slidesPerView: 2.2, spaceBetween: 8 },
+                            480: { slidesPerView: 3.2, spaceBetween: 10 },
+                            768: { slidesPerView: 4.2, spaceBetween: 12 },
+                            1024: { slidesPerView: 5.2, spaceBetween: 14 },
+                            1440: { slidesPerView: 6.2, spaceBetween: 16 }
+                        }
+                    }
                     freeMode={{
-                        enabled: true,
+                        enabled: items.length > 3,
                         momentumRatio: 0.6,
                         momentumVelocityRatio: 0.8,
                     }}
                     grabCursor={true}
-                    autoplay={{
+                    autoplay={items.length > 3 ? {
                         delay: 4500,
                         disableOnInteraction: true,
                         pauseOnMouseEnter: true,
-                    }}
-                    loop={items.length > 6}
+                    } : false}
+                    loop={false}
                     style={{ width: '100%' }}
                 >
                     {items.map((card) => (

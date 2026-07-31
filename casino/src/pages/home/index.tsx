@@ -90,14 +90,8 @@ const Home = () => {
         }
     ];
 
-    const rawFeatured = (featuredGamesData && featuredGamesData.length > 0)
-        ? featuredGamesData
-        : fallbackGames.filter((g: any) => g.isFeatured);
-
-    // Pin mandatory 3 featured games (Aviator, Casino, Roulette) at top without duplicates
-    const mandatoryKeys = new Set(mandatoryFeatured.map(m => m.gameCode));
-    const otherFeatured = rawFeatured.filter((g: any) => !mandatoryKeys.has(g.gameCode || g.id));
-    const featuredGames = [...mandatoryFeatured, ...otherFeatured].slice(0, 15);
+    // Featured Games section must contain ONLY 3 games: Aviator, Casino, Roulette
+    const featuredGames = mandatoryFeatured;
 
     let popularGamesList = (popularGames && popularGames.length > 0) ? popularGames : [];
     if (popularGamesList.length === 0) {
