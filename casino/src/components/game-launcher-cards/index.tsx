@@ -27,24 +27,16 @@ interface GameLauncherCardsProps {
 }
 // ─── Skeleton Card ────────────────────────────────────────────────────────────
 const GameCardSkeleton = () => (
-    <Box sx={{ borderRadius: '10px', overflow: 'hidden', aspectRatio: '16 / 9' }}>
+    <Box sx={{ borderRadius: '10px', overflow: 'hidden', aspectRatio: '3 / 4' }}>
         <Skeleton variant="rectangular" width="100%" height="100%" sx={{ bgcolor: 'background.layer3', transform: 'none' }} />
     </Box>
 );
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 const GameLauncherCards = ({ items, title = 'Top Games', loading = false, onSeeAll }: GameLauncherCardsProps) => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-
-    const slidesPerView = isMobile ? 3.2 : isTablet ? 5.2 : 8.5;
-
-    const skeletonCount = isMobile ? 4 : isTablet ? 6 : 9;
-
     return (
         <Stack gap={1.5} sx={{ mt: 3 }}>
-            {/* Section Header — stays within normal padding */}
+            {/* Section Header */}
             <Stack
                 direction="row"
                 justifyContent="space-between"
@@ -79,22 +71,28 @@ const GameLauncherCards = ({ items, title = 'Top Games', loading = false, onSeeA
                 )}
             </Stack>
 
-            {/* Full-bleed slider — breaks out of Container max-width */}
+            {/* Responsive Container without viewport overflow */}
             <Box
                 sx={{
                     position: 'relative',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '100vw',
-                    px: { xs: 1, sm: 2, md: 3 },
+                    width: '100%',
+                    maxWidth: '100%',
+                    overflow: 'hidden',
+                    px: { xs: 0.5, sm: 1 },
                     boxSizing: 'border-box',
-                    '& .swiper': { overflow: 'visible', paddingBottom: '4px' },
+                    '& .swiper': { overflow: 'hidden', paddingBottom: '4px' },
                 }}
             >
                 <Swiper
                     modules={[FreeMode]}
-                    slidesPerView={slidesPerView}
-                    spaceBetween={8}
+                    spaceBetween={10}
+                    breakpoints={{
+                        320: { slidesPerView: 2.3, spaceBetween: 8 },
+                        480: { slidesPerView: 3.3, spaceBetween: 10 },
+                        768: { slidesPerView: 4.5, spaceBetween: 10 },
+                        1024: { slidesPerView: 6.2, spaceBetween: 12 },
+                        1440: { slidesPerView: 7.2, spaceBetween: 12 }
+                    }}
                     freeMode={{
                         enabled: true,
                         momentumRatio: 0.5,
@@ -104,7 +102,7 @@ const GameLauncherCards = ({ items, title = 'Top Games', loading = false, onSeeA
                     style={{ width: '100%' }}
                 >
                     {loading
-                        ? Array.from({ length: skeletonCount }).map((_, i) => (
+                        ? Array.from({ length: 6 }).map((_, i) => (
                               <SwiperSlide key={`sk-${i}`}>
                                   <GameCardSkeleton />
                               </SwiperSlide>

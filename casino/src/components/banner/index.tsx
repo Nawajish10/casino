@@ -162,7 +162,7 @@ const Banner = () => {
                             component="img"
                             src={imgSrc}
                             alt={`banner-${index}`}
-                            sx={{ width: '100%', height: '100%', objectFit: 'fill', display: 'block' }}
+                            sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: 1.5 }}
                         />
                     </Box>
                 ))}

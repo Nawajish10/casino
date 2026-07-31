@@ -63,9 +63,9 @@ const Home = () => {
             gameCode: 'aviator',
             gameName: 'Aviator',
             category: 'Originals',
-            thumbnail: '/assets/images/games/crash.png',
-            banner: '/assets/images/games/crash.png',
-            providerName: '87 Originals',
+            thumbnail: 'https://bc.imgix.net/game/image/3ab84825-7a44-4793-b167-f7bdc0dbb8f2.png',
+            banner: 'https://bc.imgix.net/game/image/3ab84825-7a44-4793-b167-f7bdc0dbb8f2.png',
+            providerName: 'Spribe',
             isFeatured: true,
         },
         {
@@ -73,8 +73,8 @@ const Home = () => {
             gameCode: 'casino',
             gameName: 'Casino',
             category: 'Table Games',
-            thumbnail: '/assets/images/games/blackjack.png',
-            banner: '/assets/images/games/blackjack.png',
+            thumbnail: '/assets/casino.webp',
+            banner: '/assets/casino.webp',
             providerName: '87 Originals',
             isFeatured: true,
         },
@@ -83,8 +83,8 @@ const Home = () => {
             gameCode: 'roulette',
             gameName: 'Roulette',
             category: 'Live Casino',
-            thumbnail: '/assets/images/games/roulette.png',
-            banner: '/assets/images/games/roulette.png',
+            thumbnail: 'https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayscheist/vswayscheist_800x600_NB.avif',
+            banner: 'https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayscheist/vswayscheist_800x600_NB.avif',
             providerName: '87 Originals',
             isFeatured: true,
         }
@@ -174,21 +174,21 @@ const Home = () => {
             )}
 
             {/* ── 3. Custom Banner Image ─────────────────────────── */}
-            <Box sx={{ width: '100%', px: { xs: 0.5, md: 1 }, py: 3.5 }}>
+            <Box sx={{ width: '100%', px: { xs: 0.5, md: 1 }, py: 2 }}>
                 <Box
                     component="img"
                     src="/custom-banner.png"
                     alt="Casino Games Banner"
                     sx={{ 
                         width: '100%', 
-                        height: { xs: 200, sm: 320, md: 440 }, 
-                        objectFit: 'contain', 
-                        bgcolor: '#000000',
-                        borderRadius: 2,
-                        boxShadow: '0px 12px 40px rgba(0,0,0,0.6)',
+                        height: 'auto',
+                        aspectRatio: { xs: '16/8', sm: '21/8', md: '28/8' }, 
+                        objectFit: 'cover', 
+                        borderRadius: 3,
+                        boxShadow: '0px 8px 32px rgba(0,0,0,0.4)',
                         transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         '&:hover': {
-                            transform: 'scale(1.006)'
+                            transform: 'scale(1.004)'
                         }
                     }}
                 />
