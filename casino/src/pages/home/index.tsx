@@ -157,6 +157,53 @@ const Home = () => {
     })) || [];
 
 
+    // Dedicated Crash Games list
+    const crashGamesList = [
+        {
+            id: 'crash-aviator',
+            gameCode: 'aviator',
+            gameName: 'Aviator',
+            thumbnail: 'https://bc.imgix.net/game/image/3ab84825-7a44-4793-b167-f7bdc0dbb8f2.png',
+            providerName: 'Spribe'
+        },
+        {
+            id: 'crash-mines',
+            gameCode: 'mines',
+            gameName: 'Mines',
+            thumbnail: 'https://assets.bd34fgabh.com/img/habanero/SGHotHotSummer.png',
+            providerName: '87 Originals'
+        },
+        {
+            id: 'crash-dice',
+            gameCode: 'dice',
+            gameName: 'Dice',
+            thumbnail: 'https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20olympgate/vs20olympgate_800x600_NB.avif',
+            providerName: '87 Originals'
+        },
+        {
+            id: 'crash-hilo',
+            gameCode: 'hilo',
+            gameName: 'HiLo',
+            thumbnail: '/assets/casino.webp',
+            providerName: '87 Originals'
+        },
+        {
+            id: 'crash-roulette',
+            gameCode: 'roulette',
+            gameName: 'Roulette',
+            thumbnail: 'https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayscheist/vswayscheist_800x600_NB.avif',
+            providerName: '87 Originals'
+        }
+    ];
+
+    const crashItems = crashGamesList.map((g: any) => ({
+        id: g.id,
+        name: g.gameName,
+        image: g.thumbnail || '/default-game.svg',
+        path: `/game/${g.gameCode}`,
+        provider: g.providerName
+    }));
+
     return (
         <Box sx={{ overflowX: 'hidden' }}>
 
@@ -166,14 +213,20 @@ const Home = () => {
             {/* ── 2. Featured Game Carousel (large swipeable cards) ──── */}
             {isLoadingFeatured ? (
                 <Box sx={{ p: 3 }}><GameGridSkeleton count={3} /></Box>
-            ) : featuredItems.length > 0 && (
+            ) : featuredItems.length > 0 ? (
                 <FeaturedGameCarousel
                     items={featuredItems}
                     title="Featured Games"
                 />
-            )}
+            ) : null}
 
-            {/* ── 3. Custom Banner Image ─────────────────────────── */}
+            {/* ── 3. Crash Games (Dedicated Section featuring Aviator) ──── */}
+            <GameLauncherCards
+                items={crashItems}
+                title="Crash & Originals"
+            />
+
+            {/* ── 4. Custom Banner Image ─────────────────────────── */}
             <Box sx={{ width: '100%', px: { xs: 0.5, md: 1 }, py: 2 }}>
                 <Box
                     component="img"
@@ -194,7 +247,7 @@ const Home = () => {
                 />
             </Box>
 
-            {/* ── 4. Top Games (small clickable cards) ───────────────── */}
+            {/* ── 5. Top Games ───────────────── */}
             {isLoadingPopular ? (
                 <Box sx={{ p: 3 }}><GameGridSkeleton count={6} /></Box>
             ) : popularItems.length > 0 ? (
@@ -202,37 +255,27 @@ const Home = () => {
                     items={popularItems}
                     title="Top Games"
                 />
-            ) : (
-                <Stack sx={{ p: 5, textAlign: 'center', alignItems: 'center', bgcolor: 'background.paper', borderRadius: 2, mx: 3, mb: 3 }}>
-                    <Typography variant="h6" color="text.secondary" gutterBottom>
-                        No Top Games Available
-                    </Typography>
-                    <Typography variant="body2" color="text.disabled">
-                        Check back later for our most popular games!
-                    </Typography>
-                </Stack>
-            )}
+            ) : null}
 
-            {/* ── 5. Live Casino ───────────────── */}
+            {/* ── 6. Live Casino ───────────────── */}
             {isLoadingLive ? (
                 <Box sx={{ p: 3 }}><GameGridSkeleton count={6} /></Box>
-            ) : liveItems.length > 0 && (
+            ) : liveItems.length > 0 ? (
                 <GameLauncherCards
                     items={liveItems}
                     title="Live Casino"
                 />
-            )}
+            ) : null}
 
-            {/* ── 6. Slots ───────────────── */}
+            {/* ── 7. Slots ───────────────── */}
             {isLoadingSlots ? (
                 <Box sx={{ p: 3 }}><GameGridSkeleton count={6} /></Box>
-            ) : slotItems.length > 0 && (
+            ) : slotItems.length > 0 ? (
                 <GameLauncherCards
                     items={slotItems}
                     title="Slots"
                 />
-            )}
-
+            ) : null}
 
         </Box>
     );
