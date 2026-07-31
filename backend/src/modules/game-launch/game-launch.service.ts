@@ -5,6 +5,7 @@ import { PrismaService } from '../../shared/prisma/prisma.service';
 import { WalletService } from '../wallet/wallet.service';
 import { ProviderGateway } from '../provider/provider.gateway';
 import { GameSessionRepository } from './game-session.repository';
+import { FALLBACK_GAMES } from '../../data/games.fallback';
 
 @Injectable()
 export class GameLaunchService {
