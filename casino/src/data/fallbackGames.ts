@@ -16,8 +16,8 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "gameCode": "aviator",
         "gameName": "Aviator",
         "category": "Originals",
-        "thumbnail": "https://bc.imgix.net/game/image/3ab84825-7a44-4793-b167-f7bdc0dbb8f2.png",
-        "banner": "https://bc.imgix.net/game/image/3ab84825-7a44-4793-b167-f7bdc0dbb8f2.png",
+        "thumbnail": "/assets/featured/aviator.png",
+        "banner": "/assets/featured/aviator.png",
         "providerName": "Spribe",
         "isFeatured": true,
         "isPopular": true
@@ -27,8 +27,8 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "gameCode": "casino",
         "gameName": "Casino",
         "category": "Table Games",
-        "thumbnail": "/assets/casino.webp",
-        "banner": "/assets/casino.webp",
+        "thumbnail": "/assets/casino.png",
+        "banner": "/assets/casino.png",
         "providerName": "87 Originals",
         "isFeatured": true,
         "isPopular": true
@@ -38,8 +38,8 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "gameCode": "roulette",
         "gameName": "Roulette",
         "category": "Live Casino",
-        "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayscheist/vswayscheist_800x600_NB.avif",
-        "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayscheist/vswayscheist_800x600_NB.avif",
+        "thumbnail": "/assets/featured/live-casino.png",
+        "banner": "/assets/featured/live-casino.png",
         "providerName": "87 Originals",
         "isFeatured": true,
         "isPopular": true
