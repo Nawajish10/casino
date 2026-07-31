@@ -57,9 +57,47 @@ const Home = () => {
     });
     const fallbackGames = Array.from(uniqueGamesMap.values());
 
-    const featuredGames = (featuredGamesData && featuredGamesData.length > 0)
+    const mandatoryFeatured = [
+        {
+            id: 'featured-aviator',
+            gameCode: 'aviator',
+            gameName: 'Aviator',
+            category: 'Originals',
+            thumbnail: '/assets/images/games/crash.png',
+            banner: '/assets/images/games/crash.png',
+            providerName: '87 Originals',
+            isFeatured: true,
+        },
+        {
+            id: 'featured-casino',
+            gameCode: 'casino',
+            gameName: 'Casino',
+            category: 'Table Games',
+            thumbnail: '/assets/images/games/blackjack.png',
+            banner: '/assets/images/games/blackjack.png',
+            providerName: '87 Originals',
+            isFeatured: true,
+        },
+        {
+            id: 'featured-roulette',
+            gameCode: 'roulette',
+            gameName: 'Roulette',
+            category: 'Live Casino',
+            thumbnail: '/assets/images/games/roulette.png',
+            banner: '/assets/images/games/roulette.png',
+            providerName: '87 Originals',
+            isFeatured: true,
+        }
+    ];
+
+    const rawFeatured = (featuredGamesData && featuredGamesData.length > 0)
         ? featuredGamesData
-        : fallbackGames.filter((g: any) => g.isFeatured).slice(0, 12);
+        : fallbackGames.filter((g: any) => g.isFeatured);
+
+    // Pin mandatory 3 featured games (Aviator, Casino, Roulette) at top without duplicates
+    const mandatoryKeys = new Set(mandatoryFeatured.map(m => m.gameCode));
+    const otherFeatured = rawFeatured.filter((g: any) => !mandatoryKeys.has(g.gameCode || g.id));
+    const featuredGames = [...mandatoryFeatured, ...otherFeatured].slice(0, 15);
 
     let popularGamesList = (popularGames && popularGames.length > 0) ? popularGames : [];
     if (popularGamesList.length === 0) {

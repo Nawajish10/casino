@@ -5,16 +5,19 @@ import { Link } from 'react-router-dom';
 interface GameCardProps {
     title?: string;
     name?: string;
+    gameName?: string;
     image?: string;
+    thumbnail?: string;
+    banner?: string;
     provider?: string;
     category?: string;
     href: string;
 }
 
-const GameCard = ({ title, name, image, provider, category, href }: GameCardProps) => {
-    const displayTitle = title || name || "Unknown";
-    const defaultImage = "/default-game.svg"; // Fallback image logic
-    const imgUrl = image || defaultImage;
+const GameCard = ({ title, name, gameName, image, thumbnail, banner, provider, category, href }: GameCardProps) => {
+    const displayTitle = title || name || gameName || "Game";
+    const defaultImage = "/default-game.svg";
+    const imgUrl = image || thumbnail || banner || defaultImage;
     return (
         <Link to={`${href}`}>
             <Box

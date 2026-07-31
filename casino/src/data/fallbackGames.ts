@@ -12,6 +12,39 @@ export interface FallbackGame {
 
 export const FALLBACK_GAMES: FallbackGame[] = [
     {
+        "id": "featured-aviator",
+        "gameCode": "aviator",
+        "gameName": "Aviator",
+        "category": "Originals",
+        "thumbnail": "/assets/images/games/crash.png",
+        "banner": "/assets/images/games/crash.png",
+        "providerName": "87 Originals",
+        "isFeatured": true,
+        "isPopular": true
+    },
+    {
+        "id": "featured-casino",
+        "gameCode": "casino",
+        "gameName": "Casino",
+        "category": "Table Games",
+        "thumbnail": "/assets/images/games/blackjack.png",
+        "banner": "/assets/images/games/blackjack.png",
+        "providerName": "87 Originals",
+        "isFeatured": true,
+        "isPopular": true
+    },
+    {
+        "id": "featured-roulette",
+        "gameCode": "roulette",
+        "gameName": "Roulette",
+        "category": "Live Casino",
+        "thumbnail": "/assets/images/games/roulette.png",
+        "banner": "/assets/images/games/roulette.png",
+        "providerName": "87 Originals",
+        "isFeatured": true,
+        "isPopular": true
+    },
+    {
         "id": "fc3058db-473a-43d3-8423-ce40b3a7af48",
         "gameCode": "SGHotHotSummer",
         "gameName": "Hot Hot Summer",

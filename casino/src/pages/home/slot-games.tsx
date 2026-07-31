@@ -50,7 +50,13 @@ export const SlotGames = ({ category, categoryName, viewCount }: CustomSwiperPro
                         overflow: 'hidden'
                     }}
                 >
-                    <GameCard key={index} image={item.image} name={item.name} href={`/ag-game/${item.id}`} />
+                    <GameCard
+                        key={index}
+                        image={item.thumbnail || item.banner || item.image}
+                        name={item.gameName || item.name}
+                        provider={item.providerName || item.Provider?.providerName}
+                        href={`/game/${item.gameCode || item.id}`}
+                    />
                 </Box>
             ))}
             title={categoryName}
