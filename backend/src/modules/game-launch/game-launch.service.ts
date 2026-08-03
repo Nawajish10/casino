@@ -48,9 +48,10 @@ export class GameLaunchService {
     this.launchLocks.set(userId, now + 10_000);
   }
 
-  private getDemoLaunchUrl(gameCode: string): string {
+  private getDemoLaunchUrl(gameCode: string, providerCode?: string): string {
     const code = (gameCode || '').toLowerCase();
-    if (code.includes('aviator')) {
+    const prov = (providerCode || '').toLowerCase();
+    if (code.includes('aviator') || prov.includes('spribe')) {
       return 'https://demo.spribe.co/launch/aviator?g_token=demo';
     }
     if (code.includes('mines')) {
@@ -156,21 +157,28 @@ export class GameLaunchService {
       this.logger.warn(`Prisma findUnique failed for gameCode ${gameCode}: ${err.message}`);
     }
 
-    const testProviderCode = this.configService.get<string>('TEST_GAME_PROVIDER_CODE') || 'PRAGMATIC';
+    const fallbackMatch = FALLBACK_GAMES.find(
+      g => g.gameCode === gameCode || g.id === gameCode || g.providerGameId === gameCode
+    );
+
+    const testProviderCode = this.configService.get<string>('TEST_GAME_PROVIDER_CODE');
+    const targetProviderCode = (
+      testProviderCode ||
+      fallbackMatch?.providerName ||
+      (gameCode.toLowerCase().includes('aviator') ? 'SPRIBE' : null) ||
+      'PRAGMATIC'
+    ).toUpperCase();
+
     let providerObj: any = null;
     try {
       providerObj = await this.prisma.provider.findFirst({
-        where: { providerCode: { equals: testProviderCode, mode: 'insensitive' } },
+        where: { providerCode: { equals: targetProviderCode, mode: 'insensitive' } },
       });
     } catch (e) {
       this.logger.warn(`Prisma provider lookup failed: ${e.message}`);
     }
 
-    const fallbackMatch = FALLBACK_GAMES.find(
-      g => g.gameCode === gameCode || g.id === gameCode || g.providerGameId === gameCode
-    );
-
-    const providerCode = providerObj?.providerCode || (fallbackMatch?.providerName ? fallbackMatch.providerName.toUpperCase() : testProviderCode);
+    const providerData = providerObj || { providerCode: targetProviderCode, providerName: targetProviderCode };
 
     if (fallbackMatch) {
       return {
@@ -180,7 +188,7 @@ export class GameLaunchService {
         category: fallbackMatch.category,
         thumbnail: fallbackMatch.thumbnail,
         banner: fallbackMatch.banner,
-        provider: providerObj || { providerCode },
+        provider: providerData,
         isActive: true,
         maintenanceMode: false,
         currentlyAvailable: true,
@@ -193,7 +201,7 @@ export class GameLaunchService {
       id: null,
       gameCode,
       gameName: `Game ${gameCode}`,
-      provider: providerObj || { providerCode },
+      provider: providerData,
       isActive: true,
       maintenanceMode: false,
       currentlyAvailable: true,
