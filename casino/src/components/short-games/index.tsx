@@ -46,9 +46,16 @@ export default function ShortGames({ category, categoryName, viewCount }: Custom
                 <Box key={index} sx={{ borderRadius: 2, overflow: 'hidden' }}>
                     <GameCard
                         key={index}
-                        image={item.ownImg ? ASSETS(item.ownImg) : item.image_url}
-                        name={item.game_name}
-                        href={`/game/${item.game_code}`}
+                        image={
+                            item.ownImg
+                                ? ASSETS(item.ownImg)
+                                : item.image_url ||
+                                  item.thumbnail ||
+                                  item.banner ||
+                                  ((item.game_code || item.gameCode)?.toLowerCase().includes('aviator') ? '/aviator.png' : undefined)
+                        }
+                        name={item.game_name || item.gameName}
+                        href={`/game/${item.game_code || item.gameCode}`}
                     />
                 </Box>
             ))}

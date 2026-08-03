@@ -16,7 +16,8 @@ interface GameCardProps {
 
 const GameCard = ({ title, name, gameName, image, thumbnail, banner, provider, category, href }: GameCardProps) => {
     const displayTitle = title || name || gameName || "Game";
-    const defaultImage = "/default-game.svg";
+    const isAviator = href?.toLowerCase().includes('aviator') || displayTitle.toLowerCase().includes('aviator');
+    const defaultImage = isAviator ? '/aviator.png' : "/default-game.svg";
     const resolvedImage = image || thumbnail || banner || defaultImage;
 
     return (
@@ -48,7 +49,9 @@ const GameCard = ({ title, name, gameName, image, thumbnail, banner, provider, c
                     alt={displayTitle}
                     loading="lazy"
                     onError={(e: any) => {
-                        e.target.src = defaultImage;
+                        if (e.target.src !== defaultImage) {
+                            e.target.src = defaultImage;
+                        }
                     }}
                     sx={{
                         width: '100%',

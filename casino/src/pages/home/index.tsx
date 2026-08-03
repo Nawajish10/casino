@@ -63,8 +63,9 @@ const Home = () => {
             gameCode: 'aviator',
             gameName: 'Aviator',
             category: 'Originals',
-            thumbnail: '/assets/featured/aviator.png',
-            banner: '/assets/featured/aviator.png',
+            thumbnail: '/aviator.png',
+            banner: '/aviator.png',
+            image_url: '/aviator.png',
             providerName: 'Spribe',
             isFeatured: true,
         },
@@ -157,7 +158,9 @@ const Home = () => {
             id: 'crash-aviator',
             gameCode: 'aviator',
             gameName: 'Aviator',
-            thumbnail: '/assets/featured/aviator.png',
+            thumbnail: '/aviator.png',
+            banner: '/aviator.png',
+            image_url: '/aviator.png',
             providerName: 'Spribe'
         },
         {

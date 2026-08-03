@@ -60,7 +60,12 @@ const RecommendGameList = () => {
                         <GameCard
                             key={index}
                             name={item.gameName ? item.gameName : item.game_name}
-                            image={item.image_url ? item.image_url : ASSETS(`${item.gameCode}.webp`)}
+                            image={
+                                item.image_url ||
+                                item.thumbnail ||
+                                item.banner ||
+                                ((item.gameCode || item.game_code)?.toLowerCase().includes('aviator') ? '/aviator.png' : ASSETS(`${item.gameCode || item.game_code}.webp`))
+                            }
                             href={item.game_code ? `/game/${item.game_code}` : `/ag-game/${item.gameCode}`}
                         />
                     ))

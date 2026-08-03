@@ -5,6 +5,7 @@ export interface FallbackGame {
     category?: string;
     thumbnail?: string;
     banner?: string;
+    image_url?: string;
     providerName?: string;
     isFeatured?: boolean;
     isPopular?: boolean;
@@ -16,8 +17,9 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "gameCode": "aviator",
         "gameName": "Aviator",
         "category": "Originals",
-        "thumbnail": "/assets/featured/aviator.png",
-        "banner": "/assets/featured/aviator.png",
+        "thumbnail": "/aviator.png",
+        "banner": "/aviator.png",
+        "image_url": "/aviator.png",
         "providerName": "Spribe",
         "isFeatured": true,
         "isPopular": true

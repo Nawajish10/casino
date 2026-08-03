@@ -244,12 +244,26 @@ const GameContainer = ({ gameData, gameCode }: { gameData: any; gameCode: string
                 <Box sx={{ position: 'relative', width: '100%', paddingTop: '56.25%' }}>
                     <Box
                         component="img"
-                        src={gameData?.image_url}
+                        src={
+                            gameData?.image_url ||
+                            gameData?.banner ||
+                            gameData?.thumbnail ||
+                            gameData?.image ||
+                            (gameCode?.toLowerCase().includes('aviator') ? '/aviator.png' : '/default-game.svg')
+                        }
+                        alt={gameData?.gameName || gameData?.game_name || 'Game'}
+                        onError={(e: any) => {
+                            const fallback = gameCode?.toLowerCase().includes('aviator') ? '/aviator.png' : '/default-game.svg';
+                            if (e.target.src !== fallback) {
+                                e.target.src = fallback;
+                            }
+                        }}
                         sx={{
                             position: 'absolute',
                             inset: 0,
                             width: '100%',
-                            height: 'auto',
+                            height: '100%',
+                            objectFit: 'cover',
                             filter: 'blur(1px)',
                             animation: 'scaleOpacity 1s ease-in-out'
                         }}

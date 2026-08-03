@@ -7,6 +7,7 @@ export interface FallbackGame {
     category: string;
     thumbnail: string;
     banner: string;
+    image_url?: string;
     launchCode: string;
     status: string;
     maintenanceMode: boolean;
@@ -59,8 +60,9 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "gameCode": "aviator",
         "gameName": "Aviator",
         "category": "Originals",
-        "thumbnail": "https://bc.imgix.net/game/image/3ab84825-7a44-4793-b167-f7bdc0dbb8f2.png",
-        "banner": "https://bc.imgix.net/game/image/3ab84825-7a44-4793-b167-f7bdc0dbb8f2.png",
+        "thumbnail": "/aviator.png",
+        "banner": "/aviator.png",
+        "image_url": "/aviator.png",
         "launchCode": "aviator",
         "status": "live",
         "maintenanceMode": false,
