@@ -6,6 +6,72 @@ import { useSnackbar } from 'notistack';
 import { gameLaunch } from 'api';
 import { useResponsive } from 'hooks/use-responsive';
 
+/**
+ * Build a provider-specific demo URL that is embeddable in an iframe.
+ * Many third-party "demogamesfree" URLs block iframe embedding via
+ * X-Frame-Options. We route to official embed-friendly demo endpoints
+ * when possible, and fall back to opening in a new window.
+ */
+function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; canEmbed: boolean } {
+    const code = (gameCode || '').trim().toLowerCase();
+    const prov = (providerCode || '').trim().toLowerCase();
+
+    // Spribe games — their demo endpoint allows iframe embedding
+    if (code.includes('aviator') || prov.includes('spribe')) {
+        return { url: 'https://demo.spribe.co/launch/aviator?g_token=demo', canEmbed: true };
+    }
+    if (code.includes('mines') && !code.startsWith('sg') && !code.startsWith('vs')) {
+        return { url: 'https://demo.spribe.co/launch/mines?g_token=demo', canEmbed: true };
+    }
+    if (code.includes('plinko')) {
+        return { url: 'https://demo.spribe.co/launch/plinko?g_token=demo', canEmbed: true };
+    }
+    if (code === 'dice' || (code.includes('dice') && prov.includes('spribe'))) {
+        return { url: 'https://demo.spribe.co/launch/dice?g_token=demo', canEmbed: true };
+    }
+    if (code.includes('hilo') && prov.includes('spribe')) {
+        return { url: 'https://demo.spribe.co/launch/hilo?g_token=demo', canEmbed: true };
+    }
+
+    // Habanero — official demo page; may or may not embed, so mark accordingly
+    if (code.startsWith('sg') || prov.includes('habanero')) {
+        return {
+            url: `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`,
+            canEmbed: true,
+        };
+    }
+
+    // Pragmatic Play — official demo
+    if (code.startsWith('vs') || prov.includes('pragmatic')) {
+        return {
+            url: `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            canEmbed: false, // Pragmatic blocks cross-origin iframe
+        };
+    }
+
+    // Booongo / 3 Oaks
+    if (code.includes('sun_of_egypt') || code.includes('olympus') || code.includes('thunder') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
+        return {
+            url: `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            canEmbed: false,
+        };
+    }
+
+    // Playson
+    if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || code.includes('pirate_chest') || prov.includes('playson')) {
+        return {
+            url: `https://demogamesfree.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            canEmbed: false,
+        };
+    }
+
+    // Generic fallback — open in new window since most demo sites block iframes
+    return {
+        url: `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'sun_of_egypt_2')}&lang=en&cur=USD`,
+        canEmbed: false,
+    };
+}
+
 export const useLaunchGame = () => {
     const { isLogined } = useAuth();
     const { onToggleModal } = useSettingsContext();
@@ -20,6 +86,7 @@ export const useLaunchGame = () => {
     const [loading, setLoading] = useState(false);
     const [launchUrl, setLaunchUrl] = useState('');
     const [launchState, setLaunchState] = useState(false);
+    const [launchError, setLaunchError] = useState('');
 
     // Phase 13: deposit-before-launch check flow. Show Deposit Modal. After successful deposit, continue launch automatically.
     useEffect(() => {
@@ -47,6 +114,9 @@ export const useLaunchGame = () => {
             support_currency?: string;
         } = {}
     ) => {
+        // Reset error state on each attempt
+        setLaunchError('');
+
         if (!isLogined && import.meta.env.VITE_GAME_TEST_MODE !== 'true') {
             onToggleModal('SIGNIN');
             return;
@@ -93,41 +163,34 @@ export const useLaunchGame = () => {
                 const url = response.launchUrl || response.launch_url;
                 setLaunchUrl(url);
                 setLaunchState(true);
+                setLoading(false);
                 sync();
                 return url;
             }
         } catch (error: any) {
-            console.warn('[useLaunchGame] Primary launch unconfigured or offline, activating fallback demo launcher');
+            console.warn('[useLaunchGame] Primary launch failed, activating fallback demo launcher:', error?.message || error);
         }
 
-        // Fallback demo launcher to ensure EVERY game opens & plays smoothly with proper provider routing
+        // Fallback demo launcher — route via provider-specific demo endpoints
         const code = (gameCode || 'sun_of_egypt_2').trim();
-        const provider = (options.providerCode || '').toLowerCase();
-        
-        let demoUrl = `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
-        
-        if (code.includes('aviator') || provider.includes('spribe')) {
-            demoUrl = 'https://demo.spribe.co/launch/aviator?g_token=demo';
-        } else if (code.includes('mines')) {
-            demoUrl = 'https://demo.spribe.co/launch/mines?g_token=demo';
-        } else if (code.includes('plinko')) {
-            demoUrl = 'https://demo.spribe.co/launch/plinko?g_token=demo';
-        } else if (code.includes('dice')) {
-            demoUrl = 'https://demo.spribe.co/launch/dice?g_token=demo';
-        } else if (code.startsWith('sg') || provider.includes('habanero')) {
-            demoUrl = `https://demogamesfree.habanerosystems.com/frontend/final/display.html?gamecode=${encodeURIComponent(code)}&mode=demo`;
-        } else if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || provider.includes('playson')) {
-            demoUrl = `https://demogamesfree.playson.com/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
-        } else if (code.startsWith('vs') || provider.includes('pragmatic')) {
-            demoUrl = `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
-        } else if (code.includes('sun_of_egypt') || code.includes('olympus') || provider.includes('booongo') || provider.includes('3oaks') || provider.includes('bng')) {
-            demoUrl = `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
-        }
+        const { url: demoUrl, canEmbed } = buildDemoUrl(code, options.providerCode);
 
-        setLaunchUrl(demoUrl);
-        setLaunchState(true);
-        setLoading(false);
-        return demoUrl;
+        if (canEmbed) {
+            // Demo URL allows iframe embedding — render in dialog
+            setLaunchUrl(demoUrl);
+            setLaunchState(true);
+            setLoading(false);
+            return demoUrl;
+        } else {
+            // Demo URL blocks iframe embedding — open in new tab and notify user
+            setLoading(false);
+            window.open(demoUrl, '_blank', 'noopener,noreferrer');
+            enqueueSnackbar('Game opened in a new tab. Provider demo does not support embedded play.', {
+                variant: 'info',
+                autoHideDuration: 4000,
+            });
+            return demoUrl;
+        }
     };
 
     return {
@@ -135,7 +198,9 @@ export const useLaunchGame = () => {
         loading,
         launchUrl,
         launchState,
+        launchError,
         setLaunchUrl,
-        setLaunchState
+        setLaunchState,
+        setLaunchError,
     };
 };

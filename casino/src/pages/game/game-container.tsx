@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslate } from 'locales';
 // @mui
 import Box from '@mui/material/Box';
@@ -64,7 +64,18 @@ const GameContainer = ({ gameData, gameCode }: { gameData: any; gameCode: string
     const balance = useSelector((state) => state.balance);
     const { enqueueSnackbar } = useSnackbar();
     const { onToggleModal } = useSettingsContext();
-    const { launch, loading, launchUrl, launchState, setLaunchUrl, setLaunchState } = useLaunchGame();
+    const { launch, loading, launchUrl, launchState, launchError, setLaunchUrl, setLaunchState } = useLaunchGame();
+    const [iframeLoading, setIframeLoading] = useState(true);
+    const [iframeError, setIframeError] = useState(false);
+
+    const handleIframeLoad = useCallback(() => {
+        setIframeLoading(false);
+    }, []);
+
+    const handleIframeError = useCallback(() => {
+        setIframeLoading(false);
+        setIframeError(true);
+    }, []);
 
     const supportsHistory = String(
         gameData?.provider?.providerCode ||
@@ -183,14 +194,86 @@ const GameContainer = ({ gameData, gameCode }: { gameData: any; gameCode: string
                              </ColorButton>
                          </Stack>
                     </Stack>
+                    {iframeLoading && launchUrl && (
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                inset: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                bgcolor: 'background.layer2',
+                                zIndex: 200,
+                            }}
+                        >
+                            <Stack alignItems="center" spacing={2}>
+                                <Box
+                                    sx={{
+                                        width: 40,
+                                        height: 40,
+                                        border: '3px solid',
+                                        borderColor: 'primary.main',
+                                        borderTopColor: 'transparent',
+                                        borderRadius: '50%',
+                                        animation: 'spin 1s linear infinite',
+                                        '@keyframes spin': {
+                                            '0%': { transform: 'rotate(0deg)' },
+                                            '100%': { transform: 'rotate(360deg)' },
+                                        },
+                                    }}
+                                />
+                                <Typography sx={{ color: 'text.secondary', fontSize: '14px' }}>
+                                    Loading game...
+                                </Typography>
+                            </Stack>
+                        </Box>
+                    )}
+                    {iframeError && (
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                inset: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                bgcolor: 'background.layer2',
+                                zIndex: 200,
+                            }}
+                        >
+                            <Stack alignItems="center" spacing={2}>
+                                <Typography sx={{ color: 'error.main', fontSize: '16px', fontWeight: 600 }}>
+                                    Failed to load game
+                                </Typography>
+                                <Typography sx={{ color: 'text.secondary', fontSize: '14px' }}>
+                                    The game provider may be temporarily unavailable.
+                                </Typography>
+                                <ColorButton
+                                    onClick={() => {
+                                        if (launchUrl) {
+                                            window.open(launchUrl, '_blank', 'noopener,noreferrer');
+                                        }
+                                    }}
+                                    sx={{ mt: 1 }}
+                                >
+                                    Open in New Tab
+                                </ColorButton>
+                            </Stack>
+                        </Box>
+                    )}
                     <iframe
+                        title={`Game: ${gameCode}`}
                         style={{
                             width: '100%',
                             border: 'none',
-                            zIndex: '100%',
-                            height: '100%'
+                            zIndex: 100,
+                            height: '100%',
                         }}
                         src={launchUrl}
+                        allowFullScreen
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        onLoad={handleIframeLoad}
+                        onError={handleIframeError}
                     />
                 </Dialog>
 
