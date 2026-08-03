@@ -53,21 +53,21 @@ export class GameLaunchService {
     const prov = (providerCode || '').trim().toLowerCase();
 
     if (code.includes('aviator') || prov.includes('spribe')) {
-      return 'https://demo.spribe.co/launch/aviator?g_token=demo';
+      return 'https://demo.spribe.io/launch/aviator?g_token=demo';
     }
-    if (code.includes('mines')) {
-      return 'https://demo.spribe.co/launch/mines?g_token=demo';
+    if (code.includes('mines') && !code.startsWith('sg') && !code.startsWith('vs')) {
+      return 'https://demo.spribe.io/launch/mines?g_token=demo';
     }
     if (code.includes('plinko')) {
-      return 'https://demo.spribe.co/launch/plinko?g_token=demo';
+      return 'https://demo.spribe.io/launch/plinko?g_token=demo';
     }
-    if (code.includes('dice')) {
-      return 'https://demo.spribe.co/launch/dice?g_token=demo';
+    if (code.includes('dice') && prov.includes('spribe')) {
+      return 'https://demo.spribe.io/launch/dice?g_token=demo';
     }
-    if (code.includes('hilo')) {
-      return 'https://demo.spribe.co/launch/hilo?g_token=demo';
+    if (code.includes('hilo') && prov.includes('spribe')) {
+      return 'https://demo.spribe.io/launch/hilo?g_token=demo';
     }
-    if (code.startsWith('sg') || prov.includes('habanero')) {
+    if (prov.includes('habanero') || (code.startsWith('sg') && !prov.includes('playson') && !prov.includes('booongo') && !prov.includes('3oaks'))) {
       return `https://demogamesfree.habanerosystems.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`;
     }
     if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || prov.includes('playson')) {
@@ -77,10 +77,10 @@ export class GameLaunchService {
       return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
     }
     if (code.includes('sun_of_egypt') || code.includes('olympus') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
-      return `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+      return `https://demo.bng.games/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
     }
 
-    return `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+    return `https://demo.bng.games/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
   }
 
   private async writeAuditLog(userId: string, action: string, data: Record<string, any>, entityId?: string) {
@@ -502,7 +502,7 @@ GameSession ID: ${sessionToken}
           this.logger.warn(`Provider launchLobby failed in test mode: ${e.message}, returning test launch URL`);
           response = {
             status: 1,
-            launch_url: `https://demo.spribe.co/launch/lobby?provider=${providerCode}&g_token=demo`,
+            launch_url: `https://demo.spribe.io/launch/lobby?provider=${providerCode}&g_token=demo`,
             session_token: randomUUID(),
           };
         } else {

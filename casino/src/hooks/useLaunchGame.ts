@@ -18,23 +18,23 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
 
     // Spribe games — their demo endpoint allows iframe embedding
     if (code.includes('aviator') || prov.includes('spribe')) {
-        return { url: 'https://demo.spribe.co/launch/aviator?g_token=demo', canEmbed: true };
+        return { url: 'https://demo.spribe.io/launch/aviator?g_token=demo', canEmbed: true };
     }
     if (code.includes('mines') && !code.startsWith('sg') && !code.startsWith('vs')) {
-        return { url: 'https://demo.spribe.co/launch/mines?g_token=demo', canEmbed: true };
+        return { url: 'https://demo.spribe.io/launch/mines?g_token=demo', canEmbed: true };
     }
     if (code.includes('plinko')) {
-        return { url: 'https://demo.spribe.co/launch/plinko?g_token=demo', canEmbed: true };
+        return { url: 'https://demo.spribe.io/launch/plinko?g_token=demo', canEmbed: true };
     }
     if (code === 'dice' || (code.includes('dice') && prov.includes('spribe'))) {
-        return { url: 'https://demo.spribe.co/launch/dice?g_token=demo', canEmbed: true };
+        return { url: 'https://demo.spribe.io/launch/dice?g_token=demo', canEmbed: true };
     }
     if (code.includes('hilo') && prov.includes('spribe')) {
-        return { url: 'https://demo.spribe.co/launch/hilo?g_token=demo', canEmbed: true };
+        return { url: 'https://demo.spribe.io/launch/hilo?g_token=demo', canEmbed: true };
     }
 
     // Habanero — official demo page; may or may not embed, so mark accordingly
-    if (code.startsWith('sg') || prov.includes('habanero')) {
+    if (prov.includes('habanero') || (code.startsWith('sg') && !prov.includes('playson') && !prov.includes('booongo') && !prov.includes('3oaks'))) {
         return {
             url: `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`,
             canEmbed: true,
@@ -52,7 +52,7 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
     // Booongo / 3 Oaks
     if (code.includes('sun_of_egypt') || code.includes('olympus') || code.includes('thunder') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
         return {
-            url: `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            url: `https://demo.bng.games/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
             canEmbed: false,
         };
     }
@@ -67,7 +67,7 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
 
     // Generic fallback — open in new window since most demo sites block iframes
     return {
-        url: `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'sun_of_egypt_2')}&lang=en&cur=USD`,
+        url: `https://demo.bng.games/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'sun_of_egypt_2')}&lang=en&cur=USD`,
         canEmbed: false,
     };
 }
