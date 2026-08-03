@@ -50,17 +50,17 @@ const FeaturedGameCarousel = ({ items, title = 'Featured Games' }: FeaturedGameC
                 </Typography>
             )}
 
-            {/* Full-bleed slider — breaks out of Container max-width */}
+            {/* Clean container without viewport overflow */}
             <Box
                 sx={{
                     position: 'relative',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '100vw',
-                    px: { xs: 1, sm: 2, md: 3 },
+                    width: '100%',
+                    maxWidth: '100%',
+                    overflow: 'hidden',
+                    px: { xs: 0.5, sm: 1 },
                     boxSizing: 'border-box',
                     '& .swiper': {
-                        overflow: 'visible',
+                        overflow: 'hidden',
                         paddingBottom: '4px',
                     },
                     '& .swiper-slide': {
@@ -70,20 +70,33 @@ const FeaturedGameCarousel = ({ items, title = 'Featured Games' }: FeaturedGameC
             >
                 <Swiper
                     modules={[FreeMode, Autoplay]}
-                    slidesPerView={slidesPerView}
-                    spaceBetween={12}
+                    spaceBetween={10}
+                    breakpoints={
+                        items.length <= 3 ? {
+                            320: { slidesPerView: 3, spaceBetween: 6 },
+                            480: { slidesPerView: 3, spaceBetween: 10 },
+                            768: { slidesPerView: 3, spaceBetween: 14 },
+                            1024: { slidesPerView: 3, spaceBetween: 18 }
+                        } : {
+                            320: { slidesPerView: 2.2, spaceBetween: 8 },
+                            480: { slidesPerView: 3.2, spaceBetween: 10 },
+                            768: { slidesPerView: 4.2, spaceBetween: 12 },
+                            1024: { slidesPerView: 5.2, spaceBetween: 14 },
+                            1440: { slidesPerView: 6.2, spaceBetween: 16 }
+                        }
+                    }
                     freeMode={{
-                        enabled: true,
+                        enabled: items.length > 3,
                         momentumRatio: 0.6,
                         momentumVelocityRatio: 0.8,
                     }}
                     grabCursor={true}
-                    autoplay={{
+                    autoplay={items.length > 3 ? {
                         delay: 4500,
                         disableOnInteraction: true,
                         pauseOnMouseEnter: true,
-                    }}
-                    loop={items.length > Math.ceil(slidesPerView)}
+                    } : false}
+                    loop={false}
                     style={{ width: '100%' }}
                 >
                     {items.map((card) => (

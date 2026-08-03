@@ -48,9 +48,12 @@ export default function PlayerGames({ viewCount }: CustomSwiperProps) {
                     <GameCard
                         key={index}
                         image={
-                            item.gameDetails.ownImg
+                            item.gameDetails?.ownImg
                                 ? ASSETS(item.gameDetails.ownImg)
-                                : item.gameDetails.image_url || ASSETS(`${item.gameDetails.gameCode}.png`)
+                                : item.gameDetails?.image_url ||
+                                  item.gameDetails?.thumbnail ||
+                                  item.gameDetails?.banner ||
+                                  (item.gameDetails?.gameCode?.toLowerCase().includes('aviator') ? '/aviator.png' : ASSETS(`${item.gameDetails?.gameCode}.png`))
                         }
                         name={item.gameDetails.game_name || item.gameDetails.gameName}
                         href={

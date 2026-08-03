@@ -5,115 +5,127 @@ import { Link } from 'react-router-dom';
 interface GameCardProps {
     title?: string;
     name?: string;
+    gameName?: string;
     image?: string;
+    thumbnail?: string;
+    banner?: string;
     provider?: string;
     category?: string;
     href: string;
 }
 
-const GameCard = ({ title, name, image, provider, category, href }: GameCardProps) => {
-    const displayTitle = title || name || "Unknown";
-    const defaultImage = "/default-game.svg"; // Fallback image logic
-    const imgUrl = image || defaultImage;
+const GameCard = ({ title, name, gameName, image, thumbnail, banner, provider, category, href }: GameCardProps) => {
+    const displayTitle = title || name || gameName || "Game";
+    const isAviator = href?.toLowerCase().includes('aviator') || displayTitle.toLowerCase().includes('aviator');
+    const defaultImage = isAviator ? '/aviator.png' : "/default-game.svg";
+    const resolvedImage = image || thumbnail || banner || defaultImage;
+
     return (
-        <Link to={`${href}`}>
+        <Link to={`${href}`} style={{ textDecoration: 'none', display: 'block', width: '100%' }}>
             <Box
                 sx={{
                     position: 'relative',
-                    borderRadius: 2,
+                    width: '100%',
+                    aspectRatio: '3 / 4',
+                    borderRadius: '12px',
                     overflow: 'hidden',
-                    '&:hover .overlay': {
-                        opacity: 1
+                    bgcolor: '#121824',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                    transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': {
+                        transform: 'translateY(-4px)',
+                        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+                        '& .overlay': { opacity: 1 },
+                        '& .play-button': { transform: 'scale(1.2)' }
                     },
-                    '&:hover .play-button': {
-                        transition: 'transform 0.3s',
-                        transform: 'scale(1.5)'
-                    },
-                    pt: '124%',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center center',
-                    backgroundSize: '150%',
-                    '&::before': {
-                        content: `""`,
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundImage: `url(${imgUrl})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        filter: 'blur(10px)'
+                    '&:active': {
+                        transform: 'scale(0.97)',
                     }
                 }}
             >
                 <Box
+                    component="img"
+                    src={resolvedImage}
+                    alt={displayTitle}
+                    loading="lazy"
+                    onError={(e: any) => {
+                        if (e.target.src !== defaultImage) {
+                            e.target.src = defaultImage;
+                        }
+                    }}
                     sx={{
-                        height: 1,
-                        width: 1,
-                        zIndex: 1,
-                        top: 0,
-                        right: 0,
-                        position: 'absolute',
-                        backgroundImage: `url(${imgUrl})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center center',
-                        backgroundSize: { xs: 'cover', sm: '100% 100%' },
-                        backgroundColor: 'background.default'
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                        display: 'block'
                     }}
                 />
+
                 <Box
                     className="overlay"
                     sx={{
                         zIndex: 2,
                         position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        width: '100%',
-                        height: '100%',
-                        bgcolor: 'rgba(0, 0, 0, 0.6)',
+                        inset: 0,
+                        bgcolor: 'rgba(10, 14, 23, 0.75)',
+                        backdropFilter: 'blur(2px)',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        p: 1.5,
                         opacity: 0,
-                        transition: 'opacity 0.3s',
+                        transition: 'opacity 0.25s ease-in-out',
                         cursor: 'pointer'
                     }}
                 >
                     <Typography
                         sx={{
-                            position: 'absolute',
-                            top: '20%',
-                            width: '100%',
-                            px: 2,
                             textAlign: 'center',
                             fontWeight: 800,
-                            fontSize: '0.875rem',
-                            lineHeight: 1,
-                            color: 'white'
+                            fontSize: '0.85rem',
+                            lineHeight: 1.2,
+                            color: '#ffffff',
+                            mb: 1,
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
                         }}
                     >
                         {displayTitle}
-                        {provider && (
-                            <Typography sx={{ fontSize: '0.75rem', opacity: 0.8, mt: 0.5 }}>
-                                {provider}
-                            </Typography>
-                        )}
                     </Typography>
+                    {provider && (
+                        <Typography
+                            sx={{
+                                fontSize: '0.7rem',
+                                color: '#919EAB',
+                                fontWeight: 600,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.04em',
+                                mb: 1.5
+                            }}
+                        >
+                            {provider}
+                        </Typography>
+                    )}
                     <Box
                         className="play-button"
                         sx={{
-                            width: 36,
-                            height: 36,
+                            width: 40,
+                            height: 40,
                             borderRadius: '50%',
-                            bgcolor: 'rgba(255, 255, 255, 0.2)',
+                            bgcolor: 'primary.main',
+                            color: '#000000',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            boxShadow: '0 0 16px rgba(0, 231, 1, 0.4)',
+                            transition: 'transform 0.25s ease'
                         }}
                     >
-                        <PlayArrowIcon sx={{ color: 'white' }} />
+                        <PlayArrowIcon sx={{ fontSize: 24, color: '#000000' }} />
                     </Box>
                 </Box>
             </Box>

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "cd casino && npm install && npm run build",
+  "outputDirectory": "casino/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

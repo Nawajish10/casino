@@ -106,7 +106,18 @@ export default function GameLists() {
                             >
                                 <Stack sx={{ pr: 0 }} gap={2}>
                                     <Image
-                                        src={item.game.image_url}
+                                        src={
+                                            item.game?.image_url ||
+                                            item.game?.thumbnail ||
+                                            item.game?.banner ||
+                                            (item.game?.gameCode?.toLowerCase().includes('aviator') ? '/aviator.png' : '/default-game.svg')
+                                        }
+                                        onError={(e: any) => {
+                                            const fallback = item.game?.gameCode?.toLowerCase().includes('aviator') ? '/aviator.png' : '/default-game.svg';
+                                            if (e.target.src !== fallback) {
+                                                e.target.src = fallback;
+                                            }
+                                        }}
                                         sx={{
                                             borderRadius: 2,
                                             display: 'block',

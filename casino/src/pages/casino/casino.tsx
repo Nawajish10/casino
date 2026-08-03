@@ -112,7 +112,13 @@ const Casino = ({ gameType }: { gameType: string }) => {
                     ))
                 ) : games?.length > 0 ? (
                     games.map((item: any, index: number) => (
-                        <GameCard key={index} image={item.image} name={item.name} href={`/ag-game/${item.id}`} />
+                        <GameCard
+                            key={index}
+                            image={item.thumbnail || item.banner || item.image}
+                            name={item.gameName || item.name}
+                            provider={item.providerName || item.Provider?.providerName}
+                            href={`/game/${item.gameCode || item.id}`}
+                        />
                     ))
                 ) : (
                     <Stack

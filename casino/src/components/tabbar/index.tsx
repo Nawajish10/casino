@@ -19,28 +19,34 @@ const StyledBottomNavigation = styled(Box)(({ theme }) => ({
     bottom: 0,
     left: 0,
     width: '100%',
-    borderTopLeftRadius: (theme.shape.borderRadius as number) * 2,
-    borderTopRightRadius: (theme.shape.borderRadius as number) * 2,
+    height: 56,
     zIndex: 1300,
-    backgroundColor: theme.palette.background.layer2,
-    boxShadow: theme.shadows[3],
-    padding: theme.spacing(0.5, 0)
+    backgroundColor: 'rgba(18, 24, 36, 0.95)',
+    backdropFilter: 'blur(12px)',
+    borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+    display: 'flex',
+    alignItems: 'center',
+    padding: 0
 }));
 
-const TabLabel = styled(Typography)(({ theme }) => ({
-    marginTop: theme.spacing(0.5),
-    fontSize: '0.75rem',
-    fontWeight: 800
-}));
+const TabLabel = styled(Typography)({
+    fontSize: '0.68rem',
+    fontWeight: 700,
+    lineHeight: 1,
+    marginTop: 2
+});
 
 const TabItem = styled(Stack)(({ theme }) => ({
     flex: 1,
+    height: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
     cursor: 'pointer',
-    padding: theme.spacing(0.5),
+    padding: '4px 0',
     color: theme.palette.text.secondary,
-    '&:hover': {
-        color: theme.palette.primary.main
+    transition: 'color 0.2s ease, transform 0.15s ease',
+    '&:active': {
+        transform: 'scale(0.95)'
     },
     '&.active': {
         color: theme.palette.primary.main

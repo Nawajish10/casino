@@ -146,13 +146,14 @@ const CasinoPage = () => {
                             />
                         ))
                     ) : gameList?.length > 0 ? (
-                        gameList.map((item, index: number) => (
+                        gameList.map((item: any, index: number) => (
                             <Stack onClick={handleClose} key={`games-${index}`}>
                                 <GameCard
                                     key={index}
-                                    image={item.image}
-                                    name={item.name}
-                                    href={`/ag-game/${item.id}`}
+                                    image={item.thumbnail || item.banner || item.image}
+                                    name={item.gameName || item.name}
+                                    provider={item.providerName || item.Provider?.providerName}
+                                    href={`/game/${item.gameCode || item.id}`}
                                 />
                             </Stack>
                         ))
