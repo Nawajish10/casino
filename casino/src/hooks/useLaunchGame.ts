@@ -100,9 +100,30 @@ export const useLaunchGame = () => {
             console.warn('[useLaunchGame] Primary launch unconfigured or offline, activating fallback demo launcher');
         }
 
-        // Fallback demo launcher to ensure EVERY game opens & plays smoothly
-        const code = (gameCode || 'vs20olympgate').trim();
-        const demoUrl = `https://demo.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
+        // Fallback demo launcher to ensure EVERY game opens & plays smoothly with proper provider routing
+        const code = (gameCode || 'sun_of_egypt_2').trim();
+        const provider = (options.providerCode || '').toLowerCase();
+        
+        let demoUrl = `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
+        
+        if (code.includes('aviator') || provider.includes('spribe')) {
+            demoUrl = 'https://demo.spribe.co/launch/aviator?g_token=demo';
+        } else if (code.includes('mines')) {
+            demoUrl = 'https://demo.spribe.co/launch/mines?g_token=demo';
+        } else if (code.includes('plinko')) {
+            demoUrl = 'https://demo.spribe.co/launch/plinko?g_token=demo';
+        } else if (code.includes('dice')) {
+            demoUrl = 'https://demo.spribe.co/launch/dice?g_token=demo';
+        } else if (code.startsWith('sg') || provider.includes('habanero')) {
+            demoUrl = `https://demogamesfree.habanerosystems.com/frontend/final/display.html?gamecode=${encodeURIComponent(code)}&mode=demo`;
+        } else if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || provider.includes('playson')) {
+            demoUrl = `https://demogamesfree.playson.com/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
+        } else if (code.startsWith('vs') || provider.includes('pragmatic')) {
+            demoUrl = `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
+        } else if (code.includes('sun_of_egypt') || code.includes('olympus') || provider.includes('booongo') || provider.includes('3oaks') || provider.includes('bng')) {
+            demoUrl = `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(code)}&lang=en&cur=USD`;
+        }
+
         setLaunchUrl(demoUrl);
         setLaunchState(true);
         setLoading(false);

@@ -16,8 +16,18 @@ export class GameRepository {
         id, providerId, providerGameId, gameCode, gameName, category,
         thumbnail, banner, launchCode, status, maintenanceMode,
         currentlyAvailable, isActive, isFeatured, isPopular,
-        homepageVisible, sortOrder, playCount, tags, launchReady, createdAt, updatedAt
+        homepageVisible, sortOrder, playCount, tags, launchReady, createdAt, updatedAt,
+        Provider(providerName, providerLogo)
     `;
+
+    private formatGames(games: any[]) {
+        if (!games || !Array.isArray(games)) return [];
+        return games.map((g) => ({
+            ...g,
+            providerName: g.providerName || g.Provider?.providerName || '',
+            provider: g.providerName || g.Provider?.providerName || '',
+        }));
+    }
 
     private applyActiveFilters(query: any) {
         return query
@@ -76,7 +86,7 @@ export class GameRepository {
             if (!error && !countErr && data && data.length > 0) {
                 const total = count ?? data.length;
                 return {
-                    items: data,
+                    items: this.formatGames(data),
                     total,
                     page,
                     limit,
@@ -131,7 +141,7 @@ export class GameRepository {
             const { data: providerData, error: provErr } = await this.db
                 .from('Provider')
                 .select('id')
-                .eq('providerCode', providerCode)
+                .ilike('providerCode', providerCode)
                 .single();
 
             if (!provErr && providerData) {

@@ -211,10 +211,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 4,
         "playCount": 985,
-        "providerName": "Playson",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -236,10 +236,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 5,
         "playCount": 980,
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -261,10 +261,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 6,
         "playCount": 975,
-        "providerName": "Pragmatic Play",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -286,10 +286,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 7,
         "playCount": 970,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -336,10 +336,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 9,
         "playCount": 960,
-        "providerName": "Habanero",
+        "providerName": "Playson",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Playson",
+            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
         }
     },
     {
@@ -361,10 +361,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 10,
         "playCount": 955,
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Playson",
+            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
         }
     },
     {
@@ -386,10 +386,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 11,
         "playCount": 950,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -436,10 +436,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 13,
         "playCount": 940,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -486,10 +486,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 15,
         "playCount": 930,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -511,10 +511,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 16,
         "playCount": 925,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -536,10 +536,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 17,
         "playCount": 920,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -586,10 +586,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 19,
         "playCount": 910,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -611,10 +611,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 20,
         "playCount": 905,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -636,10 +636,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 21,
         "playCount": 900,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -686,10 +686,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 23,
         "playCount": 890,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -711,10 +711,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 24,
         "playCount": 885,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -736,10 +736,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 25,
         "playCount": 880,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -811,10 +811,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 28,
         "playCount": 865,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -836,10 +836,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 29,
         "playCount": 860,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -911,10 +911,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 32,
         "playCount": 845,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -986,10 +986,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 35,
         "playCount": 830,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1011,10 +1011,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 36,
         "playCount": 825,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1036,10 +1036,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 37,
         "playCount": 820,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1086,10 +1086,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 39,
         "playCount": 810,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1111,10 +1111,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 40,
         "playCount": 805,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1136,10 +1136,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 41,
         "playCount": 800,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1186,10 +1186,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 43,
         "playCount": 790,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1211,10 +1211,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 44,
         "playCount": 785,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1236,10 +1236,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 45,
         "playCount": 780,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1311,10 +1311,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 48,
         "playCount": 765,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1336,10 +1336,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 49,
         "playCount": 760,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1386,10 +1386,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 51,
         "playCount": 750,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1411,10 +1411,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 52,
         "playCount": 745,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1436,10 +1436,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 53,
         "playCount": 740,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1486,10 +1486,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 55,
         "playCount": 730,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1511,10 +1511,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 56,
         "playCount": 725,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1536,10 +1536,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 57,
         "playCount": 720,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1586,10 +1586,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 59,
         "playCount": 710,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1611,10 +1611,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 60,
         "playCount": 705,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1636,10 +1636,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 61,
         "playCount": 700,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1661,10 +1661,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 62,
         "playCount": 695,
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -1686,10 +1686,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 63,
         "playCount": 690,
-        "providerName": "Booongo",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -1711,10 +1711,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 64,
         "playCount": 685,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -1761,10 +1761,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 66,
         "playCount": 675,
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -1786,10 +1786,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 67,
         "playCount": 670,
-        "providerName": "Booongo",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -1811,10 +1811,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 68,
         "playCount": 665,
-        "providerName": "Playson",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -1836,10 +1836,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 69,
         "playCount": 660,
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -1861,10 +1861,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 70,
         "playCount": 655,
-        "providerName": "Pragmatic Play",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -1911,10 +1911,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 72,
         "playCount": 645,
-        "providerName": "Playson",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -1936,10 +1936,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 73,
         "playCount": 640,
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -1961,10 +1961,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 74,
         "playCount": 635,
-        "providerName": "Pragmatic Play",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -2011,10 +2011,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 76,
         "playCount": 625,
-        "providerName": "Playson",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -2036,10 +2036,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 77,
         "playCount": 620,
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Booongo",
+            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
         }
     },
     {
@@ -2061,10 +2061,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 78,
         "playCount": 615,
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Playson",
+            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
         }
     },
     {
@@ -2086,10 +2086,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 79,
         "playCount": 610,
-        "providerName": "Booongo",
+        "providerName": "Playson",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Playson",
+            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
         }
     },
     {
@@ -2136,10 +2136,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 81,
         "playCount": 600,
-        "providerName": "Habanero",
+        "providerName": "Playson",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Playson",
+            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
         }
     },
     {
@@ -2161,10 +2161,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 82,
         "playCount": 595,
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Playson",
+            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
         }
     },
     {
@@ -2186,10 +2186,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 83,
         "playCount": 590,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2211,10 +2211,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 84,
         "playCount": 585,
-        "providerName": "Playson",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -2236,10 +2236,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 85,
         "playCount": 580,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2286,10 +2286,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 87,
         "playCount": 570,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2311,10 +2311,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 88,
         "playCount": 565,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2336,10 +2336,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 89,
         "playCount": 560,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2386,10 +2386,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 91,
         "playCount": 550,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2411,10 +2411,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 92,
         "playCount": 545,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2436,10 +2436,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 93,
         "playCount": 540,
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Habanero",
-            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2486,10 +2486,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 95,
         "playCount": 530,
-        "providerName": "Booongo",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2511,10 +2511,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 96,
         "playCount": 525,
-        "providerName": "Playson",
+        "providerName": "Pragmatic Play",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Pragmatic Play",
+            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
         }
     },
     {
@@ -2561,10 +2561,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 98,
         "playCount": 515,
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Pragmatic Play",
-            "providerLogo": "https://assets.bd34fgabh.com/img/pragmatic/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -2586,10 +2586,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 99,
         "playCount": 510,
-        "providerName": "Booongo",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Booongo",
-            "providerLogo": "https://assets.bd34fgabh.com/img/booongo/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     },
     {
@@ -2611,10 +2611,10 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "homepageVisible": true,
         "sortOrder": 100,
         "playCount": 505,
-        "providerName": "Playson",
+        "providerName": "Habanero",
         "Provider": {
-            "providerName": "Playson",
-            "providerLogo": "https://assets.bd34fgabh.com/img/playson/logo.png"
+            "providerName": "Habanero",
+            "providerLogo": "https://assets.bd34fgabh.com/img/habanero/logo.png"
         }
     }
 ];

@@ -1,11 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { ProviderGateway } from './provider.gateway';
 import { ProviderMapper } from './provider.mapper';
 import { SupabaseService } from '../../shared/supabase/supabase.service';
 
 @Injectable()
-export class ProviderSyncService {
+export class ProviderSyncService implements OnModuleInit {
     private readonly logger = new Logger(ProviderSyncService.name);
 
     constructor(
@@ -13,6 +13,18 @@ export class ProviderSyncService {
         private readonly providerMapper: ProviderMapper,
         private readonly supabaseService: SupabaseService,
     ) {}
+
+    async onModuleInit() {
+        try {
+            const { count } = await this.db.from('Provider').select('id', { count: 'exact', head: true });
+            if (!count || count === 0) {
+                this.logger.log('Database empty on startup. Running auto-initialization setup...');
+                await this.initializeSetup();
+            }
+        } catch (e) {
+            this.logger.warn(`OnModuleInit sync check failed: ${e.message}`);
+        }
+    }
 
     private get db() {
         return this.supabaseService.db;

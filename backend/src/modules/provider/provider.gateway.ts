@@ -32,6 +32,16 @@ export class ProviderGateway {
         return this.configService.get<string>('PROVIDER_AGENT_TOKEN');
     }
 
+    private get httpOptions() {
+        return {
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+                'Accept': 'application/json, text/plain, */*',
+            }
+        };
+    }
+
     async getProviders(): Promise<ProviderListResponse> {
         try {
             const payload = {
@@ -41,7 +51,7 @@ export class ProviderGateway {
             };
 
             const response = await lastValueFrom(
-                this.httpService.post<ProviderListResponse>(this.baseUrl!, payload),
+                this.httpService.post<ProviderListResponse>(this.baseUrl!, payload, this.httpOptions),
             );
 
             return response.data;
@@ -62,7 +72,7 @@ export class ProviderGateway {
             };
 
             const response = await lastValueFrom(
-                this.httpService.post<GameListResponse>(this.baseUrl!, payload),
+                this.httpService.post<GameListResponse>(this.baseUrl!, payload, this.httpOptions),
             );
 
             return response.data;
@@ -82,7 +92,7 @@ export class ProviderGateway {
             };
 
             const response = await lastValueFrom(
-                this.httpService.post(this.baseUrl!, payload)
+                this.httpService.post(this.baseUrl!, payload, this.httpOptions)
             );
 
             if (response.data?.status !== 1) {
@@ -107,7 +117,7 @@ export class ProviderGateway {
             };
 
             const response = await lastValueFrom(
-                this.httpService.post(this.baseUrl!, payload)
+                this.httpService.post(this.baseUrl!, payload, this.httpOptions)
             );
 
             if (response.data?.status !== 1) {
@@ -125,7 +135,7 @@ export class ProviderGateway {
     async launchGame(payload: Record<string, any>) {
         try {
             const response = await lastValueFrom(
-                this.httpService.post(this.baseUrl!, payload)
+                this.httpService.post(this.baseUrl!, payload, this.httpOptions)
             );
 
             if (response.data?.status !== 1 || (!response.data?.launch_url && !response.data?.launchUrl)) {

@@ -75,7 +75,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/bng/sun_of_egypt_2_banner_vnyic.jpg",
         "banner": "https://assets.bd34fgabh.com/img/bng/sun_of_egypt_2_banner_vnyic.jpg",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": true,
         "isPopular": false
     },
@@ -86,7 +86,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/habanero/SGJungleRumble_en.png",
         "banner": "https://assets.bd34fgabh.com/img/habanero/SGJungleRumble_en.png",
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "isFeatured": true,
         "isPopular": false
     },
@@ -97,7 +97,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/bng/thunder_of_olympus_banner_kdzsf.jpg",
         "banner": "https://assets.bd34fgabh.com/img/bng/thunder_of_olympus_banner_kdzsf.jpg",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": true,
         "isPopular": false
     },
@@ -108,7 +108,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://bng.games/media/public/sun_of_egypt_5/sun_of_egypt_5_banner_menhb.jpg",
         "banner": "https://bng.games/media/public/sun_of_egypt_5/sun_of_egypt_5_banner_menhb.jpg",
-        "providerName": "Pragmatic Play",
+        "providerName": "Booongo",
         "isFeatured": true,
         "isPopular": false
     },
@@ -119,7 +119,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs5jokerdice/vs5jokerdice_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs5jokerdice/vs5jokerdice_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": true,
         "isPopular": false
     },
@@ -130,7 +130,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Table Games",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/100_joker_staxx.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/100_joker_staxx.webp",
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "isFeatured": true,
         "isPopular": false
     },
@@ -141,7 +141,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/fruits_and_jokers_40.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/fruits_and_jokers_40.webp",
-        "providerName": "Habanero",
+        "providerName": "Playson",
         "isFeatured": true,
         "isPopular": true
     },
@@ -152,7 +152,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/sunny_fruits.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/sunny_fruits.webp",
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "isFeatured": true,
         "isPopular": true
     },
@@ -163,7 +163,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs10bookfallen/vs10bookfallen_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs10bookfallen/vs10bookfallen_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": true,
         "isPopular": true
     },
@@ -174,7 +174,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/pirate_chest.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/pirate_chest.webp",
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "isFeatured": true,
         "isPopular": true
     },
@@ -185,7 +185,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20procountx/vs20procountx_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20procountx/vs20procountx_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": true,
         "isPopular": true
     },
@@ -207,7 +207,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Table Games",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysrabbits/vswaysrabbits_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysrabbits/vswaysrabbits_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": true,
         "isPopular": true
     },
@@ -229,7 +229,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20olympgate/vs20olympgate_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20olympgate/vs20olympgate_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": true
     },
@@ -251,7 +251,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysrocktrls/vswaysrocktrls_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysrocktrls/vswaysrocktrls_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": true
     },
@@ -273,7 +273,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayschilhtwo/vswayschilhtwo_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayschilhtwo/vswayschilhtwo_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": true
     },
@@ -295,7 +295,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysdogs/vswaysdogs_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysdogs/vswaysdogs_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": true
     },
@@ -317,7 +317,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs1024gmayhem/vs1024gmayhem_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs1024gmayhem/vs1024gmayhem_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": true
     },
@@ -339,7 +339,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/bng/lotus_charm_banner_fcoyx.jpg",
         "banner": "https://assets.bd34fgabh.com/img/bng/lotus_charm_banner_fcoyx.jpg",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": true
     },
@@ -361,7 +361,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Table Games",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysbook/vswaysbook_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysbook/vswaysbook_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": true
     },
@@ -383,7 +383,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://bng.games/media/public/lucky_penny_2/lucky_penny_2_banner_ggoaq.jpg",
         "banner": "https://bng.games/media/public/lucky_penny_2/lucky_penny_2_banner_ggoaq.jpg",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": true
     },
@@ -427,7 +427,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20stickysymbol/vs20stickysymbol_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20stickysymbol/vs20stickysymbol_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -449,7 +449,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs25goldrush/vs25goldrush_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs25goldrush/vs25goldrush_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -471,7 +471,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs25newyear/vs25newyear_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs25newyear/vs25newyear_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -493,7 +493,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs1600drago/vs1600drago_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs1600drago/vs1600drago_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -515,7 +515,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Table Games",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20trsbox/vs20trsbox_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20trsbox/vs20trsbox_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -537,7 +537,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs100firehot/vs100firehot_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs100firehot/vs100firehot_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -559,7 +559,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://bng.games/media/public/egypt_fire_2/egypt_fire_2_banner_mhztr.jpg",
         "banner": "https://bng.games/media/public/egypt_fire_2/egypt_fire_2_banner_mhztr.jpg",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -581,7 +581,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs243nudge4gold/vs243nudge4gold_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs243nudge4gold/vs243nudge4gold_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -603,7 +603,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20superlanche/vs20superlanche_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20superlanche/vs20superlanche_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -625,7 +625,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20midas2/vs20midas2_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20midas2/vs20midas2_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -647,7 +647,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs10bookviking/vs10bookviking_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs10bookviking/vs10bookviking_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -669,7 +669,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Table Games",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayswwjoker/vswayswwjoker_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayswwjoker/vswayswwjoker_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -691,7 +691,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20sugrushss/vs20sugrushss_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20sugrushss/vs20sugrushss_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -713,7 +713,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysmrcursc/vswaysmrcursc_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswaysmrcursc/vswaysmrcursc_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -724,7 +724,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://assets.bd34fgabh.com/img/habanero/SGKnockoutFootball_en.png",
         "banner": "https://assets.bd34fgabh.com/img/habanero/SGKnockoutFootball_en.png",
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "isFeatured": false,
         "isPopular": false
     },
@@ -768,7 +768,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://assets.bd34fgabh.com/img/habanero/SGSuperFruitBlast.png",
         "banner": "https://assets.bd34fgabh.com/img/habanero/SGSuperFruitBlast.png",
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "isFeatured": false,
         "isPopular": false
     },
@@ -790,7 +790,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/habanero/SGZeus_en.png",
         "banner": "https://assets.bd34fgabh.com/img/habanero/SGZeus_en.png",
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "isFeatured": false,
         "isPopular": false
     },
@@ -801,7 +801,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/bng/rio_gems_banner_gkiok.png",
         "banner": "https://assets.bd34fgabh.com/img/bng/rio_gems_banner_gkiok.png",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -812,7 +812,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://assets.bd34fgabh.com/img/bng/goddess_of_egypt_banner_cyhcz.jpg",
         "banner": "https://assets.bd34fgabh.com/img/bng/goddess_of_egypt_banner_cyhcz.jpg",
-        "providerName": "Pragmatic Play",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -823,7 +823,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Table Games",
         "thumbnail": "https://assets.bd34fgabh.com/img/bng/black_wolf_2_banner_pihet.png",
         "banner": "https://assets.bd34fgabh.com/img/bng/black_wolf_2_banner_pihet.png",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -834,7 +834,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/bng/candy_boom_banner_rkebf.jpg",
         "banner": "https://assets.bd34fgabh.com/img/bng/candy_boom_banner_rkebf.jpg",
-        "providerName": "Pragmatic Play",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -845,7 +845,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/bng/crystal_scarabs_banner_uotbd.jpg",
         "banner": "https://assets.bd34fgabh.com/img/bng/crystal_scarabs_banner_uotbd.jpg",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -856,7 +856,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://bng.games/media/public/aztec_fire_2/aztec_fire_2_banner_sjjti.png",
         "banner": "https://bng.games/media/public/aztec_fire_2/aztec_fire_2_banner_sjjti.png",
-        "providerName": "Pragmatic Play",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -867,7 +867,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://bng.games/media/public/egypt_power_x1000/egypt_power_x1000_banner_ovknw.jpg",
         "banner": "https://bng.games/media/public/egypt_power_x1000/egypt_power_x1000_banner_ovknw.jpg",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -878,7 +878,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://bng.games/media/public/sky_coins/sky_coins_banner_uwesp.jpg",
         "banner": "https://bng.games/media/public/sky_coins/sky_coins_banner_uwesp.jpg",
-        "providerName": "Pragmatic Play",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -889,7 +889,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://bng.games/media/public/forge_of_vulcan/forge_of_vulcan_banner_susai.jpg",
         "banner": "https://bng.games/media/public/forge_of_vulcan/forge_of_vulcan_banner_susai.jpg",
-        "providerName": "Habanero",
+        "providerName": "Booongo",
         "isFeatured": false,
         "isPopular": false
     },
@@ -900,7 +900,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/book_of_gold.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/book_of_gold.webp",
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "isFeatured": false,
         "isPopular": false
     },
@@ -911,7 +911,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/joker_expand.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/joker_expand.webp",
-        "providerName": "Habanero",
+        "providerName": "Playson",
         "isFeatured": false,
         "isPopular": false
     },
@@ -922,7 +922,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/fruits_and_jokers_100.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/fruits_and_jokers_100.webp",
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "isFeatured": false,
         "isPopular": false
     },
@@ -933,7 +933,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/5_super_sevens_n_fruits.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/5_super_sevens_n_fruits.webp",
-        "providerName": "Habanero",
+        "providerName": "Playson",
         "isFeatured": false,
         "isPopular": false
     },
@@ -944,7 +944,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://assets.bd34fgabh.com/img/playson/games/legend_of_cleopatra_megaways.webp",
         "banner": "https://assets.bd34fgabh.com/img/playson/games/legend_of_cleopatra_megaways.webp",
-        "providerName": "Pragmatic Play",
+        "providerName": "Playson",
         "isFeatured": false,
         "isPopular": false
     },
@@ -955,7 +955,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20elevclust/vs20elevclust_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20elevclust/vs20elevclust_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -966,7 +966,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/habanero/SGBabaYaga.png",
         "banner": "https://assets.bd34fgabh.com/img/habanero/SGBabaYaga.png",
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "isFeatured": false,
         "isPopular": false
     },
@@ -977,7 +977,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Table Games",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs25vegas/vs25vegas_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs25vegas/vs25vegas_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -999,7 +999,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs10bbbonanza/vs10bbbonanza_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs10bbbonanza/vs10bbbonanza_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -1021,7 +1021,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayslight/vswayslight_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vswayslight/vswayslight_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -1043,7 +1043,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20midas/vs20midas_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs20midas/vs20midas_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -1065,7 +1065,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs25jokerking/vs25jokerking_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs25jokerking/vs25jokerking_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -1087,7 +1087,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs243dancingpar/vs243dancingpar_800x600_NB.avif",
         "banner": "https://assets.bd34fgabh.com/gs2c/common/lobby/v1/apps/slots-lobby-assets/vs243dancingpar/vs243dancingpar_800x600_NB.avif",
-        "providerName": "Habanero",
+        "providerName": "Pragmatic Play",
         "isFeatured": false,
         "isPopular": false
     },
@@ -1120,7 +1120,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Live Casino",
         "thumbnail": "https://assets.bd34fgabh.com/img/habanero/SGPoolShark_en.png",
         "banner": "https://assets.bd34fgabh.com/img/habanero/SGPoolShark_en.png",
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "isFeatured": false,
         "isPopular": false
     },
@@ -1142,7 +1142,7 @@ export const FALLBACK_GAMES: FallbackGame[] = [
         "category": "Slots",
         "thumbnail": "https://assets.bd34fgabh.com/img/habanero/SGVikingsPlunder_en.png",
         "banner": "https://assets.bd34fgabh.com/img/habanero/SGVikingsPlunder_en.png",
-        "providerName": "Pragmatic Play",
+        "providerName": "Habanero",
         "isFeatured": false,
         "isPopular": false
     }

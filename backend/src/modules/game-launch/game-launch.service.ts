@@ -49,8 +49,9 @@ export class GameLaunchService {
   }
 
   private getDemoLaunchUrl(gameCode: string, providerCode?: string): string {
-    const code = (gameCode || '').toLowerCase();
-    const prov = (providerCode || '').toLowerCase();
+    const code = (gameCode || '').trim().toLowerCase();
+    const prov = (providerCode || '').trim().toLowerCase();
+
     if (code.includes('aviator') || prov.includes('spribe')) {
       return 'https://demo.spribe.co/launch/aviator?g_token=demo';
     }
@@ -63,10 +64,23 @@ export class GameLaunchService {
     if (code.includes('dice')) {
       return 'https://demo.spribe.co/launch/dice?g_token=demo';
     }
-    if (code.includes('roulette')) {
-      return 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs20roulette&lang=en&cur=USD';
+    if (code.includes('hilo')) {
+      return 'https://demo.spribe.co/launch/hilo?g_token=demo';
     }
-    return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${gameCode}&lang=en&cur=USD`;
+    if (code.startsWith('sg') || prov.includes('habanero')) {
+      return `https://demogamesfree.habanerosystems.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`;
+    }
+    if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || prov.includes('playson')) {
+      return `https://demogamesfree.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+    }
+    if (code.startsWith('vs') || prov.includes('pragmatic')) {
+      return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+    }
+    if (code.includes('sun_of_egypt') || code.includes('olympus') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
+      return `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+    }
+
+    return `https://demogamesfree.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
   }
 
   private async writeAuditLog(userId: string, action: string, data: Record<string, any>, entityId?: string) {
@@ -335,7 +349,7 @@ export class GameLaunchService {
         this.logger.warn(`Provider launchGame failed (${e.message}), returning playable demo URL`);
         response = {
           status: 1,
-          launch_url: this.getDemoLaunchUrl(resolvedGameCode),
+          launch_url: this.getDemoLaunchUrl(resolvedGameCode, providerCode),
           session_token: randomUUID(),
         };
       }

@@ -20,6 +20,15 @@ export class HomepageRepository {
         createdAt, updatedAt, Provider(providerName, providerLogo)
     `;
 
+    private formatGames(games: any[]) {
+        if (!games || !Array.isArray(games)) return [];
+        return games.map((g) => ({
+            ...g,
+            providerName: g.providerName || g.Provider?.providerName || '',
+            provider: g.providerName || g.Provider?.providerName || '',
+        }));
+    }
+
     async getFeaturedGames(limit: number = 20) {
         try {
             // First attempt: games explicitly marked as isFeatured
@@ -34,7 +43,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!error && data && data.length > 0) {
-                return data;
+                return this.formatGames(data);
             }
 
             // Second attempt: general active games from database
@@ -48,7 +57,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!anyErr && anyData && anyData.length > 0) {
-                return anyData;
+                return this.formatGames(anyData);
             }
         } catch (err: any) {
             this.logger.warn(`Supabase getFeaturedGames failed: ${err.message}. Using fallback games.`);
@@ -71,7 +80,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!error && data && data.length > 0) {
-                return data;
+                return this.formatGames(data);
             }
 
             // Second attempt: general active games ordered by playCount or sortOrder
@@ -85,7 +94,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!anyErr && anyData && anyData.length > 0) {
-                return anyData;
+                return this.formatGames(anyData);
             }
         } catch (err: any) {
             this.logger.warn(`Supabase getPopularGames failed: ${err.message}. Using fallback games.`);
@@ -107,7 +116,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!error && data && data.length > 0) {
-                return data;
+                return this.formatGames(data);
             }
 
             // Second attempt: active games
@@ -121,7 +130,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!anyErr && anyData && anyData.length > 0) {
-                return anyData;
+                return this.formatGames(anyData);
             }
         } catch (err: any) {
             this.logger.warn(`Supabase getLiveCasinoGames failed: ${err.message}. Using fallback games.`);
@@ -143,7 +152,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!error && data && data.length > 0) {
-                return data;
+                return this.formatGames(data);
             }
 
             // Second attempt: general active games
@@ -157,7 +166,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!anyErr && anyData && anyData.length > 0) {
-                return anyData;
+                return this.formatGames(anyData);
             }
         } catch (err: any) {
             this.logger.warn(`Supabase getSlotsGames failed: ${err.message}. Using fallback games.`);
@@ -198,7 +207,7 @@ export class HomepageRepository {
                 .limit(limit);
 
             if (!error && data && data.length > 0) {
-                return data;
+                return this.formatGames(data);
             }
         } catch (err: any) {
             this.logger.warn(`Supabase getAllGames failed: ${err.message}. Using fallback games.`);
