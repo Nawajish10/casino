@@ -105,7 +105,7 @@ describe('GameLaunchService', () => {
   });
 
   describe('getDemoLaunchUrl', () => {
-    it('returns the correct fallback demo URLs for different providers', () => {
+    it('returns the correct fallback demo URLs for Spribe and throws for others', () => {
       const service = new GameLaunchService(
         {} as any,
         {} as any,
@@ -117,11 +117,11 @@ describe('GameLaunchService', () => {
       const getDemoLaunchUrl = (service as any).getDemoLaunchUrl.bind(service);
 
       expect(getDemoLaunchUrl('aviator', 'spribe')).toBe('https://demo.spribe.io/launch/aviator?g_token=demo');
-      expect(getDemoLaunchUrl('sunny_fruits', 'playson')).toBe('https://demo.playson.com/openGame.do?gameSymbol=sunny_fruits&lang=en&cur=USD');
-      expect(getDemoLaunchUrl('sun_of_egypt_2', 'booongo')).toBe('https://demo.3oaks.com/openGame.do?gameSymbol=sun_of_egypt_2&lang=en&cur=USD');
-      expect(getDemoLaunchUrl('SGHotHotSummer', 'habanero')).toBe('https://app-test.insvr.com/frontend/final/display.html?gamecode=SGHotHotSummer&mode=demo');
-      expect(getDemoLaunchUrl('vs20olympgate', 'pragmatic')).toBe('https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs20olympgate&lang=en&cur=USD');
-      expect(getDemoLaunchUrl('casino', '87originals')).toBe('https://demo.3oaks.com/openGame.do?gameSymbol=casino&lang=en&cur=USD');
+      expect(getDemoLaunchUrl('mines', 'spribe')).toBe('https://demo.spribe.io/launch/mines?g_token=demo');
+      expect(() => getDemoLaunchUrl('sunny_fruits', 'playson')).toThrow();
+      expect(() => getDemoLaunchUrl('sun_of_egypt_2', 'booongo')).toThrow();
+      expect(() => getDemoLaunchUrl('SGHotHotSummer', 'habanero')).toThrow();
+      expect(() => getDemoLaunchUrl('vs20olympgate', 'pragmatic')).toThrow();
     });
   });
 });

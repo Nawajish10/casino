@@ -33,43 +33,7 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
         return { url: 'https://demo.spribe.io/launch/hilo?g_token=demo', canEmbed: true };
     }
 
-    // Habanero — official demo page; may or may not embed, so mark accordingly
-    if (prov.includes('habanero') || (code.startsWith('sg') && !prov.includes('playson') && !prov.includes('booongo') && !prov.includes('3oaks'))) {
-        return {
-            url: `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`,
-            canEmbed: true,
-        };
-    }
-
-    // Pragmatic Play — official demo
-    if (code.startsWith('vs') || prov.includes('pragmatic')) {
-        return {
-            url: `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
-            canEmbed: false, // Pragmatic blocks cross-origin iframe
-        };
-    }
-
-    // Booongo / 3 Oaks
-    if (code.includes('sun_of_egypt') || code.includes('olympus') || code.includes('thunder') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
-        return {
-            url: `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
-            canEmbed: false,
-        };
-    }
-
-    // Playson
-    if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || code.includes('pirate_chest') || prov.includes('playson')) {
-        return {
-            url: `https://demo.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
-            canEmbed: false,
-        };
-    }
-
-    // Generic fallback — open in new window since most demo sites block iframes
-    return {
-        url: `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'sun_of_egypt_2')}&lang=en&cur=USD`,
-        canEmbed: false,
-    };
+    return { url: '', canEmbed: false };
 }
 
 export const useLaunchGame = () => {
@@ -168,29 +132,46 @@ export const useLaunchGame = () => {
                 return url;
             }
         } catch (error: any) {
-            console.warn('[useLaunchGame] Primary launch failed, activating fallback demo launcher:', error?.message || error);
+            console.warn('[useLaunchGame] Primary launch failed:', error?.message || error);
+            const code = (gameCode || '').toLowerCase();
+            const prov = (options.providerCode || '').toLowerCase();
+            const isAviator = code.includes('aviator') || prov.includes('spribe');
+
+            if (!isAviator) {
+                setLoading(false);
+                setLaunchError(error?.message || 'Failed to launch game');
+                enqueueSnackbar(error?.message || 'Failed to launch game. Please try again later.', { variant: 'error' });
+                return;
+            }
         }
 
-        // Fallback demo launcher — route via provider-specific demo endpoints
-        const code = (gameCode || 'sun_of_egypt_2').trim();
-        const { url: demoUrl, canEmbed } = buildDemoUrl(code, options.providerCode);
+        // Fallback demo launcher — ONLY for Spribe/Aviator
+        const code = (gameCode || '').trim();
+        const prov = (options.providerCode || '').toLowerCase();
+        const isAviator = code.toLowerCase().includes('aviator') || prov.includes('spribe');
 
-        if (canEmbed) {
-            // Demo URL allows iframe embedding — render in dialog
-            setLaunchUrl(demoUrl);
-            setLaunchState(true);
-            setLoading(false);
-            return demoUrl;
-        } else {
-            // Demo URL blocks iframe embedding — open in new tab and notify user
-            setLoading(false);
-            window.open(demoUrl, '_blank', 'noopener,noreferrer');
-            enqueueSnackbar('Game opened in a new tab. Provider demo does not support embedded play.', {
-                variant: 'info',
-                autoHideDuration: 4000,
-            });
-            return demoUrl;
+        if (isAviator) {
+            const { url: demoUrl, canEmbed } = buildDemoUrl(code || 'aviator', options.providerCode);
+
+            if (canEmbed && demoUrl) {
+                setLaunchUrl(demoUrl);
+                setLaunchState(true);
+                setLoading(false);
+                return demoUrl;
+            } else if (demoUrl) {
+                setLoading(false);
+                window.open(demoUrl, '_blank', 'noopener,noreferrer');
+                enqueueSnackbar('Game opened in a new tab. Provider demo does not support embedded play.', {
+                    variant: 'info',
+                    autoHideDuration: 4000,
+                });
+                return demoUrl;
+            }
         }
+
+        setLoading(false);
+        setLaunchError('Failed to launch game');
+        enqueueSnackbar('Failed to launch game. Provider launch API error.', { variant: 'error' });
     };
 
     return {
