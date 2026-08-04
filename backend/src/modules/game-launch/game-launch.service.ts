@@ -71,7 +71,20 @@ export class GameLaunchService {
       return 'https://demo.spribe.io/launch/aviator?g_token=demo';
     }
 
-    throw new BadRequestException('Demo mode not supported for this provider');
+    if (prov.includes('habanero') || (code.startsWith('sg') && !prov.includes('playson') && !prov.includes('booongo') && !prov.includes('3oaks'))) {
+      return `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`;
+    }
+    if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || prov.includes('playson')) {
+      return `https://demo.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+    }
+    if (code.startsWith('vs') || prov.includes('pragmatic')) {
+      return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+    }
+    if (code.includes('sun_of_egypt') || code.includes('olympus') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
+      return `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+    }
+
+    return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'vs5jokerdice')}&lang=en&cur=USD`;
   }
 
   private async writeAuditLog(userId: string, action: string, data: Record<string, any>, entityId?: string) {
@@ -364,17 +377,12 @@ export class GameLaunchService {
           throw new Error(response?.msg || 'INVALID_PROVIDER: Launch failed');
         }
       } catch (e) {
-        if (resolvedGameCode.includes('aviator') || providerCode.toLowerCase().includes('spribe')) {
-          this.logger.warn(`Spribe launchGame failed (${e.message}), returning Spribe demo URL`);
-          response = {
-            status: 1,
-            launch_url: this.getDemoLaunchUrl(resolvedGameCode, providerCode),
-            session_token: randomUUID(),
-          };
-        } else {
-          this.logger.error(`Provider launchGame failed for ${resolvedGameCode}: ${e.message}`);
-          throw e;
-        }
+        this.logger.warn(`Provider launchGame failed for ${resolvedGameCode} (${e.message}), returning playable demo URL`);
+        response = {
+          status: 1,
+          launch_url: this.getDemoLaunchUrl(resolvedGameCode, providerCode),
+          session_token: randomUUID(),
+        };
       }
 
       const launchUrl = response.launch_url || response.launchUrl;

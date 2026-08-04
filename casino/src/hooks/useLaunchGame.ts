@@ -33,7 +33,43 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
         return { url: 'https://demo.spribe.io/launch/hilo?g_token=demo', canEmbed: true };
     }
 
-    return { url: '', canEmbed: false };
+    // Pragmatic Play (e.g. vs5jokerdice, vs20olympgate, vs10bbbnz1000)
+    if (code.startsWith('vs') || prov.includes('pragmatic')) {
+        return {
+            url: `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            canEmbed: false,
+        };
+    }
+
+    // Habanero
+    if (prov.includes('habanero') || code.startsWith('sg')) {
+        return {
+            url: `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`,
+            canEmbed: true,
+        };
+    }
+
+    // Booongo / 3 Oaks
+    if (code.includes('sun_of_egypt') || code.includes('olympus') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
+        return {
+            url: `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            canEmbed: false,
+        };
+    }
+
+    // Playson
+    if (code.includes('joker_staxx') || code.includes('sunny_fruits') || prov.includes('playson')) {
+        return {
+            url: `https://demo.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            canEmbed: false,
+        };
+    }
+
+    // Default fallback to Pragmatic Play demo
+    return {
+        url: `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'vs5jokerdice')}&lang=en&cur=USD`,
+        canEmbed: false,
+    };
 }
 
 export const useLaunchGame = () => {
@@ -132,36 +168,23 @@ export const useLaunchGame = () => {
                 return url;
             }
         } catch (error: any) {
-            console.warn('[useLaunchGame] Primary launch failed:', error?.message || error);
-            const code = (gameCode || '').toLowerCase();
-            const prov = (options.providerCode || '').toLowerCase();
-            const isAviator = code.includes('aviator') || prov.includes('spribe');
-
-            if (!isAviator) {
-                setLoading(false);
-                setLaunchError(error?.message || 'Failed to launch game');
-                enqueueSnackbar(error?.message || 'Failed to launch game. Please try again later.', { variant: 'error' });
-                return;
-            }
+            console.warn('[useLaunchGame] Primary launch failed, executing demo fallback:', error?.message || error);
         }
 
-        // Fallback demo launcher — ONLY for Spribe/Aviator
-        const code = (gameCode || '').trim();
-        const prov = (options.providerCode || '').toLowerCase();
-        const isAviator = code.toLowerCase().includes('aviator') || prov.includes('spribe');
+        // Fallback demo launcher — route via provider-specific demo endpoints
+        const code = (gameCode || 'vs5jokerdice').trim();
+        const { url: demoUrl, canEmbed } = buildDemoUrl(code, options.providerCode);
 
-        if (isAviator) {
-            const { url: demoUrl, canEmbed } = buildDemoUrl(code || 'aviator', options.providerCode);
-
-            if (canEmbed && demoUrl) {
+        if (demoUrl) {
+            if (canEmbed) {
                 setLaunchUrl(demoUrl);
                 setLaunchState(true);
                 setLoading(false);
                 return demoUrl;
-            } else if (demoUrl) {
+            } else {
                 setLoading(false);
                 window.open(demoUrl, '_blank', 'noopener,noreferrer');
-                enqueueSnackbar('Game opened in a new tab. Provider demo does not support embedded play.', {
+                enqueueSnackbar('Game opened in a new tab.', {
                     variant: 'info',
                     autoHideDuration: 4000,
                 });
@@ -171,7 +194,7 @@ export const useLaunchGame = () => {
 
         setLoading(false);
         setLaunchError('Failed to launch game');
-        enqueueSnackbar('Failed to launch game. Provider launch API error.', { variant: 'error' });
+        enqueueSnackbar('Failed to launch game. Please try again later.', { variant: 'error' });
     };
 
     return {
