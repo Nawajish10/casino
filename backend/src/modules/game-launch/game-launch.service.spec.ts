@@ -98,8 +98,9 @@ describe('GameLaunchService', () => {
     const result = await service.launchGame('user-1', 'aviator', { lang: 'en', device: 'desktop' });
 
     expect(result).toEqual({ success: true, launchUrl: 'https://test-launch.url' });
+    // The fallback game "aviator" has providerName "Spribe", so the new logic looks up by name first
     expect(prisma.provider.findFirst).toHaveBeenCalledWith({
-      where: { providerCode: { equals: 'PRAGMATIC', mode: 'insensitive' } },
+      where: { providerName: { equals: 'Spribe', mode: 'insensitive' } },
     });
     expect(gameSessionRepository.create).toHaveBeenCalledWith(expect.objectContaining({ gameId: null, providerCode: 'PRAGMATIC', gameCode: 'aviator' }));
   });

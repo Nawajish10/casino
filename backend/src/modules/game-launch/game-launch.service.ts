@@ -167,23 +167,40 @@ export class GameLaunchService {
     );
 
     const testProviderCode = this.configService.get<string>('TEST_GAME_PROVIDER_CODE');
-    const targetProviderCode = (
-      testProviderCode ||
-      fallbackMatch?.providerName ||
-      (gameCode.toLowerCase().includes('aviator') ? 'SPRIBE' : null) ||
-      'PRAGMATIC'
-    ).toUpperCase();
 
+    // Look up the provider from DB using the fallback's providerName (display name).
+    // The DB stores providerCode as uppercase API codes (e.g. 'SPRIBE', '87ORIGINALS').
     let providerObj: any = null;
-    try {
-      providerObj = await this.prisma.provider.findFirst({
-        where: { providerCode: { equals: targetProviderCode, mode: 'insensitive' } },
-      });
-    } catch (e) {
-      this.logger.warn(`Prisma provider lookup failed: ${e.message}`);
+    if (fallbackMatch?.providerName) {
+      try {
+        providerObj = await this.prisma.provider.findFirst({
+          where: { providerName: { equals: fallbackMatch.providerName, mode: 'insensitive' } },
+        });
+      } catch (e) {
+        this.logger.warn(`Prisma provider lookup by name failed: ${e.message}`);
+      }
     }
 
-    const providerData = providerObj || { providerCode: targetProviderCode, providerName: targetProviderCode };
+    // If we didn't find by name, try by code
+    if (!providerObj) {
+      const targetProviderCode = (
+        testProviderCode ||
+        (gameCode.toLowerCase().includes('aviator') ? 'SPRIBE' : null) ||
+        'PRAGMATIC'
+      ).toUpperCase();
+      try {
+        providerObj = await this.prisma.provider.findFirst({
+          where: { providerCode: { equals: targetProviderCode, mode: 'insensitive' } },
+        });
+      } catch (e) {
+        this.logger.warn(`Prisma provider lookup failed: ${e.message}`);
+      }
+      if (!providerObj) {
+        providerObj = { providerCode: targetProviderCode, providerName: targetProviderCode };
+      }
+    }
+
+    const providerData = providerObj;
 
     if (fallbackMatch) {
       return {
@@ -325,7 +342,7 @@ export class GameLaunchService {
         agent_code: this.configService.get<string>('PROVIDER_AGENT_CODE'),
         agent_token: this.configService.get<string>('PROVIDER_AGENT_TOKEN'),
         user_code: user.id,
-        provider_code: game.provider?.providerCode || providerCode,
+        provider_code: providerCode,
         game_code: resolvedGameCode,
         lang: options.lang || 'en',
         lobby_url: `${frontendUrl}/lobby`,
@@ -335,9 +352,14 @@ export class GameLaunchService {
         payload.rtp = 92;
       }
 
+      // Structured launch diagnostics log
+      this.logger.log(`[LAUNCH] provider_code=${providerCode} game_code=${resolvedGameCode} user=${user.id} isLive=${isLiveGame}`);
+      await this.writeAuditLog(userId, 'PROVIDER_REQUEST', { method: 'game_launch', payload: { ...payload, agent_token: '***' } });
+
       let response: any;
       try {
         response = await this.retryRequest(() => this.providerGateway.launchGame(payload));
+        this.logger.log(`[LAUNCH] API response: status=${response?.status} msg=${response?.msg} has_url=${!!(response?.launch_url || response?.launchUrl)}`);
         if (response?.status === 0 || (!response?.launch_url && !response?.launchUrl)) {
           throw new Error(response?.msg || 'INVALID_PROVIDER: Launch failed');
         }
