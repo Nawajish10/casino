@@ -68,19 +68,19 @@ export class GameLaunchService {
       return 'https://demo.spribe.io/launch/hilo?g_token=demo';
     }
     if (prov.includes('habanero') || (code.startsWith('sg') && !prov.includes('playson') && !prov.includes('booongo') && !prov.includes('3oaks'))) {
-      return `https://demogamesfree.habanerosystems.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`;
+      return `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`;
     }
     if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || prov.includes('playson')) {
-      return `https://demogamesfree.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+      return `https://demo.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
     }
     if (code.startsWith('vs') || prov.includes('pragmatic')) {
       return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
     }
     if (code.includes('sun_of_egypt') || code.includes('olympus') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
-      return `https://demo.bng.games/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+      return `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
     }
 
-    return `https://demo.bng.games/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
+    return `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
   }
 
   private async writeAuditLog(userId: string, action: string, data: Record<string, any>, entityId?: string) {

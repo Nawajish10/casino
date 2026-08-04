@@ -52,7 +52,7 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
     // Booongo / 3 Oaks
     if (code.includes('sun_of_egypt') || code.includes('olympus') || code.includes('thunder') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
         return {
-            url: `https://demo.bng.games/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            url: `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
             canEmbed: false,
         };
     }
@@ -60,14 +60,14 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
     // Playson
     if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || code.includes('pirate_chest') || prov.includes('playson')) {
         return {
-            url: `https://demogamesfree.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
+            url: `https://demo.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
             canEmbed: false,
         };
     }
 
     // Generic fallback — open in new window since most demo sites block iframes
     return {
-        url: `https://demo.bng.games/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'sun_of_egypt_2')}&lang=en&cur=USD`,
+        url: `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'sun_of_egypt_2')}&lang=en&cur=USD`,
         canEmbed: false,
     };
 }

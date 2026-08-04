@@ -103,4 +103,25 @@ describe('GameLaunchService', () => {
     });
     expect(gameSessionRepository.create).toHaveBeenCalledWith(expect.objectContaining({ gameId: null, providerCode: 'PRAGMATIC', gameCode: 'aviator' }));
   });
+
+  describe('getDemoLaunchUrl', () => {
+    it('returns the correct fallback demo URLs for different providers', () => {
+      const service = new GameLaunchService(
+        {} as any,
+        {} as any,
+        {} as any,
+        createConfigService(),
+        {} as any,
+      );
+
+      const getDemoLaunchUrl = (service as any).getDemoLaunchUrl.bind(service);
+
+      expect(getDemoLaunchUrl('aviator', 'spribe')).toBe('https://demo.spribe.io/launch/aviator?g_token=demo');
+      expect(getDemoLaunchUrl('sunny_fruits', 'playson')).toBe('https://demo.playson.com/openGame.do?gameSymbol=sunny_fruits&lang=en&cur=USD');
+      expect(getDemoLaunchUrl('sun_of_egypt_2', 'booongo')).toBe('https://demo.3oaks.com/openGame.do?gameSymbol=sun_of_egypt_2&lang=en&cur=USD');
+      expect(getDemoLaunchUrl('SGHotHotSummer', 'habanero')).toBe('https://app-test.insvr.com/frontend/final/display.html?gamecode=SGHotHotSummer&mode=demo');
+      expect(getDemoLaunchUrl('vs20olympgate', 'pragmatic')).toBe('https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs20olympgate&lang=en&cur=USD');
+      expect(getDemoLaunchUrl('casino', '87originals')).toBe('https://demo.3oaks.com/openGame.do?gameSymbol=casino&lang=en&cur=USD');
+    });
+  });
 });
