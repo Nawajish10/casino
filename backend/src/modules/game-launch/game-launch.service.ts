@@ -72,19 +72,24 @@ export class GameLaunchService {
     }
 
     if (prov.includes('habanero') || (code.startsWith('sg') && !prov.includes('playson') && !prov.includes('booongo') && !prov.includes('3oaks'))) {
-      return `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`;
+      const habCode = code === 'roulette' || code === 'casino' ? 'SGHotHotSummer' : gameCode;
+      return `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(habCode)}&mode=demo`;
     }
     if (code.includes('joker_staxx') || code.includes('fruits_and_jokers') || code.includes('sunny_fruits') || prov.includes('playson')) {
       return `https://demo.playson.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
-    }
-    if (code.startsWith('vs') || prov.includes('pragmatic')) {
-      return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
     }
     if (code.includes('sun_of_egypt') || code.includes('olympus') || prov.includes('booongo') || prov.includes('3oaks') || prov.includes('bng')) {
       return `https://demo.3oaks.com/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`;
     }
 
-    return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'vs5jokerdice')}&lang=en&cur=USD`;
+    let pragmaticSymbol = encodeURIComponent(gameCode);
+    if (code === 'roulette' || code.includes('roulette')) {
+      pragmaticSymbol = 'vs12roulette';
+    } else if (code === 'casino' || code.includes('casino')) {
+      pragmaticSymbol = 'vswayscheist';
+    }
+
+    return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${pragmaticSymbol}&lang=en&cur=USD`;
   }
 
   private async writeAuditLog(userId: string, action: string, data: Record<string, any>, entityId?: string) {

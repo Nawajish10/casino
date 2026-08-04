@@ -33,18 +33,11 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
         return { url: 'https://demo.spribe.io/launch/hilo?g_token=demo', canEmbed: true };
     }
 
-    // Pragmatic Play (e.g. vs5jokerdice, vs20olympgate, vs10bbbnz1000)
-    if (code.startsWith('vs') || prov.includes('pragmatic')) {
-        return {
-            url: `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode)}&lang=en&cur=USD`,
-            canEmbed: false,
-        };
-    }
-
     // Habanero
     if (prov.includes('habanero') || code.startsWith('sg')) {
+        const habCode = code === 'roulette' || code === 'casino' ? 'SGHotHotSummer' : gameCode;
         return {
-            url: `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(gameCode)}&mode=demo`,
+            url: `https://app-test.insvr.com/frontend/final/display.html?gamecode=${encodeURIComponent(habCode)}&mode=demo`,
             canEmbed: true,
         };
     }
@@ -65,9 +58,15 @@ function buildDemoUrl(gameCode: string, providerCode?: string): { url: string; c
         };
     }
 
-    // Default fallback to Pragmatic Play demo
+    let pragmaticSymbol = encodeURIComponent(gameCode);
+    if (code === 'roulette' || code.includes('roulette')) {
+        pragmaticSymbol = 'vs12roulette';
+    } else if (code === 'casino' || code.includes('casino')) {
+        pragmaticSymbol = 'vswayscheist';
+    }
+
     return {
-        url: `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${encodeURIComponent(gameCode || 'vs5jokerdice')}&lang=en&cur=USD`,
+        url: `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=${pragmaticSymbol}&lang=en&cur=USD`,
         canEmbed: false,
     };
 }
