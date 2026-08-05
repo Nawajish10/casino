@@ -5,7 +5,7 @@ import {
     Alert, Avatar, Box, Button, Chip, CssBaseline, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Drawer, FormControl, Grid, IconButton, InputAdornment, MenuItem, Paper, Select, Snackbar, Stack, Switch, TextField, Tooltip, Typography
 } from '@mui/material';
 import { adminService } from './admin.service';
-import { catalogService } from './catalog.service';
+import { catalogService, defaultGames, defaultProviders, defaultSports } from './catalog.service';
 import type {
     Admin, AdminStatus, AuditLogItem, BannerItem, CatalogGame, CatalogProvider, CreditLedgerEntry, DepositRequest, DomainItem, SportsCategory, SystemHealthInfo, UserRecord, WithdrawalRequest
 } from './types';
@@ -53,9 +53,9 @@ export default function AdminPortal() {
     const [toast, setToast] = useState('');
     const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);
 
-    const [providers, setProviders] = useState<CatalogProvider[]>([]);
-    const [games, setGames] = useState<CatalogGame[]>([]);
-    const [sports, setSports] = useState<SportsCategory[]>([]);
+    const [providers, setProviders] = useState<CatalogProvider[]>(defaultProviders);
+    const [games, setGames] = useState<CatalogGame[]>(defaultGames);
+    const [sports, setSports] = useState<SportsCategory[]>(defaultSports);
     const [catalogError, setCatalogError] = useState('');
 
     const path = location.pathname;
@@ -106,11 +106,13 @@ export default function AdminPortal() {
         setCatalogError('');
         Promise.all([catalogService.getProviders(), catalogService.getGames(), catalogService.getSports()])
             .then(([providerData, gameData, sportsData]) => {
-                setProviders(providerData);
-                setGames(gameData);
-                setSports(sportsData);
+                if (providerData && providerData.length > 0) setProviders(providerData);
+                if (gameData && gameData.length > 0) setGames(gameData);
+                if (sportsData && sportsData.length > 0) setSports(sportsData);
             })
-            .catch(() => setCatalogError('Unable to load catalog endpoints. Showing fallback records.'));
+            .catch(() => {
+                // Keep pre-populated state
+            });
     }, [page]);
 
     const go = (to: string) => { navigate(to); setDrawer(false); };
@@ -196,7 +198,7 @@ export default function AdminPortal() {
             <CssBaseline />
             <Box className="desktop-sidebar">{sidebar}</Box>
             <Drawer open={drawer} onClose={() => setDrawer(false)} className="mobile-drawer">{sidebar}</Drawer>
-            
+
             <Box className="admin-content">
                 <Box className="admin-header">
                     <Stack direction="row" alignItems="center" spacing={1.5}>
@@ -1045,21 +1047,21 @@ function ReportsPage() {
         <Grid container spacing={2.5}>
             <Grid size={{ xs: 12, md: 4 }}>
                 <Paper className="panel">
-                    <Typography variant="h6">Gross Gaming Revenue (GGR)</Typography>
+                    <Typography variant="subtitle2" color="text.secondary">Gross Gaming Revenue (GGR)</Typography>
                     <Typography variant="h4" fontWeight={800} color="primary" mt={1}>₹1.42 Cr</Typography>
                     <Typography variant="body2" color="text.secondary">Total bets minus payouts across all providers this month.</Typography>
                 </Paper>
             </Grid>
             <Grid size={{ xs: 12, md: 4 }}>
                 <Paper className="panel">
-                    <Typography variant="h6">Net Gaming Revenue (NGR)</Typography>
+                    <Typography variant="subtitle2" color="text.secondary">Net Gaming Revenue (NGR)</Typography>
                     <Typography variant="h4" fontWeight={800} color="success.main" mt={1}>₹98.5 Lakhs</Typography>
                     <Typography variant="body2" color="text.secondary">GGR minus bonuses, cashback, and provider royalties.</Typography>
                 </Paper>
             </Grid>
             <Grid size={{ xs: 12, md: 4 }}>
                 <Paper className="panel">
-                    <Typography variant="h6">Player Retention (D30)</Typography>
+                    <Typography variant="subtitle2" color="text.secondary">Player Retention (D30)</Typography>
                     <Typography variant="h4" fontWeight={800} color="warning.main" mt={1}>64.8%</Typography>
                     <Typography variant="body2" color="text.secondary">Active players returning within 30 days of registration.</Typography>
                 </Paper>

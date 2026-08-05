@@ -1,7 +1,7 @@
 import { api } from 'api/axios';
 import type { CatalogGame, CatalogProvider, SportsCategory } from './types';
 
-const defaultProviders: CatalogProvider[] = [
+export const defaultProviders: CatalogProvider[] = [
     { id: 'prov-01', providerCode: 'PP', providerName: 'Pragmatic Play', isVisible: true, status: true, sortOrder: 1, createdAt: '2026-01-10' },
     { id: 'prov-02', providerCode: 'EVO', providerName: 'Evolution Gaming', isVisible: true, status: true, sortOrder: 2, createdAt: '2026-01-12' },
     { id: 'prov-03', providerCode: 'HAK', providerName: 'Hacksaw Gaming', isVisible: true, status: true, sortOrder: 3, createdAt: '2026-01-15' },
@@ -12,7 +12,7 @@ const defaultProviders: CatalogProvider[] = [
     { id: 'prov-08', providerCode: 'JILI', providerName: 'JILI Games', isVisible: true, status: true, sortOrder: 8, createdAt: '2026-02-05' }
 ];
 
-const defaultGames: CatalogGame[] = [
+export const defaultGames: CatalogGame[] = [
     { id: 'game-01', gameCode: 'pp_sweet_bonanza', gameName: 'Sweet Bonanza', category: 'Slots', status: 'ACTIVE', isActive: true, isFeatured: true, isPopular: true },
     { id: 'game-02', gameCode: 'pp_gates_of_olympus', gameName: 'Gates of Olympus', category: 'Slots', status: 'ACTIVE', isActive: true, isFeatured: true, isPopular: true },
     { id: 'game-03', gameCode: 'evo_crazy_time', gameName: 'Crazy Time Live', category: 'Live Casino', status: 'ACTIVE', isActive: true, isFeatured: true, isPopular: true },
@@ -23,7 +23,7 @@ const defaultGames: CatalogGame[] = [
     { id: 'game-08', gameCode: 'ezu_speed_baccarat', gameName: 'Speed Baccarat', category: 'Live Casino', status: 'ACTIVE', isActive: true, isFeatured: false, isPopular: false }
 ];
 
-const defaultSports: SportsCategory[] = [
+export const defaultSports: SportsCategory[] = [
     {
         sport: 'Cricket',
         matches: [
