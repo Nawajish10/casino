@@ -1,4 +1,5 @@
 import { api } from 'api/axios';
+import { supabase } from 'api/supabase';
 import type { CatalogGame, CatalogProvider, SportsCategory } from './types';
 
 export const defaultProviders: CatalogProvider[] = [
@@ -53,6 +54,25 @@ export const defaultSports: SportsCategory[] = [
 export const catalogService = {
     getProviders: async (): Promise<CatalogProvider[]> => {
         try {
+            // Direct query to Supabase PostgreSQL Provider table
+            const { data, error } = await supabase
+                .from('Provider')
+                .select('*')
+                .order('sortOrder', { ascending: true });
+
+            if (!error && Array.isArray(data) && data.length > 0) {
+                return data.map((p: any) => ({
+                    id: p.id,
+                    providerCode: p.providerCode,
+                    providerName: p.providerName,
+                    providerLogo: p.providerLogo || null,
+                    status: Boolean(p.status),
+                    isVisible: Boolean(p.isVisible),
+                    sortOrder: Number(p.sortOrder) || 0,
+                    createdAt: p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '2026-01-01'
+                }));
+            }
+
             const res = await api.get('/providers');
             if (Array.isArray(res.data) && res.data.length > 0) return res.data;
             return defaultProviders;
@@ -62,6 +82,26 @@ export const catalogService = {
     },
     getGames: async (): Promise<CatalogGame[]> => {
         try {
+            // Direct query to Supabase PostgreSQL Game table
+            const { data, error } = await supabase
+                .from('Game')
+                .select('*')
+                .order('createdAt', { ascending: false });
+
+            if (!error && Array.isArray(data) && data.length > 0) {
+                return data.map((g: any) => ({
+                    id: g.id,
+                    gameCode: g.gameCode,
+                    gameName: g.gameName,
+                    category: g.category || 'Slots',
+                    thumbnail: g.thumbnail || null,
+                    status: g.status || 'live',
+                    isActive: Boolean(g.isActive),
+                    isFeatured: Boolean(g.isFeatured),
+                    isPopular: Boolean(g.isPopular)
+                }));
+            }
+
             const res = await api.get('/games');
             if (Array.isArray(res.data) && res.data.length > 0) return res.data;
             return defaultGames;
