@@ -49,7 +49,7 @@ describe('GameLaunchService', () => {
       prisma as any,
       walletService as any,
       gateway as any,
-      createConfigService(),
+      createConfigService() as any,
       { create: jest.fn() } as any,
     );
 
@@ -91,7 +91,7 @@ describe('GameLaunchService', () => {
       prisma as any,
       walletService as any,
       gateway as any,
-      createConfigService({ GAME_TEST_MODE: 'true', TEST_GAME_PROVIDER_CODE: 'PRAGMATIC' }),
+      createConfigService({ GAME_TEST_MODE: 'true', TEST_GAME_PROVIDER_CODE: 'PRAGMATIC' }) as any,
       gameSessionRepository as any,
     );
 
@@ -111,7 +111,7 @@ describe('GameLaunchService', () => {
         {} as any,
         {} as any,
         {} as any,
-        createConfigService(),
+        createConfigService() as any,
         {} as any,
       );
 
