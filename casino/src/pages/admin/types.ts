@@ -1,91 +1,63 @@
-export type AdminStatus = 'Active' | 'Suspended' | 'Disabled';
-
-export interface Admin {
-    id: string;
-    name: string;
-    username: string;
-    email: string;
-    mobile: string;
-    creditBalance: number;
-    creditAllocated: number;
-    creditUsed: number;
-    users: number;
-    activeUsers: number;
-    status: AdminStatus;
-    createdAt: string;
-    lastLogin: string;
-    initials: string;
-}
-
-export interface CreditLedgerEntry {
-    id: string;
-    date: string;
-    admin: string;
-    amount: number;
-    type: 'Credit In' | 'Credit Out';
-    remarks: string;
-    createdBy: string;
+export interface DashboardMetrics {
+    totalUsers: number;
+    activeUsers24h: number;
+    totalGames: number;
+    activeProviders: number;
+    totalWalletBalance: number;
+    totalBetsCount: number;
+    totalBetAmount: number;
+    totalWinAmount: number;
+    activeSessionsCount: number;
 }
 
 export interface UserRecord {
     id: string;
-    username: string;
-    email: string;
     mobile: string;
-    balance: number;
-    vipLevel: string;
-    riskScore: 'Low' | 'Medium' | 'High';
-    kycStatus: 'Verified' | 'Pending' | 'Rejected';
-    status: 'Active' | 'Blocked';
-    joinedAt: string;
-    totalDeposits: number;
-    totalWithdrawals: number;
+    email: string | null;
+    name: string | null;
+    emailVerified: boolean;
+    mobileVerified: boolean;
+    createdAt: string;
+    walletBalance: number;
 }
 
-export interface DepositRequest {
+export interface CatalogProvider {
     id: string;
-    userId: string;
-    username: string;
-    amount: number;
-    gateway: string;
-    utr: string;
-    status: 'Pending' | 'Approved' | 'Rejected';
+    providerCode: string;
+    providerName: string;
+    providerLogo?: string | null;
+    status: boolean;
+    isVisible: boolean;
+    sortOrder: number;
     createdAt: string;
 }
 
-export interface WithdrawalRequest {
+export interface CatalogGame {
     id: string;
-    userId: string;
-    username: string;
-    amount: number;
-    bankName: string;
-    accountNumber: string;
-    ifsc: string;
-    status: 'Pending' | 'Approved' | 'Rejected';
-    createdAt: string;
-}
-
-export interface CatalogProvider { id: string; providerCode: string; providerName: string; providerLogo?: string | null; status: boolean; isVisible: boolean; sortOrder: number; createdAt: string; }
-export interface CatalogGame { id: string; gameCode: string; gameName: string; category?: string | null; thumbnail?: string | null; status: string; isActive: boolean; isFeatured: boolean; isPopular: boolean; }
-export interface SportsMatch { id: number; time: string; teams: string; isLive: boolean; }
-export interface SportsCategory { sport: string; matches: SportsMatch[]; }
-
-export interface BannerItem {
-    id: string;
-    title: string;
-    subtitle: string;
-    image: string;
-    link: string;
+    gameCode: string;
+    gameName: string;
+    providerId?: string;
+    category?: string | null;
+    thumbnail?: string | null;
+    status: string;
     isActive: boolean;
+    isFeatured: boolean;
+    isPopular: boolean;
+    playCount: number;
+    createdAt: string;
 }
 
-export interface DomainItem {
+export interface GameTransactionRecord {
     id: string;
-    domain: string;
-    assignedAdmin: string;
-    sslStatus: 'Active' | 'Pending' | 'Expired';
-    geoRegion: string;
-    status: 'Active' | 'Inactive';
+    transactionId: string;
+    userCode: string;
+    providerCode: string;
+    gameCode: string;
+    gameType: string;
+    transactionType: string;
+    betAmount: number;
+    winAmount: number;
+    createdAt: string;
 }
 
 export interface AuditLogItem {
@@ -95,15 +67,24 @@ export interface AuditLogItem {
     action: string;
     details: string;
     ip: string;
-    severity: 'Info' | 'Warning' | 'Critical';
+}
+
+export interface SyncLogItem {
+    id: string;
+    providerCode: string | null;
+    type: string;
+    status: string;
+    message: string;
+    createdAt: string;
 }
 
 export interface SystemHealthInfo {
-    serverUptime: string;
-    cpuLoad: string;
-    memoryUsage: string;
-    databaseStatus: 'Healthy' | 'Degraded' | 'Offline';
-    redisStatus: 'Connected' | 'Disconnected';
-    activeSockets: number;
-    publicIp: string;
+    connected: boolean;
+    tablesFound: string[];
+    missingTables: string[];
+    overview: {
+        providers: number;
+        games: number;
+    };
+    outboundIp?: string;
 }

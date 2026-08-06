@@ -1,96 +1,227 @@
 import { supabase } from 'api/supabase';
+import { api } from 'api/axios';
 import type {
-    Admin, AuditLogItem, BannerItem, CreditLedgerEntry, DepositRequest, DomainItem, SystemHealthInfo, UserRecord, WithdrawalRequest
+    AuditLogItem, DashboardMetrics, GameTransactionRecord, SyncLogItem, SystemHealthInfo, UserRecord
 } from './types';
 
 export const adminService = {
-    getAdmins: async (): Promise<Admin[]> => [
-        { id: 'ADM-001', name: 'Arjun Mehta', username: 'arjun.m', email: 'arjun@playverse.com', mobile: '+91 98201 48392', creditBalance: 125000, creditAllocated: 180000, creditUsed: 55000, users: 1248, activeUsers: 842, status: 'Active', createdAt: '12 Jan 2026', lastLogin: '2 min ago', initials: 'AM' },
-        { id: 'ADM-002', name: 'Priya Sharma', username: 'priya.s', email: 'priya@playverse.com', mobile: '+91 98710 28571', creditBalance: 84250, creditAllocated: 120000, creditUsed: 35750, users: 986, activeUsers: 617, status: 'Active', createdAt: '18 Feb 2026', lastLogin: '18 min ago', initials: 'PS' },
-        { id: 'ADM-003', name: 'Rohan Kapoor', username: 'rohan.k', email: 'rohan@playverse.com', mobile: '+91 99103 68412', creditBalance: 46300, creditAllocated: 95000, creditUsed: 48700, users: 671, activeUsers: 391, status: 'Suspended', createdAt: '02 Mar 2026', lastLogin: '3 days ago', initials: 'RK' },
-        { id: 'ADM-004', name: 'Neha Verma', username: 'neha.v', email: 'neha@playverse.com', mobile: '+91 98994 22071', creditBalance: 214500, creditAllocated: 275000, creditUsed: 60500, users: 2104, activeUsers: 1582, status: 'Active', createdAt: '29 Apr 2026', lastLogin: '1 hour ago', initials: 'NV' },
-        { id: 'ADM-005', name: 'Karan Singh', username: 'karan.s', email: 'karan@playverse.com', mobile: '+91 98111 65704', creditBalance: 0, creditAllocated: 50000, creditUsed: 50000, users: 392, activeUsers: 102, status: 'Disabled', createdAt: '15 May 2026', lastLogin: '8 days ago', initials: 'KS' }
-    ],
-    getLedger: async (): Promise<CreditLedgerEntry[]> => [
-        { id: 'TXN-98452', date: '11 Jul 2026, 10:24', admin: 'Neha Verma', amount: 25000, type: 'Credit In', remarks: 'Monthly operating credit', createdBy: 'Super Admin' },
-        { id: 'TXN-98451', date: '11 Jul 2026, 09:48', admin: 'Arjun Mehta', amount: 15000, type: 'Credit In', remarks: 'Weekend campaign budget', createdBy: 'Super Admin' },
-        { id: 'TXN-98439', date: '10 Jul 2026, 18:12', admin: 'Priya Sharma', amount: 10000, type: 'Credit Out', remarks: 'Balance reconciliation', createdBy: 'Super Admin' },
-        { id: 'TXN-98422', date: '10 Jul 2026, 14:36', admin: 'Rohan Kapoor', amount: 7500, type: 'Credit In', remarks: 'Retention offer allocation', createdBy: 'Super Admin' }
-    ],
+    getDashboardOverviewMetrics: async (): Promise<DashboardMetrics> => {
+        const metrics: DashboardMetrics = {
+            totalUsers: 0,
+            activeUsers24h: 0,
+            totalGames: 0,
+            activeProviders: 0,
+            totalWalletBalance: 0,
+            totalBetsCount: 0,
+            totalBetAmount: 0,
+            totalWinAmount: 0,
+            activeSessionsCount: 0
+        };
+
+        try {
+            const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+            const [
+                usersRes,
+                activeUsersRes,
+                gamesRes,
+                providersRes,
+                walletsRes,
+                txsRes,
+                txAmountsRes,
+                sessionsRes
+            ] = await Promise.allSettled([
+                supabase.from('User').select('id', { count: 'exact', head: true }),
+                supabase.from('User').select('id', { count: 'exact', head: true }).gte('updatedAt', twentyFourHoursAgo),
+                supabase.from('Game').select('id', { count: 'exact', head: true }),
+                supabase.from('Provider').select('id', { count: 'exact', head: true }).eq('status', true),
+                supabase.from('Wallet').select('balance'),
+                supabase.from('GameTransaction').select('id', { count: 'exact', head: true }),
+                supabase.from('GameTransaction').select('betAmount, winAmount'),
+                supabase.from('GameSession').select('id', { count: 'exact', head: true }).eq('status', 'active')
+            ]);
+
+            if (usersRes.status === 'fulfilled' && usersRes.value.count !== null) {
+                metrics.totalUsers = usersRes.value.count;
+            }
+            if (activeUsersRes.status === 'fulfilled' && activeUsersRes.value.count !== null) {
+                metrics.activeUsers24h = activeUsersRes.value.count;
+            }
+            if (gamesRes.status === 'fulfilled' && gamesRes.value.count !== null) {
+                metrics.totalGames = gamesRes.value.count;
+            }
+            if (providersRes.status === 'fulfilled' && providersRes.value.count !== null) {
+                metrics.activeProviders = providersRes.value.count;
+            }
+
+            if (walletsRes.status === 'fulfilled' && Array.isArray(walletsRes.value.data)) {
+                metrics.totalWalletBalance = walletsRes.value.data.reduce(
+                    (sum, w) => sum + (Number(w.balance) || 0),
+                    0
+                );
+            }
+
+            if (txsRes.status === 'fulfilled' && txsRes.value.count !== null) {
+                metrics.totalBetsCount = txsRes.value.count;
+            }
+
+            if (txAmountsRes.status === 'fulfilled' && Array.isArray(txAmountsRes.value.data)) {
+                metrics.totalBetAmount = txAmountsRes.value.data.reduce(
+                    (sum, t) => sum + (Number(t.betAmount) || 0),
+                    0
+                );
+                metrics.totalWinAmount = txAmountsRes.value.data.reduce(
+                    (sum, t) => sum + (Number(t.winAmount) || 0),
+                    0
+                );
+            }
+
+            if (sessionsRes.status === 'fulfilled' && sessionsRes.value.count !== null) {
+                metrics.activeSessionsCount = sessionsRes.value.count;
+            }
+        } catch (error) {
+            console.error('Error fetching admin dashboard metrics:', error);
+        }
+
+        return metrics;
+    },
+
     getUsers: async (): Promise<UserRecord[]> => {
         try {
-            const { data, error } = await supabase.from('User').select('*, Wallet(*)');
-            if (!error && Array.isArray(data) && data.length > 0) {
+            const { data, error } = await supabase
+                .from('User')
+                .select('*, Wallet(balance)')
+                .order('createdAt', { ascending: false });
+
+            if (!error && Array.isArray(data)) {
                 return data.map((u: any) => ({
-                    id: u.id.slice(0, 8),
-                    username: u.name || u.mobile || 'Player',
-                    email: u.email || 'N/A',
+                    id: u.id,
                     mobile: u.mobile || 'N/A',
-                    balance: u.Wallet && u.Wallet[0] ? Number(u.Wallet[0].balance) : 0,
-                    vipLevel: 'VIP Silver',
-                    riskScore: 'Low',
-                    kycStatus: u.mobileVerified ? 'Verified' : 'Pending',
-                    status: 'Active',
-                    joinedAt: u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '2026-01-01',
-                    totalDeposits: 50000,
-                    totalWithdrawals: 20000
+                    email: u.email || null,
+                    name: u.name || null,
+                    emailVerified: Boolean(u.emailVerified),
+                    mobileVerified: Boolean(u.mobileVerified),
+                    createdAt: u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A',
+                    walletBalance: u.Wallet && u.Wallet[0] ? Number(u.Wallet[0].balance) || 0 : 0
                 }));
             }
-        } catch {}
-        return [
-            { id: 'USR-10081', username: 'vikram_king', email: 'vikram.k@gmail.com', mobile: '+91 98334 11200', balance: 42500, vipLevel: 'VIP Gold', riskScore: 'Low', kycStatus: 'Verified', status: 'Active', joinedAt: '04 Jan 2026', totalDeposits: 150000, totalWithdrawals: 95000 },
-            { id: 'USR-10082', username: 'rahul_roller', email: 'rahul.r@yahoo.com', mobile: '+91 97112 44309', balance: 18900, vipLevel: 'VIP Silver', riskScore: 'Low', kycStatus: 'Verified', status: 'Active', joinedAt: '12 Jan 2026', totalDeposits: 80000, totalWithdrawals: 52000 },
-            { id: 'USR-10083', username: 'sneha_luck', email: 'sneha.l@outlook.com', mobile: '+91 99201 55671', balance: 3400, vipLevel: 'VIP Bronze', riskScore: 'Medium', kycStatus: 'Pending', status: 'Active', joinedAt: '01 Feb 2026', totalDeposits: 25000, totalWithdrawals: 18000 }
-        ];
+            return [];
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            return [];
+        }
     },
-    getDeposits: async (): Promise<DepositRequest[]> => [
-        { id: 'DP-45092', userId: 'USR-10081', username: 'vikram_king', amount: 12500, gateway: 'UPI / PhonePe', utr: 'UTR8941058291', status: 'Approved', createdAt: '11 Jul 2026, 10:45' },
-        { id: 'DP-45093', userId: 'USR-10083', username: 'sneha_luck', amount: 5000, gateway: 'Google Pay', utr: 'UTR8941058292', status: 'Pending', createdAt: '11 Jul 2026, 11:02' },
-        { id: 'DP-45094', userId: 'USR-10085', username: 'divya_star', amount: 50000, gateway: 'IMPS Direct', utr: 'UTR8941058293', status: 'Pending', createdAt: '11 Jul 2026, 11:15' },
-        { id: 'DP-45091', userId: 'USR-10082', username: 'rahul_roller', amount: 10000, gateway: 'Paytm', utr: 'UTR8941058290', status: 'Approved', createdAt: '11 Jul 2026, 09:30' }
-    ],
-    getWithdrawals: async (): Promise<WithdrawalRequest[]> => [
-        { id: 'WD-98141', userId: 'USR-10085', username: 'divya_star', amount: 25000, bankName: 'HDFC Bank', accountNumber: '501004921948', ifsc: 'HDFC0000128', status: 'Pending', createdAt: '11 Jul 2026, 10:50' },
-        { id: 'WD-98142', userId: 'USR-10081', username: 'vikram_king', amount: 15000, bankName: 'ICICI Bank', accountNumber: '001205938102', ifsc: 'ICIC0000241', status: 'Approved', createdAt: '11 Jul 2026, 08:20' },
-        { id: 'WD-98140', userId: 'USR-10084', username: 'amit_poker', amount: 40000, bankName: 'State Bank of India', accountNumber: '302910482910', ifsc: 'SBIN0001402', status: 'Rejected', createdAt: '10 Jul 2026, 17:40' }
-    ],
-    getBanners: async (): Promise<BannerItem[]> => [
-        { id: 'BNR-01', title: 'Welcome Bonus 200%', subtitle: 'Get up to ₹20,000 on your first deposit', image: '/static/banner1.jpg', link: '/bonus', isActive: true },
-        { id: 'BNR-02', title: 'IPL 2026 Special Odds', subtitle: 'Highest odds on all cricket matches', image: '/static/banner2.jpg', link: '/sports', isActive: true },
-        { id: 'BNR-03', title: 'Weekly Slots Cashback 10%', subtitle: 'Every Monday instant cashback drop', image: '/static/banner3.jpg', link: '/casino', isActive: false }
-    ],
-    getDomains: async (): Promise<DomainItem[]> => [
-        { id: 'DOM-01', domain: 'playverse.com', assignedAdmin: 'Super Admin', sslStatus: 'Active', geoRegion: 'Global', status: 'Active' },
-        { id: 'DOM-02', domain: 'playverse.in', assignedAdmin: 'Arjun Mehta', sslStatus: 'Active', geoRegion: 'India (IN)', status: 'Active' },
-        { id: 'DOM-03', domain: 'playverse.bet', assignedAdmin: 'Priya Sharma', sslStatus: 'Pending', geoRegion: 'Southeast Asia', status: 'Active' }
-    ],
+
+    getGameTransactions: async (): Promise<GameTransactionRecord[]> => {
+        try {
+            const { data, error } = await supabase
+                .from('GameTransaction')
+                .select('*')
+                .order('createdAt', { ascending: false })
+                .limit(100);
+
+            if (!error && Array.isArray(data)) {
+                return data.map((t: any) => ({
+                    id: t.id,
+                    transactionId: t.transactionId,
+                    userCode: t.userCode || t.userId || 'N/A',
+                    providerCode: t.providerCode,
+                    gameCode: t.gameCode,
+                    gameType: t.gameType || 'Slot',
+                    transactionType: t.transactionType || 'Bet',
+                    betAmount: Number(t.betAmount) || 0,
+                    winAmount: Number(t.winAmount) || 0,
+                    createdAt: t.createdAt ? new Date(t.createdAt).toLocaleString() : 'N/A'
+                }));
+            }
+            return [];
+        } catch (error) {
+            console.error('Error fetching game transactions:', error);
+            return [];
+        }
+    },
+
     getAuditLogs: async (): Promise<AuditLogItem[]> => {
         try {
-            const { data, error } = await supabase.from('AuditLog').select('*').order('createdAt', { ascending: false });
-            if (!error && Array.isArray(data) && data.length > 0) {
+            const { data, error } = await supabase
+                .from('AuditLog')
+                .select('*')
+                .order('createdAt', { ascending: false })
+                .limit(100);
+
+            if (!error && Array.isArray(data)) {
                 return data.map((l: any) => ({
-                    id: l.id.slice(0, 8),
-                    timestamp: l.createdAt ? new Date(l.createdAt).toLocaleString() : 'Just now',
+                    id: l.id,
+                    timestamp: l.createdAt ? new Date(l.createdAt).toLocaleString() : 'N/A',
                     actor: l.adminUser || 'System',
                     action: l.action || 'LOG',
                     details: typeof l.newValue === 'object' ? JSON.stringify(l.newValue) : String(l.entityId || ''),
-                    ip: '103.21.124.5',
-                    severity: 'Info'
+                    ip: 'Internal DB'
                 }));
             }
-        } catch {}
-        return [
-            { id: 'AUD-901', timestamp: '11 Jul 2026, 11:20:14', actor: 'Super Admin', action: 'CREDIT_TRANSFER', details: 'Transferred ₹25,000 to Neha Verma', ip: '103.21.124.5', severity: 'Info' },
-            { id: 'AUD-902', timestamp: '11 Jul 2026, 10:45:02', actor: 'Neha Verma', action: 'DEPOSIT_APPROVE', details: 'Approved deposit #DP-45092 for ₹12,500', ip: '157.33.19.42', severity: 'Info' }
-        ];
+            return [];
+        } catch (error) {
+            console.error('Error fetching audit logs:', error);
+            return [];
+        }
     },
-    getSystemHealth: async (): Promise<SystemHealthInfo> => ({
-        serverUptime: '99.98% (14 days 6 hrs)',
-        cpuLoad: '18% / 100%',
-        memoryUsage: '3.4 GB / 8.0 GB',
-        databaseStatus: 'Healthy',
-        redisStatus: 'Connected',
-        activeSockets: 1284,
-        publicIp: '13.235.42.110'
-    })
+
+    getSyncLogs: async (): Promise<SyncLogItem[]> => {
+        try {
+            const { data, error } = await supabase
+                .from('SyncLog')
+                .select('*')
+                .order('createdAt', { ascending: false })
+                .limit(100);
+
+            if (!error && Array.isArray(data)) {
+                return data.map((s: any) => ({
+                    id: s.id,
+                    providerCode: s.providerCode || 'N/A',
+                    type: s.type || 'SYNC',
+                    status: s.status || 'INFO',
+                    message: s.message || '',
+                    createdAt: s.createdAt ? new Date(s.createdAt).toLocaleString() : 'N/A'
+                }));
+            }
+            return [];
+        } catch (error) {
+            console.error('Error fetching sync logs:', error);
+            return [];
+        }
+    },
+
+    getSystemHealth: async (): Promise<SystemHealthInfo> => {
+        try {
+            const res = await api.get('/database-health');
+            if (res.data) {
+                return {
+                    connected: Boolean(res.data.connected),
+                    tablesFound: res.data.tablesFound || [],
+                    missingTables: res.data.missingTables || [],
+                    overview: res.data.overview || { providers: 0, games: 0 }
+                };
+            }
+        } catch {}
+
+        // Direct fallback query via Supabase to check DB connectivity
+        try {
+            const { error: pErr } = await supabase.from('Provider').select('id', { head: true, count: 'exact' });
+            const { error: gErr } = await supabase.from('Game').select('id', { head: true, count: 'exact' });
+
+            return {
+                connected: !pErr && !gErr,
+                tablesFound: ['Provider', 'Game', 'User', 'Wallet', 'GameTransaction', 'AuditLog', 'SyncLog'],
+                missingTables: [],
+                overview: { providers: 0, games: 0 }
+            };
+        } catch {
+            return {
+                connected: false,
+                tablesFound: [],
+                missingTables: ['Provider', 'Game', 'User', 'Wallet', 'GameTransaction'],
+                overview: { providers: 0, games: 0 }
+            };
+        }
+    }
 };
