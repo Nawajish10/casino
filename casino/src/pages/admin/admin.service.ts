@@ -88,13 +88,17 @@ export const adminService = {
 
     getUsers: async (): Promise<UserRecord[]> => {
         try {
-            const { data, error } = await supabase
-                .from('User')
-                .select('*, Wallet(balance)')
-                .order('createdAt', { ascending: false });
+            const [usersRes, walletsRes] = await Promise.all([
+                supabase.from('User').select('*').order('createdAt', { ascending: false }),
+                supabase.from('Wallet').select('*')
+            ]);
 
-            if (!error && Array.isArray(data)) {
-                return data.map((u: any) => ({
+            const usersData = usersRes.data || [];
+            const walletsData = walletsRes.data || [];
+
+            return usersData.map((u: any) => {
+                const userWallet = walletsData.find((w: any) => w.userId === u.id);
+                return {
                     id: u.id,
                     mobile: u.mobile || 'N/A',
                     email: u.email || null,
@@ -102,10 +106,9 @@ export const adminService = {
                     emailVerified: Boolean(u.emailVerified),
                     mobileVerified: Boolean(u.mobileVerified),
                     createdAt: u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A',
-                    walletBalance: u.Wallet && u.Wallet[0] ? Number(u.Wallet[0].balance) || 0 : 0
-                }));
-            }
-            return [];
+                    walletBalance: userWallet ? Number(userWallet.balance) || 0 : 0
+                };
+            });
         } catch (error) {
             console.error('Error fetching users:', error);
             return [];
