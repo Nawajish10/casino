@@ -1,6 +1,63 @@
+export type UserRole = 'SUPER_ADMIN' | 'ADMIN';
+
+export interface AdminUserRecord {
+    id: string;
+    name: string;
+    username: string;
+    email: string;
+    mobile: string | null;
+    role: UserRole;
+    status: 'ACTIVE' | 'DISABLED';
+    assignedPlayersCount: number;
+    createdAt: string;
+}
+
+export interface DepositRequestRecord {
+    id: string;
+    userId: string;
+    username: string;
+    amount: number;
+    gateway: string;
+    utr: string;
+    screenshotUrl: string | null;
+    status: 'PENDING' | 'APPROVED' | 'REJECTED';
+    rejectReason?: string | null;
+    createdAt: string;
+}
+
+export interface WithdrawalRequestRecord {
+    id: string;
+    userId: string;
+    username: string;
+    amount: number;
+    bankName: string;
+    accountNumber: string;
+    ifsc: string;
+    status: 'PENDING' | 'APPROVED' | 'REJECTED';
+    rejectReason?: string | null;
+    createdAt: string;
+}
+
+export interface PaymentSettingsData {
+    upiId: string;
+    upiName: string;
+    qrCodeUrl: string | null;
+    minDeposit: number;
+    maxDeposit: number;
+    isEnabled: boolean;
+}
+
+export interface WebsiteSettingsData {
+    platformName: string;
+    supportEmail: string;
+    maintenanceMode: boolean;
+    allowRegistrations: boolean;
+}
+
 export interface DashboardMetrics {
     totalUsers: number;
     activeUsers24h: number;
+    totalAdmins: number;
     totalGames: number;
     activeProviders: number;
     totalWalletBalance: number;
@@ -8,6 +65,8 @@ export interface DashboardMetrics {
     totalBetAmount: number;
     totalWinAmount: number;
     activeSessionsCount: number;
+    pendingDepositsCount: number;
+    pendingWithdrawalsCount: number;
 }
 
 export interface UserRecord {
@@ -15,6 +74,7 @@ export interface UserRecord {
     mobile: string;
     email: string | null;
     name: string | null;
+    agent: string;
     emailVerified: boolean;
     mobileVerified: boolean;
     createdAt: string;

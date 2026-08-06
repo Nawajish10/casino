@@ -145,3 +145,55 @@ model GameSession {
   createdAt       DateTime  @default(now())
   expiresAt       DateTime
 }
+
+model AdminUser {
+  id                   String   @id @default(uuid())
+  name                 String
+  username             String   @unique
+  email                String   @unique
+  mobile               String?
+  role                 String   @default("ADMIN") // "SUPER_ADMIN" | "ADMIN"
+  status               String   @default("ACTIVE") // "ACTIVE" | "DISABLED"
+  assignedPlayersCount Int      @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model DepositRequest {
+  id            String   @id @default(uuid())
+  userId        String
+  username      String
+  amount        Decimal
+  gateway       String   @default("UPI QR")
+  utr           String
+  screenshotUrl String?
+  status        String   @default("PENDING") // "PENDING" | "APPROVED" | "REJECTED"
+  rejectReason  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model WithdrawalRequest {
+  id            String   @id @default(uuid())
+  userId        String
+  username      String
+  amount        Decimal
+  bankName      String
+  accountNumber String
+  ifsc          String
+  status        String   @default("PENDING") // "PENDING" | "APPROVED" | "REJECTED"
+  rejectReason  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model PaymentSettings {
+  id         String   @id @default("default")
+  upiId      String   @default("playverse@upi")
+  upiName    String   @default("PLAYVERSE GAMING")
+  qrCodeUrl  String?
+  minDeposit Decimal  @default(100)
+  maxDeposit Decimal  @default(100000)
+  isEnabled  Boolean  @default(true)
+  updatedAt  DateTime @updatedAt
+}
