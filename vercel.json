@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd casino && npm install && npm run build",
+  "buildCommand": "cd casino && npm install && npx vite build",
   "outputDirectory": "casino/dist",
   "rewrites": [
     {
