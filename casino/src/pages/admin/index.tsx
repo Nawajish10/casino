@@ -37,7 +37,7 @@ export default function AdminPage() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Active Admin Session (Default: Super Admin)
+    // Active Admin Session
     const [currentRole, setCurrentRole] = useState<'SUPER_ADMIN' | 'ADMIN'>('SUPER_ADMIN');
 
     const page = useMemo(() => {
@@ -249,18 +249,18 @@ export default function AdminPage() {
         }
     };
 
-    // Sidebar Content
+    // Sidebar Content (LIGHT THEME)
     const drawerContent = (
-        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: '#0B0F19', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
-            <Box sx={{ p: 2.5, display: 'flex', alignItems: 'center', gap: 1.5, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: '#FFFFFF', borderRight: '1px solid #E5E7EB' }}>
+            <Box sx={{ p: 2.5, display: 'flex', alignItems: 'center', gap: 1.5, borderBottom: '1px solid #E5E7EB' }}>
                 <Box sx={{ width: 40, height: 40, borderRadius: 2.5, bgGradient: 'linear-gradient(135deg, #FF4842, #7A0C2E)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Icon icon="solar:shield-bold" width="24" color="#FFF" />
                 </Box>
                 <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#FFF', lineHeight: 1.1 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#111827', lineHeight: 1.1 }}>
                         PLAYVERSE
                     </Typography>
-                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: 0.8 }}>
+                    <Typography variant="caption" sx={{ color: '#6B7280', fontSize: '0.7rem', fontWeight: 700, letterSpacing: 0.8 }}>
                         ENTERPRISE BACK-OFFICE
                     </Typography>
                 </Box>
@@ -278,28 +278,28 @@ export default function AdminPage() {
                             sx={{
                                 borderRadius: 2,
                                 mb: 0.5,
-                                color: active ? '#FF4842' : 'rgba(255,255,255,0.7)',
-                                bgcolor: active ? 'rgba(255, 72, 66, 0.12)' : 'transparent',
-                                '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' }
+                                color: active ? '#FF4842' : '#4B5563',
+                                bgcolor: active ? 'rgba(255, 72, 66, 0.08)' : 'transparent',
+                                '&:hover': { bgcolor: '#F3F4F6' }
                             }}
                         >
-                            <ListItemIcon sx={{ color: active ? '#FF4842' : 'rgba(255,255,255,0.5)', minWidth: 38 }}>
+                            <ListItemIcon sx={{ color: active ? '#FF4842' : '#6B7280', minWidth: 38 }}>
                                 <Icon icon={item.icon} width="22" />
                             </ListItemIcon>
-                            <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: '0.88rem', fontWeight: active ? 700 : 500 }} />
+                            <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: '0.88rem', fontWeight: active ? 700 : 600 }} />
                         </ListItemButton>
                     );
                 })}
             </List>
 
-            <Box sx={{ p: 2, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            <Box sx={{ p: 2, borderTop: '1px solid #E5E7EB' }}>
                 <Button
                     fullWidth
                     variant="outlined"
                     color="inherit"
                     onClick={() => navigate('/')}
                     startIcon={<Icon icon="solar:home-angle-bold-duotone" />}
-                    sx={{ borderColor: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)', fontSize: '0.82rem' }}
+                    sx={{ borderColor: '#D1D5DB', color: '#374151', fontSize: '0.82rem', fontWeight: 600 }}
                 >
                     Back to Player Portal
                 </Button>
@@ -308,13 +308,13 @@ export default function AdminPage() {
     );
 
     return (
-        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#070A12', color: '#FFF' }}>
+        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#F4F6F8', color: '#111827' }}>
             <CssBaseline />
 
             {/* Toast Notification */}
             {toastMessage && (
                 <Box sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999 }}>
-                    <Alert severity="info" variant="filled" sx={{ bgcolor: '#FF4842', color: '#FFF', fontWeight: 600, boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+                    <Alert severity="info" variant="filled" sx={{ bgcolor: '#FF4842', color: '#FFF', fontWeight: 600, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
                         {toastMessage}
                     </Alert>
                 </Box>
@@ -346,20 +346,20 @@ export default function AdminPage() {
                 </Drawer>
             </Box>
 
-            {/* Main Content */}
+            {/* Main Content (LIGHT THEME) */}
             <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, md: 3.5 }, width: { md: `calc(100% - ${DRAWER_WIDTH}px)` } }}>
                 {/* Header Toolbar */}
-                <Paper sx={{ p: 2, mb: 3.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                <Paper sx={{ p: 2, mb: 3.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Stack direction="row" alignItems="center" spacing={2}>
                             <IconButton color="inherit" onClick={() => setMobileOpen(!mobileOpen)} sx={{ display: { md: 'none' } }}>
                                 <Icon icon="solar:hamburger-menu-linear" />
                             </IconButton>
                             <Box>
-                                <Typography variant="h6" sx={{ fontWeight: 800, lineHeight: 1.2 }}>
+                                <Typography variant="h6" sx={{ fontWeight: 800, lineHeight: 1.2, color: '#111827' }}>
                                     {navItems.find(i => i.id === page)?.label || 'Dashboard Overview'}
                                 </Typography>
-                                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
+                                <Typography variant="caption" sx={{ color: '#6B7280' }}>
                                     Role Scoped: <strong style={{ color: '#FF4842' }}>{currentRole}</strong>
                                 </Typography>
                             </Box>
@@ -367,115 +367,115 @@ export default function AdminPage() {
 
                         <Stack direction="row" alignItems="center" spacing={2}>
                             <Chip
-                                icon={<Icon icon="solar:database-bold" color={health?.connected ? '#54D62C' : '#FF4842'} />}
+                                icon={<Icon icon="solar:database-bold" color={health?.connected ? '#22C55E' : '#EF4444'} />}
                                 label={health?.connected ? 'Database Healthy' : 'Database Offline'}
                                 variant="outlined"
                                 size="small"
-                                sx={{ borderColor: health?.connected ? 'rgba(84,214,44,0.3)' : 'rgba(255,72,66,0.3)', color: health?.connected ? '#54D62C' : '#FF4842', fontWeight: 700 }}
+                                sx={{ borderColor: health?.connected ? '#BBF7D0' : '#FECACA', color: health?.connected ? '#15803D' : '#B91C1C', fontWeight: 700, bgcolor: health?.connected ? '#F0FDF4' : '#FEF2F2' }}
                             />
-                            <Avatar sx={{ width: 36, height: 36, bgcolor: '#FF4842', fontSize: '0.85rem', fontWeight: 800 }}>AM</Avatar>
+                            <Avatar sx={{ width: 36, height: 36, bgcolor: '#FF4842', fontSize: '0.85rem', fontWeight: 800, color: '#FFF' }}>AM</Avatar>
                         </Stack>
                     </Stack>
                 </Paper>
 
-                {loading && <LinearProgress sx={{ mb: 3, bgcolor: 'rgba(255,255,255,0.05)', '& .MuiLinearProgress-bar': { bgcolor: '#FF4842' } }} />}
+                {loading && <LinearProgress sx={{ mb: 3, bgcolor: '#E5E7EB', '& .MuiLinearProgress-bar': { bgcolor: '#FF4842' } }} />}
 
                 {/* DASHBOARD OVERVIEW */}
                 {page === 'overview' && metrics && (
                     <Stack spacing={3}>
                         {/* Summary Cards */}
                         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: '1fr 1fr 1fr 1fr' }, gap: 2.5 }}>
-                            <Paper sx={{ p: 2.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                            <Paper sx={{ p: 2.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box>
-                                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Total Registered Players</Typography>
-                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#FFF' }}>{metrics.totalUsers}</Typography>
+                                        <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>Total Registered Players</Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#111827' }}>{metrics.totalUsers}</Typography>
                                     </Box>
-                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(51, 144, 255, 0.12)', color: '#3390FF' }}>
+                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(51, 144, 255, 0.1)', color: '#2563EB' }}>
                                         <Icon icon="solar:users-group-two-rounded-bold" width="28" />
                                     </Box>
                                 </Stack>
                             </Paper>
 
-                            <Paper sx={{ p: 2.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                            <Paper sx={{ p: 2.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box>
-                                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Active Players (24h)</Typography>
-                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#FFF' }}>{metrics.activeUsers24h}</Typography>
+                                        <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>Active Players (24h)</Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#111827' }}>{metrics.activeUsers24h}</Typography>
                                     </Box>
-                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(84, 214, 44, 0.12)', color: '#54D62C' }}>
+                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(34, 197, 94, 0.1)', color: '#16A34A' }}>
                                         <Icon icon="solar:user-check-bold" width="28" />
                                     </Box>
                                 </Stack>
                             </Paper>
 
-                            <Paper sx={{ p: 2.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                            <Paper sx={{ p: 2.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box>
-                                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Total Admins</Typography>
-                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#FFF' }}>{metrics.totalAdmins}</Typography>
+                                        <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>Total Admins</Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#111827' }}>{metrics.totalAdmins}</Typography>
                                     </Box>
-                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(255, 72, 66, 0.12)', color: '#FF4842' }}>
+                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(255, 72, 66, 0.1)', color: '#DC2626' }}>
                                         <Icon icon="solar:shield-user-bold" width="28" />
                                     </Box>
                                 </Stack>
                             </Paper>
 
-                            <Paper sx={{ p: 2.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                            <Paper sx={{ p: 2.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box>
-                                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Player Wallet Balances</Typography>
-                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#54D62C' }}>₹{metrics.totalWalletBalance.toLocaleString('en-IN')}</Typography>
+                                        <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>Player Wallet Balances</Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#16A34A' }}>₹{metrics.totalWalletBalance.toLocaleString('en-IN')}</Typography>
                                     </Box>
-                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(255, 193, 7, 0.12)', color: '#FFC107' }}>
+                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(245, 158, 11, 0.1)', color: '#D97706' }}>
                                         <Icon icon="solar:wallet-money-bold" width="28" />
                                     </Box>
                                 </Stack>
                             </Paper>
 
-                            <Paper sx={{ p: 2.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                            <Paper sx={{ p: 2.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box>
-                                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Pending Deposit Requests</Typography>
-                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: metrics.pendingDepositsCount > 0 ? '#FFC107' : '#FFF' }}>{metrics.pendingDepositsCount}</Typography>
+                                        <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>Pending Deposit Requests</Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: metrics.pendingDepositsCount > 0 ? '#D97706' : '#111827' }}>{metrics.pendingDepositsCount}</Typography>
                                     </Box>
-                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(255, 193, 7, 0.12)', color: '#FFC107' }}>
+                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(245, 158, 11, 0.1)', color: '#D97706' }}>
                                         <Icon icon="solar:card-transfer-bold" width="28" />
                                     </Box>
                                 </Stack>
                             </Paper>
 
-                            <Paper sx={{ p: 2.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                            <Paper sx={{ p: 2.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box>
-                                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Pending Withdrawal Requests</Typography>
-                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: metrics.pendingWithdrawalsCount > 0 ? '#FF4842' : '#FFF' }}>{metrics.pendingWithdrawalsCount}</Typography>
+                                        <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>Pending Withdrawal Requests</Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: metrics.pendingWithdrawalsCount > 0 ? '#DC2626' : '#111827' }}>{metrics.pendingWithdrawalsCount}</Typography>
                                     </Box>
-                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(255, 72, 66, 0.12)', color: '#FF4842' }}>
+                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(239, 68, 68, 0.1)', color: '#DC2626' }}>
                                         <Icon icon="solar:wallet-money-bold" width="28" />
                                     </Box>
                                 </Stack>
                             </Paper>
 
-                            <Paper sx={{ p: 2.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                            <Paper sx={{ p: 2.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box>
-                                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Active Games</Typography>
-                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#FFF' }}>{metrics.totalGames}</Typography>
+                                        <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>Active Games</Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#111827' }}>{metrics.totalGames}</Typography>
                                     </Box>
-                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(183, 110, 255, 0.12)', color: '#B76EFF' }}>
+                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(147, 51, 234, 0.1)', color: '#9333EA' }}>
                                         <Icon icon="solar:gamepad-bold" width="28" />
                                     </Box>
                                 </Stack>
                             </Paper>
 
-                            <Paper sx={{ p: 2.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                            <Paper sx={{ p: 2.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box>
-                                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Active Providers</Typography>
-                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#FFF' }}>{metrics.activeProviders}</Typography>
+                                        <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>Active Providers</Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 800, mt: 0.5, color: '#111827' }}>{metrics.activeProviders}</Typography>
                                     </Box>
-                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(0, 184, 217, 0.12)', color: '#00B8D9' }}>
+                                    <Box sx={{ p: 1.5, borderRadius: 2.5, bgcolor: 'rgba(14, 165, 233, 0.1)', color: '#0284C7' }}>
                                         <Icon icon="solar:server-square-bold" width="28" />
                                     </Box>
                                 </Stack>
@@ -483,28 +483,28 @@ export default function AdminPage() {
                         </Box>
 
                         {/* Recent Activity Table */}
-                        <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>System Audit Activity</Typography>
+                        <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, color: '#111827' }}>System Audit Activity</Typography>
                             {auditLogs.length === 0 ? (
-                                <Alert severity="info" sx={{ bgcolor: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.7)' }}>No audit activity entries logged in database.</Alert>
+                                <Alert severity="info" sx={{ bgcolor: '#F9FAFB', color: '#4B5563' }}>No audit activity entries logged in database.</Alert>
                             ) : (
                                 <TableContainer>
                                     <Table size="small">
-                                        <TableHead>
+                                        <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                             <TableRow>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Timestamp</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Actor</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Action</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Details</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Timestamp</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Actor</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Action</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Details</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {auditLogs.slice(0, 5).map(log => (
                                                 <TableRow key={log.id}>
-                                                    <TableCell sx={{ color: '#FFF' }}>{log.timestamp}</TableCell>
-                                                    <TableCell sx={{ color: '#FFF' }}>{log.actor}</TableCell>
+                                                    <TableCell sx={{ color: '#111827' }}>{log.timestamp}</TableCell>
+                                                    <TableCell sx={{ color: '#111827', fontWeight: 600 }}>{log.actor}</TableCell>
                                                     <TableCell><Chip label={log.action} size="small" color="primary" variant="outlined" /></TableCell>
-                                                    <TableCell sx={{ color: 'rgba(255,255,255,0.8)' }}>{log.details}</TableCell>
+                                                    <TableCell sx={{ color: '#374151' }}>{log.details}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -517,11 +517,11 @@ export default function AdminPage() {
 
                 {/* ADMINS MANAGEMENT */}
                 {page === 'admins' && (
-                    <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                    <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
                             <Box>
-                                <Typography variant="h6" sx={{ fontWeight: 700 }}>Admin User Directory ({admins.length})</Typography>
-                                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>Manage administrative access and player assignments</Typography>
+                                <Typography variant="h6" sx={{ fontWeight: 700, color: '#111827' }}>Admin User Directory ({admins.length})</Typography>
+                                <Typography variant="caption" sx={{ color: '#6B7280' }}>Manage administrative access and player assignments</Typography>
                             </Box>
                             <Button
                                 variant="contained"
@@ -535,23 +535,23 @@ export default function AdminPage() {
 
                         <TableContainer>
                             <Table>
-                                <TableHead>
+                                <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                     <TableRow>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Name</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Username / Email</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Role</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Status</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Assigned Players</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Created Date</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Name</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Username / Email</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Role</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Status</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Assigned Players</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Created Date</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {admins.map(a => (
                                         <TableRow key={a.id}>
-                                            <TableCell sx={{ color: '#FFF', fontWeight: 700 }}>{a.name}</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                                            <TableCell sx={{ color: '#111827', fontWeight: 700 }}>{a.name}</TableCell>
+                                            <TableCell sx={{ color: '#374151' }}>
                                                 @{a.username}<br />
-                                                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>{a.email}</Typography>
+                                                <Typography variant="caption" sx={{ color: '#6B7280' }}>{a.email}</Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Chip
@@ -570,8 +570,8 @@ export default function AdminPage() {
                                                     variant="outlined"
                                                 />
                                             </TableCell>
-                                            <TableCell sx={{ color: '#FFF', fontWeight: 600 }}>{a.assignedPlayersCount} Players</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>{a.createdAt}</TableCell>
+                                            <TableCell sx={{ color: '#111827', fontWeight: 600 }}>{a.assignedPlayersCount} Players</TableCell>
+                                            <TableCell sx={{ color: '#6B7280' }}>{a.createdAt}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -582,9 +582,9 @@ export default function AdminPage() {
 
                 {/* PLAYERS MANAGEMENT */}
                 {page === 'users' && (
-                    <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                    <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                         <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" justifyContent="space-between" spacing={2} sx={{ mb: 3 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 700 }}>Registered Players Directory ({filteredUsers.length})</Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 700, color: '#111827' }}>Registered Players Directory ({filteredUsers.length})</Typography>
                             <TextField
                                 size="small"
                                 placeholder="Search player mobile or name..."
@@ -593,43 +593,43 @@ export default function AdminPage() {
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <Icon icon="solar:magnifer-linear" color="rgba(255,255,255,0.5)" />
+                                            <Icon icon="solar:magnifer-linear" color="#9CA3AF" />
                                         </InputAdornment>
                                     )
                                 }}
-                                sx={{ width: 280, bgcolor: 'rgba(255,255,255,0.05)', borderRadius: 1.5 }}
+                                sx={{ width: 280, bgcolor: '#F9FAFB', borderRadius: 1.5 }}
                             />
                         </Stack>
 
                         {filteredUsers.length === 0 ? (
-                            <Alert severity="info" sx={{ bgcolor: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.7)' }}>No players found in User database table.</Alert>
+                            <Alert severity="info" sx={{ bgcolor: '#F9FAFB', color: '#4B5563' }}>No players found in User database table.</Alert>
                         ) : (
                             <TableContainer>
                                 <Table>
-                                    <TableHead>
+                                    <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                         <TableRow>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Mobile</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Name / Email</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Assigned Agent</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Wallet Balance</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Verification</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Registration Date</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Mobile</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Name / Email</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Assigned Agent</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Wallet Balance</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Verification</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Registration Date</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {filteredUsers.slice(pageNumber * rowsPerPage, (pageNumber + 1) * rowsPerPage).map(u => (
                                             <TableRow key={u.id}>
-                                                <TableCell sx={{ color: '#FFF', fontWeight: 700 }}>{u.mobile}</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                                                <TableCell sx={{ color: '#111827', fontWeight: 700 }}>{u.mobile}</TableCell>
+                                                <TableCell sx={{ color: '#374151' }}>
                                                     {u.name || 'Player'}<br />
-                                                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>{u.email || 'No email'}</Typography>
+                                                    <Typography variant="caption" sx={{ color: '#6B7280' }}>{u.email || 'No email'}</Typography>
                                                 </TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.7)' }}>{u.agent}</TableCell>
-                                                <TableCell sx={{ color: '#54D62C', fontWeight: 800 }}>₹{u.walletBalance.toLocaleString('en-IN')}</TableCell>
+                                                <TableCell sx={{ color: '#4B5563' }}>{u.agent}</TableCell>
+                                                <TableCell sx={{ color: '#16A34A', fontWeight: 800 }}>₹{u.walletBalance.toLocaleString('en-IN')}</TableCell>
                                                 <TableCell>
                                                     <Chip label={u.mobileVerified ? 'Verified' : 'Pending'} size="small" color={u.mobileVerified ? 'success' : 'warning'} variant="outlined" />
                                                 </TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>{u.createdAt}</TableCell>
+                                                <TableCell sx={{ color: '#6B7280' }}>{u.createdAt}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -641,7 +641,7 @@ export default function AdminPage() {
                                     onPageChange={(_, p) => setPageNumber(p)}
                                     rowsPerPage={rowsPerPage}
                                     onRowsPerPageChange={e => { setRowsPerPage(parseInt(e.target.value, 10)); setPageNumber(0); }}
-                                    sx={{ color: 'rgba(255,255,255,0.7)' }}
+                                    sx={{ color: '#4B5563' }}
                                 />
                             </TableContainer>
                         )}
@@ -650,9 +650,9 @@ export default function AdminPage() {
 
                 {/* GAMES CATALOG */}
                 {page === 'games' && (
-                    <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                    <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                         <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" justifyContent="space-between" spacing={2} sx={{ mb: 3 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 700 }}>Database Games Catalog ({filteredGames.length})</Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 700, color: '#111827' }}>Database Games Catalog ({filteredGames.length})</Typography>
                             <TextField
                                 size="small"
                                 placeholder="Search games..."
@@ -661,32 +661,32 @@ export default function AdminPage() {
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <Icon icon="solar:magnifer-linear" color="rgba(255,255,255,0.5)" />
+                                            <Icon icon="solar:magnifer-linear" color="#9CA3AF" />
                                         </InputAdornment>
                                     )
                                 }}
-                                sx={{ width: 280, bgcolor: 'rgba(255,255,255,0.05)', borderRadius: 1.5 }}
+                                sx={{ width: 280, bgcolor: '#F9FAFB', borderRadius: 1.5 }}
                             />
                         </Stack>
 
                         <TableContainer>
                             <Table>
-                                <TableHead>
+                                <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                     <TableRow>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Game Name</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Game Code</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Category</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Plays</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Active Status</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Game Name</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Game Code</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Category</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Plays</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Active Status</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {filteredGames.slice(pageNumber * rowsPerPage, (pageNumber + 1) * rowsPerPage).map(g => (
                                         <TableRow key={g.id}>
-                                            <TableCell sx={{ color: '#FFF', fontWeight: 600 }}>{g.gameName}</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'monospace' }}>{g.gameCode}</TableCell>
+                                            <TableCell sx={{ color: '#111827', fontWeight: 600 }}>{g.gameName}</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontFamily: 'monospace' }}>{g.gameCode}</TableCell>
                                             <TableCell><Chip label={g.category || 'Slot'} size="small" variant="outlined" color="primary" /></TableCell>
-                                            <TableCell sx={{ color: '#FFF' }}>{g.playCount}</TableCell>
+                                            <TableCell sx={{ color: '#111827' }}>{g.playCount}</TableCell>
                                             <TableCell>
                                                 <Switch checked={g.isActive} color="error" />
                                             </TableCell>
@@ -694,31 +694,40 @@ export default function AdminPage() {
                                     ))}
                                 </TableBody>
                             </Table>
+                            <TablePagination
+                                component="div"
+                                count={filteredGames.length}
+                                page={pageNumber}
+                                onPageChange={(_, p) => setPageNumber(p)}
+                                rowsPerPage={rowsPerPage}
+                                onRowsPerPageChange={e => { setRowsPerPage(parseInt(e.target.value, 10)); setPageNumber(0); }}
+                                sx={{ color: '#4B5563' }}
+                            />
                         </TableContainer>
                     </Paper>
                 )}
 
                 {/* PROVIDERS */}
                 {page === 'providers' && (
-                    <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>Database Game Providers ({providers.length})</Typography>
+                    <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>Database Game Providers ({providers.length})</Typography>
                         <TableContainer>
                             <Table>
-                                <TableHead>
+                                <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                     <TableRow>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Provider Name</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Provider Code</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Status</TableCell>
-                                        <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Created Date</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Provider Name</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Provider Code</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Status</TableCell>
+                                        <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Created Date</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {providers.map(p => (
                                         <TableRow key={p.id}>
-                                            <TableCell sx={{ color: '#FFF', fontWeight: 700 }}>{p.providerName}</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'monospace' }}>{p.providerCode}</TableCell>
+                                            <TableCell sx={{ color: '#111827', fontWeight: 700 }}>{p.providerName}</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontFamily: 'monospace' }}>{p.providerCode}</TableCell>
                                             <TableCell><Chip label={p.status ? 'Active' : 'Disabled'} size="small" color={p.status ? 'success' : 'default'} variant="outlined" /></TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>{p.createdAt}</TableCell>
+                                            <TableCell sx={{ color: '#6B7280' }}>{p.createdAt}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -729,18 +738,18 @@ export default function AdminPage() {
 
                 {/* DEPOSIT APPROVAL MANAGEMENT */}
                 {page === 'deposits' && (
-                    <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
+                    <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                         <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" justifyContent="space-between" spacing={2} sx={{ mb: 3 }}>
                             <Box>
-                                <Typography variant="h6" sx={{ fontWeight: 700 }}>Player Deposit Verification Queue ({filteredDeposits.length})</Typography>
-                                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>Verify player payment screenshots & UTR numbers to approve manual deposit requests</Typography>
+                                <Typography variant="h6" sx={{ fontWeight: 700, color: '#111827' }}>Player Deposit Verification Queue ({filteredDeposits.length})</Typography>
+                                <Typography variant="caption" sx={{ color: '#6B7280' }}>Verify player payment screenshots & UTR numbers to approve manual deposit requests</Typography>
                             </Box>
                             <Stack direction="row" spacing={2}>
                                 <Select
                                     size="small"
                                     value={statusFilter}
                                     onChange={e => setStatusFilter(e.target.value)}
-                                    sx={{ bgcolor: 'rgba(255,255,255,0.05)', color: '#FFF', width: 140 }}
+                                    sx={{ bgcolor: '#F9FAFB', color: '#111827', width: 140 }}
                                 >
                                     <MenuItem value="ALL">All Status</MenuItem>
                                     <MenuItem value="PENDING">Pending</MenuItem>
@@ -751,33 +760,33 @@ export default function AdminPage() {
                         </Stack>
 
                         {filteredDeposits.length === 0 ? (
-                            <Alert severity="info" sx={{ bgcolor: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.7)' }}>No deposit verification requests found in database.</Alert>
+                            <Alert severity="info" sx={{ bgcolor: '#F9FAFB', color: '#4B5563' }}>No deposit verification requests found in database.</Alert>
                         ) : (
                             <TableContainer>
                                 <Table>
-                                    <TableHead>
+                                    <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                         <TableRow>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Player</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Amount</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>UTR Number</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Screenshot</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Status</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Actions</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Player</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Amount</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>UTR Number</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Screenshot</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Status</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Actions</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {filteredDeposits.map(d => (
                                             <TableRow key={d.id}>
-                                                <TableCell sx={{ color: '#FFF', fontWeight: 700 }}>{d.username}</TableCell>
-                                                <TableCell sx={{ color: '#54D62C', fontWeight: 800 }}>₹{d.amount.toLocaleString('en-IN')}</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.8)', fontFamily: 'monospace' }}>{d.utr}</TableCell>
+                                                <TableCell sx={{ color: '#111827', fontWeight: 700 }}>{d.username}</TableCell>
+                                                <TableCell sx={{ color: '#16A34A', fontWeight: 800 }}>₹{d.amount.toLocaleString('en-IN')}</TableCell>
+                                                <TableCell sx={{ color: '#374151', fontFamily: 'monospace' }}>{d.utr}</TableCell>
                                                 <TableCell>
                                                     <Button
                                                         size="small"
                                                         variant="outlined"
                                                         startIcon={<Icon icon="solar:eye-bold" />}
                                                         onClick={() => setScreenshotModal(d)}
-                                                        sx={{ color: '#3390FF', borderColor: 'rgba(51,144,255,0.3)', textTransform: 'none' }}
+                                                        sx={{ color: '#2563EB', borderColor: '#BFDBFE', textTransform: 'none' }}
                                                     >
                                                         View Receipt
                                                     </Button>
@@ -826,30 +835,30 @@ export default function AdminPage() {
 
                 {/* WITHDRAWALS MANAGEMENT */}
                 {page === 'withdrawals' && (
-                    <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>Player Withdrawal Processing Queue ({filteredWithdrawals.length})</Typography>
+                    <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>Player Withdrawal Processing Queue ({filteredWithdrawals.length})</Typography>
                         {filteredWithdrawals.length === 0 ? (
-                            <Alert severity="info" sx={{ bgcolor: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.7)' }}>No withdrawal requests found in database.</Alert>
+                            <Alert severity="info" sx={{ bgcolor: '#F9FAFB', color: '#4B5563' }}>No withdrawal requests found in database.</Alert>
                         ) : (
                             <TableContainer>
                                 <Table>
-                                    <TableHead>
+                                    <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                         <TableRow>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Player</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Amount</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Bank Details</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Status</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Actions</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Player</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Amount</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Bank Details</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Status</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Actions</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {filteredWithdrawals.map(w => (
                                             <TableRow key={w.id}>
-                                                <TableCell sx={{ color: '#FFF', fontWeight: 700 }}>{w.username}</TableCell>
-                                                <TableCell sx={{ color: '#FF4842', fontWeight: 800 }}>₹{w.amount.toLocaleString('en-IN')}</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                                                <TableCell sx={{ color: '#111827', fontWeight: 700 }}>{w.username}</TableCell>
+                                                <TableCell sx={{ color: '#DC2626', fontWeight: 800 }}>₹{w.amount.toLocaleString('en-IN')}</TableCell>
+                                                <TableCell sx={{ color: '#374151' }}>
                                                     {w.bankName}<br />
-                                                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace' }}>A/C: {w.accountNumber} | IFSC: {w.ifsc}</Typography>
+                                                    <Typography variant="caption" sx={{ color: '#6B7280', fontFamily: 'monospace' }}>A/C: {w.accountNumber} | IFSC: {w.ifsc}</Typography>
                                                 </TableCell>
                                                 <TableCell>
                                                     <Chip label={w.status} size="small" color={w.status === 'APPROVED' ? 'success' : w.status === 'PENDING' ? 'warning' : 'error'} variant="filled" />
@@ -873,14 +882,14 @@ export default function AdminPage() {
 
                 {/* PAYMENT SETTINGS & QR CODE MANAGER */}
                 {page === 'payment-settings' && (
-                    <Paper sx={{ p: 3.5, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
-                        <Typography variant="h6" sx={{ fontWeight: 800, mb: 1 }}>Player Manual Payment & QR Code Settings</Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', mb: 4 }}>
+                    <Paper sx={{ p: 3.5, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 800, mb: 1, color: '#111827' }}>Player Manual Payment & QR Code Settings</Typography>
+                        <Typography variant="body2" sx={{ color: '#6B7280', mb: 4 }}>
                             Configure the deposit UPI QR code and payment guidelines displayed to players when making manual deposits.
                         </Typography>
 
                         <Stack spacing={4} sx={{ maxWidth: 640 }}>
-                            <Box sx={{ p: 3, border: '2px dashed rgba(255,255,255,0.15)', borderRadius: 3, textAlign: 'center', bgcolor: 'rgba(255,255,255,0.02)' }}>
+                            <Box sx={{ p: 3, border: '2px dashed #D1D5DB', borderRadius: 3, textAlign: 'center', bgcolor: '#F9FAFB' }}>
                                 {paymentSettings.qrCodeUrl ? (
                                     <Box sx={{ mb: 2 }}>
                                         <img src={paymentSettings.qrCodeUrl} alt="Deposit QR" style={{ width: 180, height: 180, borderRadius: 12, objectFit: 'contain' }} />
@@ -888,7 +897,7 @@ export default function AdminPage() {
                                 ) : (
                                     <Box sx={{ p: 3 }}>
                                         <Icon icon="solar:qr-code-bold-duotone" width="64" color="#FF4842" />
-                                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', mt: 1 }}>No Payment QR uploaded yet</Typography>
+                                        <Typography variant="body2" sx={{ color: '#6B7280', mt: 1 }}>No Payment QR uploaded yet</Typography>
                                     </Box>
                                 )}
 
@@ -912,7 +921,7 @@ export default function AdminPage() {
                                         </Button>
                                     )}
                                 </Stack>
-                                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)', mt: 1.5, display: 'block' }}>
+                                <Typography variant="caption" sx={{ color: '#9CA3AF', mt: 1.5, display: 'block' }}>
                                     Supported formats: PNG, JPG, WebP (Max 5MB)
                                 </Typography>
                             </Box>
@@ -922,7 +931,7 @@ export default function AdminPage() {
                                 value={paymentSettings.upiId}
                                 onChange={e => setPaymentSettings({ ...paymentSettings, upiId: e.target.value })}
                                 fullWidth
-                                sx={{ bgcolor: 'rgba(255,255,255,0.05)', borderRadius: 1.5 }}
+                                sx={{ bgcolor: '#F9FAFB', borderRadius: 1.5 }}
                             />
 
                             <TextField
@@ -930,7 +939,7 @@ export default function AdminPage() {
                                 value={paymentSettings.upiName}
                                 onChange={e => setPaymentSettings({ ...paymentSettings, upiName: e.target.value })}
                                 fullWidth
-                                sx={{ bgcolor: 'rgba(255,255,255,0.05)', borderRadius: 1.5 }}
+                                sx={{ bgcolor: '#F9FAFB', borderRadius: 1.5 }}
                             />
 
                             <Stack direction="row" spacing={2}>
@@ -940,7 +949,7 @@ export default function AdminPage() {
                                     value={paymentSettings.minDeposit}
                                     onChange={e => setPaymentSettings({ ...paymentSettings, minDeposit: Number(e.target.value) })}
                                     fullWidth
-                                    sx={{ bgcolor: 'rgba(255,255,255,0.05)' }}
+                                    sx={{ bgcolor: '#F9FAFB' }}
                                 />
                                 <TextField
                                     label="Maximum Deposit (₹)"
@@ -948,7 +957,7 @@ export default function AdminPage() {
                                     value={paymentSettings.maxDeposit}
                                     onChange={e => setPaymentSettings({ ...paymentSettings, maxDeposit: Number(e.target.value) })}
                                     fullWidth
-                                    sx={{ bgcolor: 'rgba(255,255,255,0.05)' }}
+                                    sx={{ bgcolor: '#F9FAFB' }}
                                 />
                             </Stack>
 
@@ -956,7 +965,7 @@ export default function AdminPage() {
                                 variant="contained"
                                 size="large"
                                 onClick={handleSavePaymentSettings}
-                                sx={{ bgcolor: '#54D62C', '&:hover': { bgcolor: '#38B219' }, fontWeight: 800, textTransform: 'none', py: 1.5 }}
+                                sx={{ bgcolor: '#16A34A', '&:hover': { bgcolor: '#15803D' }, fontWeight: 800, textTransform: 'none', py: 1.5 }}
                             >
                                 Save Payment Settings
                             </Button>
@@ -966,32 +975,32 @@ export default function AdminPage() {
 
                 {/* GAME TRANSACTIONS */}
                 {page === 'transactions' && (
-                    <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>Game Transactions Log ({transactions.length})</Typography>
+                    <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>Game Transactions Log ({transactions.length})</Typography>
                         {transactions.length === 0 ? (
-                            <Alert severity="info" sx={{ bgcolor: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.7)' }}>No transactions logged in GameTransaction database table.</Alert>
+                            <Alert severity="info" sx={{ bgcolor: '#F9FAFB', color: '#4B5563' }}>No transactions logged in GameTransaction database table.</Alert>
                         ) : (
                             <TableContainer>
                                 <Table>
-                                    <TableHead>
+                                    <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                         <TableRow>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Txn ID</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>User</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Provider / Game</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Bet</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Win</TableCell>
-                                            <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Timestamp</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Txn ID</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>User</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Provider / Game</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Bet</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Win</TableCell>
+                                            <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Timestamp</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {transactions.map(t => (
                                             <TableRow key={t.id}>
-                                                <TableCell sx={{ color: '#FFF', fontFamily: 'monospace' }}>{t.transactionId}</TableCell>
-                                                <TableCell sx={{ color: '#FFF' }}>{t.userCode}</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.8)' }}>{t.providerCode} / {t.gameCode}</TableCell>
-                                                <TableCell sx={{ color: '#FF4842', fontWeight: 600 }}>₹{t.betAmount.toLocaleString('en-IN')}</TableCell>
-                                                <TableCell sx={{ color: '#54D62C', fontWeight: 600 }}>₹{t.winAmount.toLocaleString('en-IN')}</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>{t.createdAt}</TableCell>
+                                                <TableCell sx={{ color: '#111827', fontFamily: 'monospace' }}>{t.transactionId}</TableCell>
+                                                <TableCell sx={{ color: '#111827', fontWeight: 600 }}>{t.userCode}</TableCell>
+                                                <TableCell sx={{ color: '#374151' }}>{t.providerCode} / {t.gameCode}</TableCell>
+                                                <TableCell sx={{ color: '#DC2626', fontWeight: 600 }}>₹{t.betAmount.toLocaleString('en-IN')}</TableCell>
+                                                <TableCell sx={{ color: '#16A34A', fontWeight: 600 }}>₹{t.winAmount.toLocaleString('en-IN')}</TableCell>
+                                                <TableCell sx={{ color: '#6B7280' }}>{t.createdAt}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -1004,28 +1013,28 @@ export default function AdminPage() {
                 {/* SECURITY & LOGS */}
                 {page === 'security' && (
                     <Stack spacing={3}>
-                        <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>Audit Logs ({auditLogs.length})</Typography>
+                        <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, color: '#111827' }}>Audit Logs ({auditLogs.length})</Typography>
                             {auditLogs.length === 0 ? (
-                                <Alert severity="info" sx={{ bgcolor: 'rgba(255,255,255,0.03)' }}>No AuditLog table entries recorded.</Alert>
+                                <Alert severity="info" sx={{ bgcolor: '#F9FAFB', color: '#4B5563' }}>No AuditLog table entries recorded.</Alert>
                             ) : (
                                 <TableContainer>
                                     <Table size="small">
-                                        <TableHead>
+                                        <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                             <TableRow>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Timestamp</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Actor</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Action</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Details</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Timestamp</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Actor</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Action</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Details</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {auditLogs.map(l => (
                                                 <TableRow key={l.id}>
-                                                    <TableCell sx={{ color: '#FFF' }}>{l.timestamp}</TableCell>
-                                                    <TableCell sx={{ color: '#FFF' }}>{l.actor}</TableCell>
+                                                    <TableCell sx={{ color: '#111827' }}>{l.timestamp}</TableCell>
+                                                    <TableCell sx={{ color: '#111827', fontWeight: 600 }}>{l.actor}</TableCell>
                                                     <TableCell><Chip label={l.action} size="small" color="primary" variant="outlined" /></TableCell>
-                                                    <TableCell sx={{ color: 'rgba(255,255,255,0.8)' }}>{l.details}</TableCell>
+                                                    <TableCell sx={{ color: '#374151' }}>{l.details}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -1034,30 +1043,30 @@ export default function AdminPage() {
                             )}
                         </Paper>
 
-                        <Paper sx={{ p: 3, bgcolor: '#0D121F', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>Sync Logs ({syncLogs.length})</Typography>
+                        <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, color: '#111827' }}>Sync Logs ({syncLogs.length})</Typography>
                             {syncLogs.length === 0 ? (
-                                <Alert severity="info" sx={{ bgcolor: 'rgba(255,255,255,0.03)' }}>No SyncLog table entries recorded.</Alert>
+                                <Alert severity="info" sx={{ bgcolor: '#F9FAFB', color: '#4B5563' }}>No SyncLog table entries recorded.</Alert>
                             ) : (
                                 <TableContainer>
                                     <Table size="small">
-                                        <TableHead>
+                                        <TableHead sx={{ bgcolor: '#F9FAFB' }}>
                                             <TableRow>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Timestamp</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Provider</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Type</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Status</TableCell>
-                                                <TableCell sx={{ color: 'rgba(255,255,255,0.6)' }}>Message</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Timestamp</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Provider</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Type</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Status</TableCell>
+                                                <TableCell sx={{ color: '#4B5563', fontWeight: 700 }}>Message</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {syncLogs.map(s => (
                                                 <TableRow key={s.id}>
-                                                    <TableCell sx={{ color: '#FFF' }}>{s.createdAt}</TableCell>
-                                                    <TableCell sx={{ color: '#FFF' }}>{s.providerCode}</TableCell>
+                                                    <TableCell sx={{ color: '#111827' }}>{s.createdAt}</TableCell>
+                                                    <TableCell sx={{ color: '#111827', fontWeight: 600 }}>{s.providerCode}</TableCell>
                                                     <TableCell>{s.type}</TableCell>
                                                     <TableCell><Chip label={s.status} size="small" color={s.status === 'SUCCESS' ? 'success' : 'error'} variant="outlined" /></TableCell>
-                                                    <TableCell sx={{ color: 'rgba(255,255,255,0.8)' }}>{s.message}</TableCell>
+                                                    <TableCell sx={{ color: '#374151' }}>{s.message}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -1070,15 +1079,15 @@ export default function AdminPage() {
             </Box>
 
             {/* CREATE ADMIN DIALOG */}
-            <Dialog open={createAdminOpen} onClose={() => setCreateAdminOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { bgcolor: '#0D121F', color: '#FFF' } }}>
+            <Dialog open={createAdminOpen} onClose={() => setCreateAdminOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { bgcolor: '#FFFFFF', color: '#111827' } }}>
                 <DialogTitle sx={{ fontWeight: 800 }}>Create New Admin Account</DialogTitle>
                 <DialogContent>
                     <Stack spacing={2} sx={{ mt: 1 }}>
-                        <TextField label="Full Name" value={newAdminForm.name} onChange={e => setNewAdminForm({ ...newAdminForm, name: e.target.value })} fullWidth sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
-                        <TextField label="Username" value={newAdminForm.username} onChange={e => setNewAdminForm({ ...newAdminForm, username: e.target.value })} fullWidth sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
-                        <TextField label="Email Address" value={newAdminForm.email} onChange={e => setNewAdminForm({ ...newAdminForm, email: e.target.value })} fullWidth sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
-                        <TextField label="Mobile Number" value={newAdminForm.mobile} onChange={e => setNewAdminForm({ ...newAdminForm, mobile: e.target.value })} fullWidth sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
-                        <Select value={newAdminForm.role} onChange={e => setNewAdminForm({ ...newAdminForm, role: e.target.value as any })} fullWidth sx={{ bgcolor: 'rgba(255,255,255,0.05)', color: '#FFF' }}>
+                        <TextField label="Full Name" value={newAdminForm.name} onChange={e => setNewAdminForm({ ...newAdminForm, name: e.target.value })} fullWidth sx={{ bgcolor: '#F9FAFB' }} />
+                        <TextField label="Username" value={newAdminForm.username} onChange={e => setNewAdminForm({ ...newAdminForm, username: e.target.value })} fullWidth sx={{ bgcolor: '#F9FAFB' }} />
+                        <TextField label="Email Address" value={newAdminForm.email} onChange={e => setNewAdminForm({ ...newAdminForm, email: e.target.value })} fullWidth sx={{ bgcolor: '#F9FAFB' }} />
+                        <TextField label="Mobile Number" value={newAdminForm.mobile} onChange={e => setNewAdminForm({ ...newAdminForm, mobile: e.target.value })} fullWidth sx={{ bgcolor: '#F9FAFB' }} />
+                        <Select value={newAdminForm.role} onChange={e => setNewAdminForm({ ...newAdminForm, role: e.target.value as any })} fullWidth sx={{ bgcolor: '#F9FAFB', color: '#111827' }}>
                             <MenuItem value="ADMIN">ADMIN (Assigned Players Only)</MenuItem>
                             <MenuItem value="SUPER_ADMIN">SUPER ADMIN (Full Platform Control)</MenuItem>
                         </Select>
@@ -1091,22 +1100,22 @@ export default function AdminPage() {
             </Dialog>
 
             {/* SCREENSHOT RECEIPT VIEWER DIALOG */}
-            <Dialog open={Boolean(screenshotModal)} onClose={() => setScreenshotModal(null)} maxWidth="md" fullWidth PaperProps={{ sx: { bgcolor: '#0D121F', color: '#FFF' } }}>
+            <Dialog open={Boolean(screenshotModal)} onClose={() => setScreenshotModal(null)} maxWidth="md" fullWidth PaperProps={{ sx: { bgcolor: '#FFFFFF', color: '#111827' } }}>
                 <DialogTitle sx={{ fontWeight: 800 }}>Player Payment Screenshot Verification</DialogTitle>
                 <DialogContent>
                     {screenshotModal && (
                         <Stack spacing={2} sx={{ mt: 1, alignItems: 'center' }}>
-                            <Box sx={{ p: 2, bgcolor: 'rgba(255,255,255,0.03)', borderRadius: 2, width: '100%' }}>
+                            <Box sx={{ p: 2, bgcolor: '#F9FAFB', borderRadius: 2, width: '100%', border: '1px solid #E5E7EB' }}>
                                 <Typography variant="subtitle2">Player: <strong>{screenshotModal.username}</strong></Typography>
-                                <Typography variant="subtitle2">Amount: <strong style={{ color: '#54D62C' }}>₹{screenshotModal.amount}</strong></Typography>
+                                <Typography variant="subtitle2">Amount: <strong style={{ color: '#16A34A' }}>₹{screenshotModal.amount}</strong></Typography>
                                 <Typography variant="subtitle2">UTR Number: <strong style={{ fontFamily: 'monospace' }}>{screenshotModal.utr}</strong></Typography>
                             </Box>
                             {screenshotModal.screenshotUrl ? (
                                 <img src={screenshotModal.screenshotUrl} alt="Payment Receipt" style={{ maxWidth: '100%', maxHeight: 400, borderRadius: 8, objectFit: 'contain' }} />
                             ) : (
-                                <Box sx={{ p: 4, textAlign: 'center', bgcolor: 'rgba(255,255,255,0.02)', width: '100%', borderRadius: 2 }}>
-                                    <Icon icon="solar:document-text-bold-duotone" width="48" color="rgba(255,255,255,0.3)" />
-                                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', mt: 1 }}>No image uploaded. Verified via UTR ({screenshotModal.utr})</Typography>
+                                <Box sx={{ p: 4, textAlign: 'center', bgcolor: '#F9FAFB', width: '100%', borderRadius: 2, border: '1px solid #E5E7EB' }}>
+                                    <Icon icon="solar:document-text-bold-duotone" width="48" color="#9CA3AF" />
+                                    <Typography variant="body2" sx={{ color: '#6B7280', mt: 1 }}>No image uploaded. Verified via UTR ({screenshotModal.utr})</Typography>
                                 </Box>
                             )}
                         </Stack>
@@ -1118,11 +1127,11 @@ export default function AdminPage() {
             </Dialog>
 
             {/* ACTION DIALOG FOR APPROVE / REJECT */}
-            <Dialog open={Boolean(actionDialog)} onClose={() => setActionDialog(null)} maxWidth="xs" fullWidth PaperProps={{ sx: { bgcolor: '#0D121F', color: '#FFF' } }}>
+            <Dialog open={Boolean(actionDialog)} onClose={() => setActionDialog(null)} maxWidth="xs" fullWidth PaperProps={{ sx: { bgcolor: '#FFFFFF', color: '#111827' } }}>
                 <DialogTitle sx={{ fontWeight: 800 }}>Confirm Action</DialogTitle>
                 <DialogContent>
                     {actionDialog && (
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mt: 1 }}>
+                        <Typography variant="body2" sx={{ color: '#374151', mt: 1 }}>
                             Are you sure you want to {actionDialog.type.toLowerCase().includes('approve') ? 'approve' : 'reject'} this request of <strong>₹{actionDialog.item.amount}</strong> for <strong>{actionDialog.item.username}</strong>?
                         </Typography>
                     )}
@@ -1132,7 +1141,7 @@ export default function AdminPage() {
                             value={rejectReason}
                             onChange={e => setRejectReason(e.target.value)}
                             fullWidth
-                            sx={{ mt: 2, bgcolor: 'rgba(255,255,255,0.05)' }}
+                            sx={{ mt: 2, bgcolor: '#F9FAFB' }}
                         />
                     )}
                 </DialogContent>
