@@ -18,7 +18,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { WalletModule } from './modules/wallet/wallet.module';
 import { GameLogModule } from './modules/game-log/game-log.module';
 import { GameLaunchModule } from './modules/game-launch/game-launch.module';
-
+import { AgentModule } from './modules/agent/agent.module';
+import { PlayerModule } from './modules/player/player.module';
+import { UploadModule } from './modules/upload/upload.module';
 
 @Module({
   imports: [
@@ -36,6 +38,9 @@ import { GameLaunchModule } from './modules/game-launch/game-launch.module';
     WalletModule,
     GameLogModule,
     GameLaunchModule,
+    AgentModule,
+    PlayerModule,
+    UploadModule,
     ScheduleModule.forRoot(),
     ThrottlerModule.forRoot([{
       ttl: 60000,

@@ -71,14 +71,33 @@ model AuditLog {
 
 model User {
   id             String         @id @default(uuid())
+  username       String?        @unique
   mobile         String         @unique
   email          String?
   name           String?
+  status         String         @default("ACTIVE") // "ACTIVE" | "SUSPENDED"
+  agentId        String?
+  agent          Agent?         @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  lastLoginAt    DateTime?
   emailVerified  Boolean        @default(false)
   mobileVerified Boolean        @default(false)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   refreshTokens  RefreshToken[]
+}
+
+model Agent {
+  id            String    @id @default(uuid())
+  name          String
+  username      String    @unique
+  email         String    @unique
+  mobile        String?
+  status        String    @default("ACTIVE") // "ACTIVE" | "DISABLED"
+  walletBalance Decimal   @default(0)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  players       User[]
 }
 
 model OtpVerification {
@@ -152,9 +171,8 @@ model AdminUser {
   username             String   @unique
   email                String   @unique
   mobile               String?
-  role                 String   @default("ADMIN") // "SUPER_ADMIN" | "ADMIN"
+  role                 String   @default("ADMIN")
   status               String   @default("ACTIVE") // "ACTIVE" | "DISABLED"
-  assignedPlayersCount Int      @default(0)
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 }
@@ -163,6 +181,8 @@ model DepositRequest {
   id            String   @id @default(uuid())
   userId        String
   username      String
+  agentId       String?
+  agentName     String?
   amount        Decimal
   gateway       String   @default("UPI QR")
   utr           String

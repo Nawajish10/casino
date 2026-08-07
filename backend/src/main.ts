@@ -10,6 +10,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import compression from 'compression';
 
+import * as express from 'express';
+import * as path from 'path';
+
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
@@ -25,8 +28,11 @@ async function bootstrap() {
     });
   }
 
+  // Serve static uploaded files (QR codes, payment screenshots)
+  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
   // Security and Compression
-  app.use(helmet());
+  app.use(helmet({ crossOriginResourcePolicy: false }));
   app.use(compression());
 
   // Enable CORS with flexible production matching

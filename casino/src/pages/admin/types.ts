@@ -1,14 +1,27 @@
-export type UserRole = 'SUPER_ADMIN' | 'ADMIN';
-
-export interface AdminUserRecord {
+export interface AgentRecord {
     id: string;
     name: string;
     username: string;
     email: string;
     mobile: string | null;
-    role: UserRole;
     status: 'ACTIVE' | 'DISABLED';
+    walletBalance: number;
     assignedPlayersCount: number;
+    lastLoginAt?: string | null;
+    createdAt: string;
+}
+
+export interface UserRecord {
+    id: string;
+    username: string;
+    mobile: string;
+    email: string | null;
+    name: string | null;
+    agentId?: string | null;
+    assignedAgent: string;
+    status: 'ACTIVE' | 'SUSPENDED';
+    walletBalance: number;
+    lastLoginAt?: string | null;
     createdAt: string;
 }
 
@@ -16,6 +29,8 @@ export interface DepositRequestRecord {
     id: string;
     userId: string;
     username: string;
+    agentId?: string | null;
+    assignedAgent?: string;
     amount: number;
     gateway: string;
     utr: string;
@@ -55,30 +70,27 @@ export interface WebsiteSettingsData {
 }
 
 export interface DashboardMetrics {
-    totalUsers: number;
-    activeUsers24h: number;
-    totalAdmins: number;
-    totalGames: number;
-    activeProviders: number;
-    totalWalletBalance: number;
-    totalBetsCount: number;
-    totalBetAmount: number;
-    totalWinAmount: number;
-    activeSessionsCount: number;
-    pendingDepositsCount: number;
-    pendingWithdrawalsCount: number;
-}
+    // Overview
+    totalAgents: number;
+    activeAgents: number;
+    totalPlayers: number;
+    onlinePlayers: number;
 
-export interface UserRecord {
-    id: string;
-    mobile: string;
-    email: string | null;
-    name: string | null;
-    agent: string;
-    emailVerified: boolean;
-    mobileVerified: boolean;
-    createdAt: string;
-    walletBalance: number;
+    // Finance
+    todaysDeposits: number;
+    todaysWithdrawals: number;
+    totalWalletBalance: number;
+    platformRevenue: number;
+
+    // Gaming
+    activeGames: number;
+    activeProviders: number;
+    betsToday: number;
+
+    // Operations
+    pendingDeposits: number;
+    pendingWithdrawals: number;
+    failedTransactions: number;
 }
 
 export interface CatalogProvider {

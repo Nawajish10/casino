@@ -27,14 +27,23 @@ import {
     useMediaQuery,
     Avatar,
     ButtonBase,
-    InputAdornment
+    InputAdornment,
+    Alert,
+    CircularProgress
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 // api
 import { nowpayDeposit } from 'api';
 import { paymentApi } from 'api/payment.api';
+import { adminService } from 'pages/admin/admin.service';
+import type { PaymentSettingsData } from 'pages/admin/types';
+
 // types
 import { IDeposit } from 'types/deposit';
 import { ICryptoCurrency } from 'types/user';
@@ -68,6 +77,7 @@ export const DepositDialog = () => {
     const theme = useTheme();
     const { t } = useTranslate();
     const balance = useSelector((state) => state.balance);
+    const user = useSelector((state) => state.auth?.user || state.user);
     const { cryptoCurrencies = {} } = useSelector((state) => state.setting || {});
     const { enqueueSnackbar } = useSnackbar();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -81,8 +91,23 @@ export const DepositDialog = () => {
     const [error, setError] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [tabValue, setTabValue] = useState(0);
+    const [tabValue, setTabValue] = useState(0); // 0: Instant UPI QR, 1: Crypto, 2: Visa/MC
     const [amount, setAmount] = useState<number | ''>('');
+    const [utrNumber, setUtrNumber] = useState<string>('');
+    const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
+    const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
+    const [depositSuccess, setDepositSuccess] = useState<boolean>(false);
+
+    // Payment Settings QR data from Admin
+    const [paymentSettings, setPaymentSettings] = useState<PaymentSettingsData>({
+        upiId: 'playverse@upi',
+        upiName: 'PLAYVERSE GAMING',
+        qrCodeUrl: null,
+        minDeposit: 100,
+        maxDeposit: 100000,
+        isEnabled: true
+    });
+
     const [currencies, setCurrencies] = useState<ICurrency[]>([]);
     const [selectedValue, setSelectedValue] = useState<string>('');
     const [providerSearch, setProviderSearch] = useState<string>('');
@@ -106,6 +131,10 @@ export const DepositDialog = () => {
     }, [currencies, selectedValue]);
 
     const resetAll = () => {
+        setDepositSuccess(false);
+        setUtrNumber('');
+        setScreenshotFile(null);
+        setScreenshotPreview(null);
         onToggleModal('');
     };
 
@@ -127,13 +156,39 @@ export const DepositDialog = () => {
         }
     };
 
+    const handleScreenshotChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            if (file.size > 5 * 1024 * 1024) {
+                enqueueSnackbar('Screenshot file size exceeds 5MB limit', { variant: 'error' });
+                return;
+            }
+            setScreenshotFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setScreenshotPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const copyToClipboard = (text: string, label: string) => {
+        navigator.clipboard.writeText(text);
+        enqueueSnackbar(`${label} copied to clipboard!`, { variant: 'success' });
+    };
+
     const getPendingDeposit = async () => {
         try {
             const response = await paymentApi.getPendingDeposit();
             setPendingDeposit(response);
-        } catch (error: any) {
-            enqueueSnackbar(typeof error === 'string' ? error : error.message, { variant: 'error' });
-        }
+        } catch {}
+    };
+
+    const fetchPaymentSettings = async () => {
+        try {
+            const settings = await adminService.getPaymentSettings();
+            setPaymentSettings(settings);
+        } catch {}
     };
 
     const cancelDeposit = async (depositId: string) => {
@@ -146,24 +201,56 @@ export const DepositDialog = () => {
         }
     };
 
+    const handleUpiSubmit = async () => {
+        if (!amount || amount < paymentSettings.minDeposit) {
+            enqueueSnackbar(`Minimum deposit amount is ₹${paymentSettings.minDeposit}`, { variant: 'warning' });
+            return;
+        }
+        if (!utrNumber || utrNumber.trim().length < 6) {
+            enqueueSnackbar('Please enter a valid UTR / Transaction ID', { variant: 'warning' });
+            return;
+        }
+
+        setLoading(true);
+        try {
+            let screenshotUrl: string | null = null;
+            if (screenshotFile) {
+                screenshotUrl = await adminService.uploadDepositScreenshot(screenshotFile);
+            }
+
+            const ok = await adminService.submitDepositRequest({
+                userId: user?.id || 'usr-player-1',
+                username: user?.name || user?.mobile || 'Player',
+                amount: Number(amount),
+                utr: utrNumber.trim(),
+                screenshotUrl
+            });
+
+            if (ok) {
+                setDepositSuccess(true);
+                enqueueSnackbar('Deposit request submitted! Admin will verify and credit your wallet.', { variant: 'success' });
+            } else {
+                enqueueSnackbar('Failed to submit deposit request. Please try again.', { variant: 'error' });
+            }
+        } catch (err: any) {
+            enqueueSnackbar(err?.message || 'Error submitting deposit', { variant: 'error' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleSubmit = async () => {
+        if (tabValue === 0) {
+            await handleUpiSubmit();
+            return;
+        }
+
         if (!error && typeof amount === 'number' && amount > 0) {
             try {
                 setLoading(true);
-                if (tabValue === 0) {
+                if (tabValue === 1) {
                     if (!selectedItem) return;
                     const response = await nowpayDeposit(amount, selectedItem.code);
-                    if (response.status) {
-                        setPendingDeposit(response.pendingDeposit);
-                    } else {
-                        enqueueSnackbar(response.message, { variant: 'error' });
-                    }
-                } else if (tabValue === 1) {
-                    if (amount < 100) {
-                        enqueueSnackbar(t('payment.minBRL'), { variant: 'info' });
-                        return;
-                    }
-                    const response = await paymentApi.agpaymentDeposit({ amount });
                     if (response.status) {
                         setPendingDeposit(response.pendingDeposit);
                     } else {
@@ -186,10 +273,6 @@ export const DepositDialog = () => {
         }
     };
 
-    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-        setTabValue(newValue);
-    };
-
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         setIsOpen((prev) => !prev);
         setAnchorEl(event.currentTarget);
@@ -209,6 +292,7 @@ export const DepositDialog = () => {
     useEffect(() => {
         if (modal === 'DEPOSIT') {
             getPendingDeposit();
+            fetchPaymentSettings();
         }
     }, [modal]);
 
@@ -242,6 +326,93 @@ export const DepositDialog = () => {
             </MenuItem>
         );
     };
+
+    // Render UPI QR Tab Content
+    const renderUpiQrPayment = (
+        <DialogContent dividers sx={{ mt: 1, p: 3 }}>
+            {depositSuccess ? (
+                <Stack spacing={2} alignItems="center" textAlign="center" sx={{ py: 3 }}>
+                    <CheckCircleIcon sx={{ fontSize: 64, color: '#10b981' }} />
+                    <Typography variant="h6" fontWeight={800} color="text.primary">
+                        Deposit Submitted Successfully!
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        Your deposit of ₹{amount} (UTR: {utrNumber}) has been submitted to Admin for verification. Your wallet will be credited automatically upon approval.
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={resetAll} sx={{ mt: 2, borderRadius: 2 }}>
+                        Done
+                    </Button>
+                </Stack>
+            ) : (
+                <Stack spacing={2.5}>
+                    <Box sx={{ textAlign: 'center', p: 2, bgcolor: 'background.neutral', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+                        <Typography variant="caption" fontWeight={700} color="primary.main" textTransform="uppercase" letterSpacing={1}>
+                            SCAN QR TO PAY
+                        </Typography>
+                        <Box sx={{ width: 190, height: 190, mx: 'auto', my: 1.5, p: 1, bgcolor: '#fff', borderRadius: 2, boxShadow: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {paymentSettings.qrCodeUrl ? (
+                                <Box component="img" src={paymentSettings.qrCodeUrl} sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                            ) : (
+                                <Typography variant="caption" color="text.secondary">
+                                    No Active Payment QR Code Set
+                                </Typography>
+                            )}
+                        </Box>
+
+                        <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} sx={{ mt: 1 }}>
+                            <Typography variant="body2" fontWeight={700}>
+                                UPI ID: {paymentSettings.upiId}
+                            </Typography>
+                            <IconButton size="small" onClick={() => copyToClipboard(paymentSettings.upiId, 'UPI ID')}>
+                                <ContentCopyIcon fontSize="small" />
+                            </IconButton>
+                        </Stack>
+                        <Typography variant="caption" color="text.secondary">
+                            Payee Name: {paymentSettings.upiName}
+                        </Typography>
+                    </Box>
+
+                    <Stack spacing={2}>
+                        <TextField
+                            label="Deposit Amount (₹) *"
+                            size="small"
+                            type="number"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            fullWidth
+                            placeholder={`Min ₹${paymentSettings.minDeposit}`}
+                        />
+
+                        <TextField
+                            label="UTR / Transaction ID *"
+                            size="small"
+                            value={utrNumber}
+                            onChange={(e) => setUtrNumber(e.target.value)}
+                            fullWidth
+                            placeholder="Enter 12-digit UTR / Ref Number"
+                        />
+
+                        <Box>
+                            <InputLabel sx={{ mb: 1, fontSize: '0.85rem' }}>Upload Payment Screenshot Proof (Optional)</InputLabel>
+                            <Button
+                                component="label"
+                                variant="outlined"
+                                startIcon={<CloudUploadIcon />}
+                                fullWidth
+                                sx={{ borderStyle: 'dashed', py: 1 }}
+                            >
+                                {screenshotFile ? screenshotFile.name : 'Choose Screenshot Image'}
+                                <input type="file" accept="image/*" onChange={handleScreenshotChange} hidden />
+                            </Button>
+                            {screenshotPreview && (
+                                <Box component="img" src={screenshotPreview} sx={{ width: '100%', maxHeight: 120, objectFit: 'contain', mt: 1, borderRadius: 1 }} />
+                            )}
+                        </Box>
+                    </Stack>
+                </Stack>
+            )}
+        </DialogContent>
+    );
 
     const renderNowpayment = !pendingDeposit && (
         <DialogContent dividers sx={{ mt: 2 }}>
@@ -394,64 +565,9 @@ export const DepositDialog = () => {
         </DialogContent>
     );
 
-    const renderAgpayment = !pendingDeposit && (
-        <DialogContent dividers sx={{ mt: 2 }}>
-            <Stack sx={{ pt: 1 }}>
-                <Box sx={{ height: 80, mx: 'auto', mb: 1 }}>
-                    <Box component="img" src="/assets/pix-logo.png" sx={{ height: 1 }} />
-                </Box>
-                <InputLabel>{t('common.amount')}</InputLabel>
-                <TextField
-                    size="small"
-                    type="number"
-                    value={amount}
-                    onChange={handleAmountChange}
-                    error={error}
-                    helperText={error ? t('payment.enterValidNumber') : t('payment.minBRL')}
-                    fullWidth
-                    autoFocus
-                    inputProps={{ min: 100, step: 5 }}
-                    sx={{
-                        '& .MuiInputBase-input': {
-                            color: 'text.secondary'
-                        }
-                    }}
-                />
-            </Stack>
-        </DialogContent>
-    );
-
     const renderGspayment = !pendingDeposit && (
         <DialogContent dividers sx={{ mt: 2 }}>
             <Stack sx={{ pt: 1 }}>
-                <Stack
-                    direction="row"
-                    spacing={1}
-                    alignItems="center"
-                    justifyContent="center"
-                    sx={{ position: 'relative', mb: 2 }}
-                >
-                    <Stack
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{
-                            height: 40,
-                            width: 64
-                        }}
-                    >
-                        <Box component="img" src={`/assets/images/payment/visa-${theme.palette.mode}.webp`} />
-                    </Stack>
-                    <Stack
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{
-                            height: 40,
-                            width: 64
-                        }}
-                    >
-                        <Box component="img" src="/assets/images/payment/mastercard.webp" />
-                    </Stack>
-                </Stack>
                 <InputLabel>{t('common.amount')}</InputLabel>
                 <TextField
                     size="small"
@@ -462,11 +578,6 @@ export const DepositDialog = () => {
                     fullWidth
                     autoFocus
                     inputProps={{ min: 50, step: 5 }}
-                    sx={{
-                        '& .MuiInputBase-input': {
-                            color: 'text.secondary'
-                        }
-                    }}
                     slotProps={{
                         input: {
                             endAdornment: <InputAdornment position="end">USD</InputAdornment>
@@ -497,40 +608,39 @@ export const DepositDialog = () => {
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
-            {!pendingDeposit && (
+            {!pendingDeposit && !depositSuccess && (
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs
                         variant="fullWidth"
                         value={tabValue}
                         sx={{ button: { margin: '0px !important' } }}
-                        onChange={handleTabChange}
+                        onChange={(_, v) => setTabValue(v)}
                     >
-                        <Tab value={0} label={t('crypto')} />
-                        {balance.currency === 'BRL' && <Tab value={1} label="Pix payment" />}
-                        <Tab value={2} label=" Visa / MasterCard" />
+                        <Tab value={0} label="Instant UPI QR" />
+                        <Tab value={1} label={t('crypto')} />
+                        <Tab value={2} label="Visa / MasterCard" />
                     </Tabs>
                 </Box>
             )}
 
             {pendingDeposit && <PendingDeposit pendingDeposit={pendingDeposit} cancelDeposit={cancelDeposit} />}
 
-            {tabValue === 0 && renderNowpayment}
-            {tabValue === 1 && renderAgpayment}
-            {tabValue === 2 && renderGspayment}
+            {tabValue === 0 && renderUpiQrPayment}
+            {tabValue === 1 && !pendingDeposit && renderNowpayment}
+            {tabValue === 2 && !pendingDeposit && renderGspayment}
 
-            {!pendingDeposit && (
+            {!pendingDeposit && !depositSuccess && (
                 <DialogActions sx={{ px: 3, pb: { md: 2, xs: 10 } }}>
-                    <Button onClick={() => onToggleModal('')} color="error" variant="outlined">
+                    <Button onClick={resetAll} color="error" variant="outlined">
                         {t('common.cancel')}
                     </Button>
                     <Button
                         onClick={handleSubmit}
                         variant="contained"
-                        disabled={error || amount === '' || amount <= 0}
+                        disabled={loading || (tabValue === 0 && (!amount || !utrNumber))}
                         color="primary"
-                        loading={loading}
                     >
-                        {t('common.submit')}
+                        {loading ? <CircularProgress size={24} color="inherit" /> : t('common.submit')}
                     </Button>
                 </DialogActions>
             )}
