@@ -87,6 +87,8 @@ export default function AdminPage() {
     // Modals
     const [createAgentOpen, setCreateAgentOpen] = useState<boolean>(false);
     const [newAgentForm, setNewAgentForm] = useState({ name: '', username: '', email: '', mobile: '' });
+    const [createPlayerOpen, setCreatePlayerOpen] = useState<boolean>(false);
+    const [newPlayerForm, setNewPlayerForm] = useState({ name: '', mobile: '', email: '', agentId: '', initialBalance: '' });
     const [screenshotModal, setScreenshotModal] = useState<DepositRequestRecord | null>(null);
     const [actionDialog, setActionDialog] = useState<{ type: 'APPROVE_DEP' | 'REJECT_DEP' | 'APPROVE_WD' | 'REJECT_WD', item: any } | null>(null);
     const [rejectReason, setRejectReason] = useState<string>('');
@@ -203,6 +205,28 @@ export default function AdminPage() {
             loadAllData();
         } else {
             showToast('Failed to create agent account');
+        }
+    };
+
+    const handleCreatePlayerSubmit = async () => {
+        if (!newPlayerForm.name || !newPlayerForm.mobile) {
+            showToast('Please enter Player Name and Mobile Number');
+            return;
+        }
+        const success = await adminService.createPlayer({
+            name: newPlayerForm.name,
+            mobile: newPlayerForm.mobile,
+            email: newPlayerForm.email || undefined,
+            agentId: newPlayerForm.agentId || undefined,
+            initialBalance: newPlayerForm.initialBalance ? Number(newPlayerForm.initialBalance) : 0
+        });
+        if (success) {
+            showToast(`Player ${newPlayerForm.name} created successfully! Saved to Database.`);
+            setCreatePlayerOpen(false);
+            setNewPlayerForm({ name: '', mobile: '', email: '', agentId: '', initialBalance: '' });
+            loadAllData();
+        } else {
+            showToast('Failed to create player account');
         }
     };
 
@@ -629,20 +653,30 @@ export default function AdminPage() {
                     <Paper sx={{ p: 3, bgcolor: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: 3 }}>
                         <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" justifyContent="space-between" spacing={2} sx={{ mb: 3 }}>
                             <Typography variant="h6" sx={{ fontWeight: 700, color: '#111827' }}>Registered Players Directory ({filteredUsers.length})</Typography>
-                            <TextField
-                                size="small"
-                                placeholder="Search player mobile or name..."
-                                value={searchTerm}
-                                onChange={e => setSearchTerm(e.target.value)}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <Icon icon="solar:magnifer-linear" color="#9CA3AF" />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                sx={{ width: 280, bgcolor: '#F9FAFB', borderRadius: 1.5 }}
-                            />
+                            <Stack direction="row" spacing={2} alignItems="center">
+                                <TextField
+                                    size="small"
+                                    placeholder="Search player mobile or name..."
+                                    value={searchTerm}
+                                    onChange={e => setSearchTerm(e.target.value)}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Icon icon="solar:magnifer-linear" color="#9CA3AF" />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    sx={{ width: 260, bgcolor: '#F9FAFB', borderRadius: 1.5 }}
+                                />
+                                <Button
+                                    variant="contained"
+                                    startIcon={<Icon icon="solar:add-circle-bold" />}
+                                    onClick={() => setCreatePlayerOpen(true)}
+                                    sx={{ bgcolor: '#FF4842', '&:hover': { bgcolor: '#B72136' }, textTransform: 'none', fontWeight: 700, whiteSpace: 'nowrap' }}
+                                >
+                                    Create Player
+                                </Button>
+                            </Stack>
                         </Stack>
 
                         <TableContainer>
@@ -995,6 +1029,35 @@ export default function AdminPage() {
                 <DialogActions sx={{ p: 2.5 }}>
                     <Button onClick={() => setCreateAgentOpen(false)} color="inherit">Cancel</Button>
                     <Button variant="contained" onClick={handleCreateAgentSubmit} sx={{ bgcolor: '#FF4842', fontWeight: 700 }}>Create Agent</Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* CREATE PLAYER DIALOG */}
+            <Dialog open={createPlayerOpen} onClose={() => setCreatePlayerOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { bgcolor: '#FFFFFF', color: '#111827' } }}>
+                <DialogTitle sx={{ fontWeight: 800 }}>Create New Player Account</DialogTitle>
+                <DialogContent>
+                    <Stack spacing={2} sx={{ mt: 1 }}>
+                        <TextField label="Player Full Name" value={newPlayerForm.name} onChange={e => setNewPlayerForm({ ...newPlayerForm, name: e.target.value })} fullWidth sx={{ bgcolor: '#F9FAFB' }} />
+                        <TextField label="Mobile Number (Username)" value={newPlayerForm.mobile} onChange={e => setNewPlayerForm({ ...newPlayerForm, mobile: e.target.value })} fullWidth sx={{ bgcolor: '#F9FAFB' }} />
+                        <TextField label="Email Address (Optional)" value={newPlayerForm.email} onChange={e => setNewPlayerForm({ ...newPlayerForm, email: e.target.value })} fullWidth sx={{ bgcolor: '#F9FAFB' }} />
+                        <Select
+                            displayEmpty
+                            value={newPlayerForm.agentId}
+                            onChange={e => setNewPlayerForm({ ...newPlayerForm, agentId: e.target.value })}
+                            fullWidth
+                            sx={{ bgcolor: '#F9FAFB' }}
+                        >
+                            <MenuItem value="">Select Assigned Agent (Default: Agent 1)</MenuItem>
+                            {agents.map(a => (
+                                <MenuItem key={a.id} value={a.id}>{a.name} (@{a.username})</MenuItem>
+                            ))}
+                        </Select>
+                        <TextField label="Initial Wallet Balance (₹)" type="number" value={newPlayerForm.initialBalance} onChange={e => setNewPlayerForm({ ...newPlayerForm, initialBalance: e.target.value })} fullWidth sx={{ bgcolor: '#F9FAFB' }} />
+                    </Stack>
+                </DialogContent>
+                <DialogActions sx={{ p: 2.5 }}>
+                    <Button onClick={() => setCreatePlayerOpen(false)} color="inherit">Cancel</Button>
+                    <Button variant="contained" onClick={handleCreatePlayerSubmit} sx={{ bgcolor: '#FF4842', fontWeight: 700 }}>Create Player</Button>
                 </DialogActions>
             </Dialog>
 

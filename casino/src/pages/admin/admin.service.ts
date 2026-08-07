@@ -199,6 +199,67 @@ export const adminService = {
         return uniqueAgents;
     },
 
+    createPlayer: async (player: { name: string; mobile: string; email?: string; agentId?: string; initialBalance?: number }): Promise<boolean> => {
+        const id = 'usr-' + Date.now();
+        const now = new Date().toISOString();
+        const walletId = 'wlt-' + Date.now();
+        const balance = Number(player.initialBalance) || 0;
+
+        // Insert in User table in Supabase DB
+        try {
+            await supabase.from('User').insert({
+                id,
+                name: player.name,
+                mobile: player.mobile,
+                email: player.email || null,
+                agentId: player.agentId || null,
+                mobileVerified: true,
+                emailVerified: true,
+                createdAt: now,
+                updatedAt: now
+            });
+
+            await supabase.from('Wallet').insert({
+                id: walletId,
+                userId: id,
+                balance: balance,
+                currency: 'INR',
+                createdAt: now,
+                updatedAt: now
+            });
+
+            await supabase.from('AuditLog').insert({
+                id: crypto.randomUUID(),
+                adminUser: 'Admin Authority',
+                action: 'CREATE_PLAYER',
+                entityId: id,
+                newValue: { id, name: player.name, mobile: player.mobile, email: player.email, balance }
+            });
+        } catch (e) {
+            console.error('Error creating player in DB:', e);
+        }
+
+        // Local storage fallback
+        try {
+            const stored = localStorage.getItem('admin_players_store');
+            const currentList: UserRecord[] = stored ? JSON.parse(stored) : [];
+            currentList.unshift({
+                id,
+                mobile: player.mobile,
+                email: player.email || null,
+                name: player.name,
+                agentName: 'Agent 1',
+                emailVerified: true,
+                mobileVerified: true,
+                createdAt: new Date().toLocaleDateString(),
+                walletBalance: balance
+            });
+            localStorage.setItem('admin_players_store', JSON.stringify(currentList));
+        } catch {}
+
+        return true;
+    },
+
     createAgent: async (agent: Omit<AgentUserRecord, 'id' | 'createdAt'>): Promise<boolean> => {
         const id = 'agent-' + Date.now();
         const createdAt = new Date().toISOString().split('T')[0];
@@ -224,7 +285,7 @@ export const adminService = {
             console.error('Failed to save agent to localStorage', e);
         }
 
-        // Try Supabase insert as well
+        // Supabase DB insert
         try {
             await supabase.from('AgentUser').insert({
                 id,
@@ -237,7 +298,17 @@ export const adminService = {
                 walletBalance: agent.walletBalance || 0,
                 createdAt: new Date().toISOString()
             });
-        } catch {}
+
+            await supabase.from('AuditLog').insert({
+                id: crypto.randomUUID(),
+                adminUser: 'Admin Authority',
+                action: 'CREATE_AGENT',
+                entityId: id,
+                newValue: newRecord
+            });
+        } catch (e) {
+            console.error('Error inserting agent in DB:', e);
+        }
 
         return true;
     },
@@ -331,8 +402,13 @@ export const adminService = {
     },
 
     submitDepositRequest: async (request: { userId: string; username: string; amount: number; utr: string; screenshotUrl: string | null }): Promise<boolean> => {
+        const depId = 'dep-' + Date.now();
+        const now = new Date().toISOString();
+
         try {
-            const { error } = await supabase.from('DepositRequest').insert({
+            // DB DepositRequest Insert
+            await supabase.from('DepositRequest').insert({
+                id: depId,
                 userId: request.userId,
                 username: request.username,
                 agentName: 'Agent Alpha (North)',
@@ -340,23 +416,72 @@ export const adminService = {
                 gateway: 'UPI QR',
                 utr: request.utr,
                 screenshotUrl: request.screenshotUrl,
-                status: 'PENDING'
+                status: 'PENDING',
+                createdAt: now,
+                updatedAt: now
             });
-            return !error;
-        } catch {
+
+            // DB GameTransaction Log
+            await supabase.from('GameTransaction').insert({
+                id: crypto.randomUUID(),
+                historyId: Date.now(),
+                transactionId: 'DEP-' + request.utr,
+                userId: request.userId,
+                userCode: request.username,
+                providerCode: 'UPI_QR',
+                gameCode: 'QR_DEPOSIT',
+                gameType: 'Deposit',
+                transactionType: 'Deposit',
+                betAmount: 0,
+                winAmount: request.amount,
+                userStartBalance: 0,
+                userEndBalance: request.amount,
+                createdAt: now
+            });
+
+            // DB Audit Log
+            await supabase.from('AuditLog').insert({
+                id: crypto.randomUUID(),
+                adminUser: request.username,
+                action: 'DEPOSIT_REQUEST',
+                entityId: depId,
+                newValue: { username: request.username, amount: request.amount, utr: request.utr, status: 'PENDING' }
+            });
+
+            // Local Store fallback
+            const stored = localStorage.getItem('admin_deposits_store');
+            const currentList = stored ? JSON.parse(stored) : [];
+            currentList.unshift({
+                id: depId,
+                userId: request.userId,
+                username: request.username,
+                agentName: 'Agent Alpha (North)',
+                amount: request.amount,
+                gateway: 'UPI QR',
+                utr: request.utr,
+                screenshotUrl: request.screenshotUrl,
+                status: 'PENDING',
+                createdAt: new Date().toLocaleString()
+            });
+            localStorage.setItem('admin_deposits_store', JSON.stringify(currentList));
+
+            return true;
+        } catch (e) {
+            console.error('Error submitting deposit request to DB:', e);
             return false;
         }
     },
 
     getDepositRequests: async (): Promise<DepositRequestRecord[]> => {
+        let dbDeposits: DepositRequestRecord[] = [];
         try {
             const { data, error } = await supabase
                 .from('DepositRequest')
                 .select('*')
                 .order('createdAt', { ascending: false });
 
-            if (!error && Array.isArray(data)) {
-                return data.map((d: any) => ({
+            if (!error && Array.isArray(data) && data.length > 0) {
+                dbDeposits = data.map((d: any) => ({
                     id: d.id,
                     userId: d.userId,
                     username: d.username,
@@ -370,51 +495,116 @@ export const adminService = {
                     createdAt: d.createdAt ? new Date(d.createdAt).toLocaleString() : 'N/A'
                 }));
             }
-            return [];
-        } catch {
-            return [];
+        } catch {}
+
+        let localDeposits: DepositRequestRecord[] = [];
+        try {
+            const stored = localStorage.getItem('admin_deposits_store');
+            if (stored) {
+                localDeposits = JSON.parse(stored);
+            }
+        } catch {}
+
+        const combined = [...dbDeposits, ...localDeposits];
+        const uniqueDeposits: DepositRequestRecord[] = [];
+        const seen = new Set<string>();
+        for (const d of combined) {
+            if (d && d.id && !seen.has(d.id)) {
+                seen.add(d.id);
+                uniqueDeposits.push(d);
+            }
         }
+        return uniqueDeposits;
     },
 
     approveDepositRequest: async (depositId: string, userId: string, amount: number): Promise<boolean> => {
+        const now = new Date().toISOString();
         try {
-            const { error: depErr } = await supabase
+            await supabase
                 .from('DepositRequest')
-                .update({ status: 'APPROVED', updatedAt: new Date().toISOString() })
+                .update({ status: 'APPROVED', updatedAt: now })
                 .eq('id', depositId);
 
-            if (depErr) return false;
-
-            // Credit Player Wallet
+            // Credit Player Wallet in DB
             const { data: walletData } = await supabase.from('Wallet').select('*').eq('userId', userId).single();
+            let newBalance = amount;
 
             if (walletData) {
-                const newBalance = (Number(walletData.balance) || 0) + amount;
+                newBalance = (Number(walletData.balance) || 0) + amount;
                 await supabase
                     .from('Wallet')
-                    .update({ balance: newBalance, updatedAt: new Date().toISOString() })
+                    .update({ balance: newBalance, updatedAt: now })
                     .eq('userId', userId);
             } else {
                 await supabase.from('Wallet').insert({
+                    id: crypto.randomUUID(),
                     userId: userId,
                     balance: amount,
-                    currency: 'INR'
+                    currency: 'INR',
+                    createdAt: now,
+                    updatedAt: now
                 });
             }
 
+            // Log Approved Transaction in DB
+            await supabase.from('GameTransaction').insert({
+                id: crypto.randomUUID(),
+                historyId: Date.now(),
+                transactionId: 'DEP-APP-' + Date.now(),
+                userId: userId,
+                userCode: 'Player',
+                providerCode: 'ADMIN',
+                gameCode: 'DEPOSIT_APPROVE',
+                gameType: 'Deposit',
+                transactionType: 'Credit',
+                betAmount: 0,
+                winAmount: amount,
+                userStartBalance: newBalance - amount,
+                userEndBalance: newBalance,
+                createdAt: now
+            });
+
+            // Update local storage deposits store
+            try {
+                const stored = localStorage.getItem('admin_deposits_store');
+                if (stored) {
+                    const currentList: DepositRequestRecord[] = JSON.parse(stored);
+                    const idx = currentList.findIndex(d => d.id === depositId);
+                    if (idx !== -1) {
+                        currentList[idx].status = 'APPROVED';
+                        localStorage.setItem('admin_deposits_store', JSON.stringify(currentList));
+                    }
+                }
+            } catch {}
+
             return true;
-        } catch {
+        } catch (e) {
+            console.error('Error approving deposit request in DB:', e);
             return false;
         }
     },
 
     rejectDepositRequest: async (depositId: string, reason: string): Promise<boolean> => {
         try {
-            const { error } = await supabase
+            await supabase
                 .from('DepositRequest')
                 .update({ status: 'REJECTED', rejectReason: reason, updatedAt: new Date().toISOString() })
                 .eq('id', depositId);
-            return !error;
+
+            try {
+                const stored = localStorage.getItem('admin_deposits_store');
+                if (stored) {
+                    const currentList: DepositRequestRecord[] = JSON.parse(stored);
+                    const idx = currentList.findIndex(d => d.id === depositId);
+                    if (idx !== -1) {
+                        currentList[idx].status = 'REJECTED';
+                        currentList[idx].rejectReason = reason;
+                        localStorage.setItem('admin_deposits_store', JSON.stringify(currentList));
+                    }
+                }
+            } catch {}
+
+            return true;
         } catch {
             return false;
         }
@@ -482,7 +672,7 @@ export const adminService = {
         } catch {}
 
         try {
-            const { data } = await supabase.from('PaymentSettings').select('*').single();
+            const { data } = await supabase.from('PaymentSettings').select('*').eq('id', 'default').single();
             if (data) {
                 return {
                     upiId: data.upiId || localSettings?.upiId || 'playverse@upi',
@@ -506,6 +696,7 @@ export const adminService = {
     },
 
     updatePaymentSettings: async (settings: PaymentSettingsData): Promise<boolean> => {
+        const now = new Date().toISOString();
         try {
             localStorage.setItem('admin_payment_settings', JSON.stringify(settings));
         } catch (e) {
@@ -521,9 +712,19 @@ export const adminService = {
                 minDeposit: settings.minDeposit,
                 maxDeposit: settings.maxDeposit,
                 isEnabled: settings.isEnabled,
-                updatedAt: new Date().toISOString()
+                updatedAt: now
             });
-        } catch {}
+
+            await supabase.from('AuditLog').insert({
+                id: crypto.randomUUID(),
+                adminUser: 'Admin Authority',
+                action: 'UPDATE_PAYMENT_SETTINGS',
+                entityId: 'default',
+                newValue: settings
+            });
+        } catch (e) {
+            console.error('Error updating payment settings in DB:', e);
+        }
 
         return true;
     },
