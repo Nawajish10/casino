@@ -19,11 +19,11 @@ export class AgentService {
       ];
     }
 
-    const agents = await this.prisma.agent.findMany({
+    const agents = await this.prisma.agentUser.findMany({
       where,
       include: {
         _count: {
-          select: { players: true },
+          select: { users: true },
         },
       },
       orderBy: { createdAt: 'desc' },
@@ -37,18 +37,17 @@ export class AgentService {
       mobile: a.mobile,
       status: a.status,
       walletBalance: Number(a.walletBalance),
-      assignedPlayersCount: a._count.players,
-      lastLoginAt: a.lastLoginAt,
+      assignedPlayersCount: a._count.users,
       createdAt: a.createdAt,
     }));
   }
 
   async getAgentById(id: string) {
-    const agent = await this.prisma.agent.findUnique({
+    const agent = await this.prisma.agentUser.findUnique({
       where: { id },
       include: {
-        players: true,
-        _count: { select: { players: true } },
+        users: true,
+        _count: { select: { users: true } },
       },
     });
     if (!agent) {
@@ -57,12 +56,12 @@ export class AgentService {
     return {
       ...agent,
       walletBalance: Number(agent.walletBalance),
-      assignedPlayersCount: agent._count.players,
+      assignedPlayersCount: agent._count.users,
     };
   }
 
   async createAgent(dto: { name: string; username: string; email: string; mobile?: string; initialBalance?: number }) {
-    const existing = await this.prisma.agent.findFirst({
+    const existing = await this.prisma.agentUser.findFirst({
       where: {
         OR: [{ username: dto.username }, { email: dto.email }],
       },
@@ -71,7 +70,7 @@ export class AgentService {
       throw new BadRequestException('Agent with this username or email already exists.');
     }
 
-    const agent = await this.prisma.agent.create({
+    const agent = await this.prisma.agentUser.create({
       data: {
         name: dto.name,
         username: dto.username,
@@ -90,12 +89,12 @@ export class AgentService {
   }
 
   async updateAgent(id: string, dto: { name?: string; email?: string; mobile?: string; walletBalance?: number; status?: string }) {
-    const agent = await this.prisma.agent.findUnique({ where: { id } });
+    const agent = await this.prisma.agentUser.findUnique({ where: { id } });
     if (!agent) {
       throw new NotFoundException(`Agent with ID ${id} not found`);
     }
 
-    const updated = await this.prisma.agent.update({
+    const updated = await this.prisma.agentUser.update({
       where: { id },
       data: {
         ...(dto.name && { name: dto.name }),
@@ -113,13 +112,13 @@ export class AgentService {
   }
 
   async toggleAgentStatus(id: string) {
-    const agent = await this.prisma.agent.findUnique({ where: { id } });
+    const agent = await this.prisma.agentUser.findUnique({ where: { id } });
     if (!agent) {
       throw new NotFoundException(`Agent with ID ${id} not found`);
     }
 
     const newStatus = agent.status === 'ACTIVE' ? 'DISABLED' : 'ACTIVE';
-    const updated = await this.prisma.agent.update({
+    const updated = await this.prisma.agentUser.update({
       where: { id },
       data: { status: newStatus },
     });
@@ -131,7 +130,7 @@ export class AgentService {
   }
 
   async deleteAgent(id: string) {
-    const agent = await this.prisma.agent.findUnique({ where: { id } });
+    const agent = await this.prisma.agentUser.findUnique({ where: { id } });
     if (!agent) {
       throw new NotFoundException(`Agent with ID ${id} not found`);
     }
@@ -142,7 +141,7 @@ export class AgentService {
       data: { agentId: null },
     });
 
-    await this.prisma.agent.delete({ where: { id } });
+    await this.prisma.agentUser.delete({ where: { id } });
     return { success: true, message: `Agent ${agent.name} deleted successfully` };
   }
 
@@ -157,14 +156,14 @@ export class AgentService {
 
     return players.map((p) => ({
       id: p.id,
-      username: p.username || p.mobile,
+      username: p.name || p.mobile,
       mobile: p.mobile,
       email: p.email,
       name: p.name,
-      status: p.status,
+      status: p.mobileVerified ? 'ACTIVE' : 'PENDING',
       agentId: p.agentId,
       assignedAgent: p.agent?.name || 'Unassigned',
-      lastLoginAt: p.lastLoginAt,
+      lastLoginAt: p.updatedAt,
       createdAt: p.createdAt,
     }));
   }

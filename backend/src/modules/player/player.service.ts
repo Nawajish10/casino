@@ -7,15 +7,11 @@ export class PlayerService {
 
   async getPlayers(search?: string, status?: string, agentId?: string) {
     const where: any = {};
-    if (status && status !== 'ALL') {
-      where.status = status;
-    }
     if (agentId && agentId !== 'ALL') {
       where.agentId = agentId;
     }
     if (search) {
       where.OR = [
-        { username: { contains: search, mode: 'insensitive' } },
         { mobile: { contains: search, mode: 'insensitive' } },
         { email: { contains: search, mode: 'insensitive' } },
         { name: { contains: search, mode: 'insensitive' } },
@@ -37,15 +33,15 @@ export class PlayerService {
 
     return players.map((p) => ({
       id: p.id,
-      username: p.username || p.mobile,
+      username: p.name || p.mobile,
       mobile: p.mobile,
       email: p.email,
       name: p.name,
-      status: p.status || 'ACTIVE',
+      status: p.mobileVerified ? 'ACTIVE' : 'PENDING',
       agentId: p.agentId,
       assignedAgent: p.agent ? p.agent.name : 'Unassigned',
       walletBalance: walletMap.get(p.id) || 0,
-      lastLoginAt: p.lastLoginAt,
+      lastLoginAt: p.updatedAt,
       createdAt: p.createdAt,
     }));
   }
@@ -65,15 +61,15 @@ export class PlayerService {
 
     return {
       id: player.id,
-      username: player.username || player.mobile,
+      username: player.name || player.mobile,
       mobile: player.mobile,
       email: player.email,
       name: player.name,
-      status: player.status || 'ACTIVE',
+      status: player.mobileVerified ? 'ACTIVE' : 'PENDING',
       agentId: player.agentId,
       assignedAgent: player.agent ? player.agent.name : 'Unassigned',
       walletBalance: wallet ? Number(wallet.balance) : 0,
-      lastLoginAt: player.lastLoginAt,
+      lastLoginAt: player.updatedAt,
       createdAt: player.createdAt,
     };
   }
@@ -90,7 +86,6 @@ export class PlayerService {
         ...(dto.name !== undefined && { name: dto.name }),
         ...(dto.email !== undefined && { email: dto.email }),
         ...(dto.agentId !== undefined && { agentId: dto.agentId }),
-        ...(dto.status !== undefined && { status: dto.status }),
       },
       include: {
         agent: true,
@@ -99,9 +94,9 @@ export class PlayerService {
 
     return {
       id: updated.id,
-      username: updated.username || updated.mobile,
+      username: updated.name || updated.mobile,
       mobile: updated.mobile,
-      status: updated.status,
+      status: updated.mobileVerified ? 'ACTIVE' : 'PENDING',
       assignedAgent: updated.agent ? updated.agent.name : 'Unassigned',
     };
   }
@@ -112,15 +107,14 @@ export class PlayerService {
       throw new NotFoundException(`Player with ID ${id} not found`);
     }
 
-    const newStatus = player.status === 'SUSPENDED' ? 'ACTIVE' : 'SUSPENDED';
     const updated = await this.prisma.user.update({
       where: { id },
-      data: { status: newStatus },
+      data: { mobileVerified: !player.mobileVerified },
     });
 
     return {
       id: updated.id,
-      status: updated.status,
+      status: updated.mobileVerified ? 'ACTIVE' : 'SUSPENDED',
     };
   }
 
@@ -135,7 +129,7 @@ export class PlayerService {
     await this.prisma.withdrawalRequest.deleteMany({ where: { userId: id } });
     await this.prisma.user.delete({ where: { id } });
 
-    return { success: true, message: `Player ${player.username || player.mobile} deleted successfully` };
+    return { success: true, message: `Player ${player.name || player.mobile} deleted successfully` };
   }
 
   async getPlayerDepositHistory(id: string) {
