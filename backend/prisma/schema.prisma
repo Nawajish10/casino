@@ -69,35 +69,32 @@ model AuditLog {
   createdAt     DateTime @default(now())
 }
 
+model AgentUser {
+  id                   String   @id @default(uuid())
+  name                 String
+  username             String   @unique
+  email                String   @unique
+  mobile               String?
+  status               String   @default("ACTIVE") // "ACTIVE" | "DISABLED"
+  assignedPlayersCount Int      @default(0)
+  walletBalance        Decimal  @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  users                User[]
+}
+
 model User {
   id             String         @id @default(uuid())
-  username       String?        @unique
   mobile         String         @unique
   email          String?
   name           String?
-  status         String         @default("ACTIVE") // "ACTIVE" | "SUSPENDED"
   agentId        String?
-  agent          Agent?         @relation(fields: [agentId], references: [id], onDelete: SetNull)
-  lastLoginAt    DateTime?
   emailVerified  Boolean        @default(false)
   mobileVerified Boolean        @default(false)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
+  agent          AgentUser?     @relation(fields: [agentId], references: [id])
   refreshTokens  RefreshToken[]
-}
-
-model Agent {
-  id            String    @id @default(uuid())
-  name          String
-  username      String    @unique
-  email         String    @unique
-  mobile        String?
-  status        String    @default("ACTIVE") // "ACTIVE" | "DISABLED"
-  walletBalance Decimal   @default(0)
-  lastLoginAt   DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  players       User[]
 }
 
 model OtpVerification {
@@ -165,24 +162,11 @@ model GameSession {
   expiresAt       DateTime
 }
 
-model AdminUser {
-  id                   String   @id @default(uuid())
-  name                 String
-  username             String   @unique
-  email                String   @unique
-  mobile               String?
-  role                 String   @default("ADMIN")
-  status               String   @default("ACTIVE") // "ACTIVE" | "DISABLED"
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-}
-
 model DepositRequest {
   id            String   @id @default(uuid())
   userId        String
   username      String
-  agentId       String?
-  agentName     String?
+  agentName     String?  @default("Agent 1")
   amount        Decimal
   gateway       String   @default("UPI QR")
   utr           String
@@ -197,6 +181,7 @@ model WithdrawalRequest {
   id            String   @id @default(uuid())
   userId        String
   username      String
+  agentName     String?  @default("Agent 1")
   amount        Decimal
   bankName      String
   accountNumber String

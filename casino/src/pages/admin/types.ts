@@ -1,27 +1,12 @@
-export interface AgentRecord {
+export interface AgentUserRecord {
     id: string;
     name: string;
     username: string;
     email: string;
     mobile: string | null;
     status: 'ACTIVE' | 'DISABLED';
-    walletBalance: number;
     assignedPlayersCount: number;
-    lastLoginAt?: string | null;
-    createdAt: string;
-}
-
-export interface UserRecord {
-    id: string;
-    username: string;
-    mobile: string;
-    email: string | null;
-    name: string | null;
-    agentId?: string | null;
-    assignedAgent: string;
-    status: 'ACTIVE' | 'SUSPENDED';
     walletBalance: number;
-    lastLoginAt?: string | null;
     createdAt: string;
 }
 
@@ -29,8 +14,7 @@ export interface DepositRequestRecord {
     id: string;
     userId: string;
     username: string;
-    agentId?: string | null;
-    assignedAgent?: string;
+    agentName: string;
     amount: number;
     gateway: string;
     utr: string;
@@ -44,6 +28,7 @@ export interface WithdrawalRequestRecord {
     id: string;
     userId: string;
     username: string;
+    agentName: string;
     amount: number;
     bankName: string;
     accountNumber: string;
@@ -70,27 +55,32 @@ export interface WebsiteSettingsData {
 }
 
 export interface DashboardMetrics {
-    // Overview
     totalAgents: number;
     activeAgents: number;
     totalPlayers: number;
     onlinePlayers: number;
-
-    // Finance
-    todaysDeposits: number;
-    todaysWithdrawals: number;
+    todayDeposits: number;
+    todayWithdrawals: number;
     totalWalletBalance: number;
     platformRevenue: number;
-
-    // Gaming
     activeGames: number;
     activeProviders: number;
     betsToday: number;
-
-    // Operations
     pendingDeposits: number;
     pendingWithdrawals: number;
     failedTransactions: number;
+}
+
+export interface UserRecord {
+    id: string;
+    mobile: string;
+    email: string | null;
+    name: string | null;
+    agentName: string;
+    emailVerified: boolean;
+    mobileVerified: boolean;
+    createdAt: string;
+    walletBalance: number;
 }
 
 export interface CatalogProvider {
