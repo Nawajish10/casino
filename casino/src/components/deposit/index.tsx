@@ -77,7 +77,7 @@ export const DepositDialog = () => {
     const theme = useTheme();
     const { t } = useTranslate();
     const balance = useSelector((state) => state.balance);
-    const user = useSelector((state) => state.auth?.user || state.user);
+    const user = useSelector((state: any) => state.auth?.user || state.auth);
     const { cryptoCurrencies = {} } = useSelector((state) => state.setting || {});
     const { enqueueSnackbar } = useSnackbar();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
