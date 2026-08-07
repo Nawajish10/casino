@@ -40,9 +40,17 @@ export default function AdminPage() {
     const navigate = useNavigate();
 
     const page = useMemo(() => {
-        const pathParts = location.pathname.split('/admin/').filter(Boolean);
-        return pathParts[0] || 'overview';
+        const path = location.pathname;
+        if (path === '/admin' || path === '/admin/') return 'overview';
+        const pathParts = path.split('/admin/').filter(Boolean);
+        return pathParts[0]?.split('/')[0] || 'overview';
     }, [location.pathname]);
+
+    useEffect(() => {
+        if (location.pathname === '/admin' || location.pathname === '/admin/') {
+            navigate('/admin/overview', { replace: true });
+        }
+    }, [location.pathname, navigate]);
 
     // Data States
     const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
@@ -282,10 +290,10 @@ export default function AdminPage() {
                 </Box>
                 <Box>
                     <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#111827', lineHeight: 1.1 }}>
-                        PLAYVERSE
+                        Cashino
                     </Typography>
                     <Typography variant="caption" sx={{ color: '#6B7280', fontSize: '0.7rem', fontWeight: 700, letterSpacing: 0.8 }}>
-                        ADMIN BACK-OFFICE
+                        ADMIN PANEL
                     </Typography>
                 </Box>
             </Box>
@@ -381,10 +389,10 @@ export default function AdminPage() {
                             </IconButton>
                             <Box>
                                 <Typography variant="h6" sx={{ fontWeight: 800, lineHeight: 1.2, color: '#111827' }}>
-                                    {navItems.find(i => i.id === page)?.label || 'Dashboard Overview'}
+                                    {navItems.find(i => i.id === page)?.label || 'Dashboard'}
                                 </Typography>
-                                <Typography variant="caption" sx={{ color: '#6B7280' }}>
-                                    Authority: <strong style={{ color: '#FF4842' }}>ADMIN (Highest Authority)</strong>
+                                <Typography variant="caption" sx={{ color: '#6B7280', fontWeight: 600 }}>
+                                    Hey, Admin
                                 </Typography>
                             </Box>
                         </Stack>
