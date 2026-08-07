@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import jsQR from 'jsqr';
 import {
     Alert, Avatar, Box, Button, Card, CardContent, Chip, CssBaseline, Dialog, DialogActions,
     DialogContent, DialogTitle, Drawer, IconButton, InputAdornment, LinearProgress, List,
@@ -265,8 +266,62 @@ export default function AdminPage() {
             }
             const reader = new FileReader();
             reader.onloadend = () => {
-                setPaymentSettings(prev => ({ ...prev, qrCodeUrl: reader.result as string }));
-                showToast('QR Code uploaded. Click Save Changes to apply across platform.');
+                const dataUrl = reader.result as string;
+
+                // Decode QR Code using jsQR via HTML Canvas
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
+                    let extractedUpiId = '';
+                    let extractedUpiName = '';
+                    let scannedMsg = '';
+
+                    if (ctx) {
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
+                        const imageData = ctx.getImageData(0, 0, img.width, img.height);
+                        const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                        if (code && code.data) {
+                            const qrString = code.data;
+
+                            // Check if QR contains UPI parameters (e.g. upi://pay?pa=merchant@upi&pn=MerchantName)
+                            let paMatch = qrString.match(/pa=([^&]+)/i);
+                            let pnMatch = qrString.match(/pn=([^&]+)/i);
+
+                            if (paMatch && paMatch[1]) {
+                                extractedUpiId = decodeURIComponent(paMatch[1]);
+                            }
+                            if (pnMatch && pnMatch[1]) {
+                                extractedUpiName = decodeURIComponent(pnMatch[1]);
+                            }
+
+                            if (extractedUpiId || extractedUpiName) {
+                                scannedMsg = `UPI QR Scanned! Auto-filled ${extractedUpiId ? 'UPI ID: ' + extractedUpiId : ''} ${extractedUpiName ? 'Name: ' + extractedUpiName : ''}`;
+                            } else {
+                                scannedMsg = `QR Code scanned successfully! (${qrString.substring(0, 25)}...)`;
+                            }
+                        }
+                    }
+
+                    setPaymentSettings(prev => ({
+                        ...prev,
+                        qrCodeUrl: dataUrl,
+                        upiId: extractedUpiId || prev.upiId,
+                        upiName: extractedUpiName || prev.upiName
+                    }));
+
+                    if (scannedMsg) {
+                        showToast(scannedMsg);
+                    } else {
+                        showToast('QR Code uploaded! Click Save Changes to apply across platform.');
+                    }
+                };
+                img.src = dataUrl;
             };
             reader.readAsDataURL(file);
         }
